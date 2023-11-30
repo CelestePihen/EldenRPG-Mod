@@ -1,0 +1,10 @@
+{
+  "lost_grace_discovered": {
+    "subtitles": "sounds.eldenrpg.lost_grace_discovered",
+    "sounds": ["eldenrpg:lost_grace_discovered"]
+  },
+  "death": {
+    "subtitles": "sounds.eldenrpg.death",
+    "sounds": ["eldenrpg:death"]
+  }
+}

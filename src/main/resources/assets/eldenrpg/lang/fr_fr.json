@@ -1,0 +1,23 @@
+{
+  "key.category.eldenrpg.eldenrpg": "EldenRPG",
+  "key.eldenrpg.open_map": "Ouvrir la carte",
+  "key.eldenrpg.drink_flask": "Boire une fiole de larmes pourpres",
+  "key.eldenrpg.slots": "Ouvrir les emplacements additionnels",
+
+  "eldenrpg.map.screen.title": "Carte",
+  "eldenrpg.slots.screen.title": "Sac à dos",
+
+  "eldenrpg.title.setspawn": "Grâce évanouie découverte",
+  "sounds.eldenrpg.lost_grace_discovered": "Grâce évanouie découverte",
+
+  "eldenrpg.area.graveyard": "Cimetière",
+
+  "advancements.eldenrpg.root.title": "EldenRPG",
+  "advancements.eldenrpg.root.description": "Le début de la fin",
+
+  "advancements.eldenrpg.firecamp.title": "Feu de camp",
+  "advancements.eldenrpg.firecamp.description": "En faisant clique droit sur un feu de camp des âmes, tu peux mettre ton point de réapparition, te téléporter aux autres feux de camp et te soigner.",
+
+  "advancements.eldenrpg.fakeblock.title": "Faux blocs",
+  "advancements.eldenrpg.fakeblock.description": "Il y a beaucoup de faux blocs où vous pouvez passer à travers. Derrière ceux-ci, peut se cacher de l'équipement intéressant..."
+}

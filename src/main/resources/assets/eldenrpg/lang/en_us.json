@@ -1,0 +1,23 @@
+{
+  "key.category.eldenrpg.eldenrpg": "EldenRPG",
+  "key.eldenrpg.open_map": "Open Map",
+  "key.eldenrpg.drink_flask": "Drink Flask of Crimson Tears",
+  "key.eldenrpg.slots": "Open Additionnal Slots",
+
+  "eldenrpg.map.screen.title": "Map",
+  "eldenrpg.slots.screen.title": "Backpack",
+
+  "eldenrpg.title.setspawn": "Lost Grace Discovered",
+  "sounds.eldenrpg.lost_grace_discovered": "Lost Grace Discovered",
+
+  "eldenrpg.area.graveyard": "Graveyard",
+
+  "advancements.eldenrpg.root.title": "EldenRPG",
+  "advancements.eldenrpg.root.description": "The beginning of the end",
+
+  "advancements.eldenrpg.firecamp.title": "Firecamp",
+  "advancements.eldenrpg.firecamp.description": "Doing right click on a soul firecamp, you can set your spawn, teleport to others campfires and heal.",
+
+  "advancements.eldenrpg.fakeblock.title": "Fake Blocks",
+  "advancements.eldenrpg.fakeblock.description": "There are many fake blocks where you can pass through. Behind these, some interesting equipment may be hidden..."
+}
