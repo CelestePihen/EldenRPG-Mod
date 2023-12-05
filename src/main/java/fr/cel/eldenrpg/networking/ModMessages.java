@@ -1,10 +1,11 @@
 package fr.cel.eldenrpg.networking;
 
 import fr.cel.eldenrpg.EldenRPGMod;
+import fr.cel.eldenrpg.networking.packet.firecamp.FirecampsDataSyncS2CPacket;
 import fr.cel.eldenrpg.networking.packet.flasks.DrinkFlaskC2SPacket;
 import fr.cel.eldenrpg.networking.packet.flasks.FlasksDataSyncS2CPacket;
 import fr.cel.eldenrpg.networking.packet.MapTeleportationC2SPacket;
-import fr.cel.eldenrpg.networking.packet.SetSpawnC2SPacket;
+import fr.cel.eldenrpg.networking.packet.firecamp.SetSpawnC2SPacket;
 import fr.cel.eldenrpg.networking.packet.slots.OpenSlotsC2SPacket;
 import fr.cel.eldenrpg.networking.packet.slots.SlotsSyncS2CPacket;
 import net.minecraft.resources.ResourceLocation;
@@ -67,6 +68,12 @@ public class ModMessages {
                 .decoder(SlotsSyncS2CPacket::new)
                 .encoder(SlotsSyncS2CPacket::toBytes)
                 .consumerMainThread(SlotsSyncS2CPacket::handle)
+                .add();
+
+        net.messageBuilder(FirecampsDataSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(FirecampsDataSyncS2CPacket::new)
+                .encoder(FirecampsDataSyncS2CPacket::toBytes)
+                .consumerMainThread(FirecampsDataSyncS2CPacket::handle)
                 .add();
     }
 

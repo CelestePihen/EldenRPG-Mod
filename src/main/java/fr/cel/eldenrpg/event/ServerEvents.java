@@ -1,12 +1,18 @@
 package fr.cel.eldenrpg.event;
 
 import fr.cel.eldenrpg.EldenRPGMod;
+import fr.cel.eldenrpg.capabilities.firecamp.CampfireList;
+import fr.cel.eldenrpg.capabilities.firecamp.PlayerCampfireProvider;
 import fr.cel.eldenrpg.capabilities.flasks.PlayerFlasksProvider;
 import fr.cel.eldenrpg.capabilities.slots.PlayerSlotsProvider;
+import fr.cel.eldenrpg.client.data.ClientFirecampsData;
 import fr.cel.eldenrpg.networking.ModMessages;
+import fr.cel.eldenrpg.networking.packet.firecamp.FirecampsDataSyncS2CPacket;
 import fr.cel.eldenrpg.networking.packet.flasks.FlasksDataSyncS2CPacket;
 import fr.cel.eldenrpg.networking.packet.slots.SlotsSyncS2CPacket;
 import fr.cel.eldenrpg.util.Area.Areas;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -44,11 +50,15 @@ public class ServerEvents {
         if (!(event.getObject() instanceof Player player)) return;
 
         if (!player.getCapability(PlayerFlasksProvider.PLAYER_FLASKS).isPresent()) {
-            event.addCapability(new ResourceLocation(EldenRPGMod.MOD_ID, "properties"), new PlayerFlasksProvider());
+            event.addCapability(new ResourceLocation(EldenRPGMod.MOD_ID, "flasks"), new PlayerFlasksProvider());
         }
 
         if (!player.getCapability(PlayerSlotsProvider.PLAYER_SLOTS).isPresent()) {
             event.addCapability(new ResourceLocation(EldenRPGMod.MOD_ID, "additionnalslots"), new PlayerSlotsProvider());
+        }
+
+        if (!player.getCapability(PlayerCampfireProvider.PLAYER_CAMPFIRE).isPresent()) {
+            event.addCapability(new ResourceLocation(EldenRPGMod.MOD_ID, "campfires"), new PlayerCampfireProvider());
         }
     }
 
@@ -56,16 +66,25 @@ public class ServerEvents {
     public static void onPlayerCloned(PlayerEvent.Clone event) {
         if (event.isWasDeath()) {
             event.getOriginal().reviveCaps();
+
             event.getOriginal().getCapability(PlayerFlasksProvider.PLAYER_FLASKS).ifPresent(oldStore -> {
                 event.getEntity().getCapability(PlayerFlasksProvider.PLAYER_FLASKS).ifPresent(newStore -> {
                     newStore.copyFrom(oldStore);
                 });
             });
+
             event.getOriginal().getCapability(PlayerSlotsProvider.PLAYER_SLOTS).ifPresent(oldStore -> {
                 event.getEntity().getCapability(PlayerSlotsProvider.PLAYER_SLOTS).ifPresent(newStore -> {
                     newStore.copyFrom(oldStore);
                 });
             });
+
+            event.getOriginal().getCapability(PlayerCampfireProvider.PLAYER_CAMPFIRE).ifPresent(oldStore -> {
+                event.getEntity().getCapability(PlayerCampfireProvider.PLAYER_CAMPFIRE).ifPresent(newStore -> {
+                    newStore.copyFrom(oldStore);
+                });
+            });
+
             event.getOriginal().invalidateCaps();
         }
     }
@@ -73,11 +92,18 @@ public class ServerEvents {
     @SubscribeEvent
     public static void onEntityJoinWorld(EntityJoinLevelEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
-            player.getCapability(PlayerFlasksProvider.PLAYER_FLASKS).ifPresent(flasks -> {
-                ModMessages.sendToPlayer(new FlasksDataSyncS2CPacket(flasks.getFlasks()), player);
-            });
-            player.getCapability(PlayerSlotsProvider.PLAYER_SLOTS).ifPresent(playerSlots -> {
-                ModMessages.sendToPlayer(new SlotsSyncS2CPacket(playerSlots.getStacks().serializeNBT()), player);
+            player.getCapability(PlayerFlasksProvider.PLAYER_FLASKS).ifPresent(flasks ->
+                    ModMessages.sendToPlayer(new FlasksDataSyncS2CPacket(flasks.getFlasks()), player));
+
+            player.getCapability(PlayerSlotsProvider.PLAYER_SLOTS).ifPresent(playerSlots ->
+                    ModMessages.sendToPlayer(new SlotsSyncS2CPacket(playerSlots.getStacks().serializeNBT()), player));
+
+            player.getCapability(PlayerCampfireProvider.PLAYER_CAMPFIRE).ifPresent(playerCampfire -> {
+                ClientFirecampsData.getFirecamps().clear();
+                for (BlockPos blockPos : playerCampfire.getCampfires()) {
+                    Component name = CampfireList.getCampfireName(blockPos);
+                    ModMessages.sendToPlayer(new FirecampsDataSyncS2CPacket(blockPos, name), player);
+                }
             });
         }
     }

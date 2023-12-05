@@ -5,6 +5,7 @@
   "key.eldenrpg.slots": "Open Additionnal Slots",
 
   "eldenrpg.map.screen.title": "Map",
+  "eldenrpg.map.screen.tpcampfires": "Campfires",
   "eldenrpg.slots.screen.title": "Backpack",
 
   "eldenrpg.title.setspawn": "Lost Grace Discovered",
@@ -19,5 +20,11 @@
   "advancements.eldenrpg.firecamp.description": "Doing right click on a soul firecamp, you can set your spawn, teleport to others campfires and heal.",
 
   "advancements.eldenrpg.fakeblock.title": "Fake Blocks",
-  "advancements.eldenrpg.fakeblock.description": "There are many fake blocks where you can pass through. Behind these, some interesting equipment may be hidden..."
+  "advancements.eldenrpg.fakeblock.description": "There are many fake blocks where you can pass through. Behind these, some interesting equipment may be hidden...",
+
+  "itemGroup.eldenrpg": "EldenRPG",
+
+  "block.eldenrpg.stone_ghost_block": "Stone Ghost Block",
+  "block.eldenrpg.gravel_ghost_block": "Gravel Ghost Block",
+  "block.eldenrpg.stone_bricks_ghost_block": "Stone Bricks Ghost Block"
 }

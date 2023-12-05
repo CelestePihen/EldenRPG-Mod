@@ -23,7 +23,7 @@ public class ModCreativeModeTabs {
                     .displayItems((pParameters, pOutput) -> {
                         pOutput.accept(ModBlocks.STONE_GHOST_BLOCK.get());
                         pOutput.accept(ModBlocks.GRAVEL_GHOST_BLOCK.get());
-                        pOutput.accept(ModBlocks.STONE_GHOST_BLOCK.get());
+                        pOutput.accept(ModBlocks.STONE_BRICKS_GHOST_BLOCK.get());
                     })
                     .build()
     );

@@ -13,10 +13,6 @@ public class PlayerFlasks {
         return flasks;
     }
 
-    public int getMaxFlasksPlayer() {
-        return maxFlasksPlayer;
-    }
-
     public void addMaxFlasksPlayer(int add) {
         this.maxFlasksPlayer = Math.min(maxFlasksPlayer + add, 14);
     }

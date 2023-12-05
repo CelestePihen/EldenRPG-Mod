@@ -14,7 +14,7 @@ public class KeyBinding {
     public static final String KEY_SLOTS = "key.eldenrpg.slots";
 
     public static final KeyMapping OPEN_MAP = new KeyMapping(
-            KEY_OPEN_MAP, KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_K, KEY_CATEGORY_ELDENRPG);
+            KEY_OPEN_MAP, KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_J, KEY_CATEGORY_ELDENRPG);
 
     public static final KeyMapping DRINK_FLASK = new KeyMapping(
             KEY_DRINK_FLASK, KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_M, KEY_CATEGORY_ELDENRPG);

@@ -45,8 +45,8 @@ public class SlotsScreen extends AbstractContainerScreen<SlotsMenu> {
     @Override
     protected void renderLabels(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
         super.renderLabels(pGuiGraphics, pMouseX, pMouseY);
-        pGuiGraphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, 4210752);
-        pGuiGraphics.drawString(this.font, playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 4210752);
+        pGuiGraphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, 8453920);
+        pGuiGraphics.drawString(this.font, playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 8453920);
     }
 
 }

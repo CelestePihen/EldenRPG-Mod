@@ -11,12 +11,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public class GhostBlock extends Block {
 
     public GhostBlock(Block block) {
-        super(Properties.copy(block).noOcclusion().noLootTable());
-    }
-
-    @Override
-    public VoxelShape getCollisionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        return Shapes.empty();
+        super(Properties.copy(block).noOcclusion().noLootTable().noCollission());
     }
 
 }

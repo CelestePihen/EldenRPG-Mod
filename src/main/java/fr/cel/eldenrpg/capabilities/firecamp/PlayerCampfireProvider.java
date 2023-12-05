@@ -1,4 +1,4 @@
-package fr.cel.eldenrpg.capabilities.flasks;
+package fr.cel.eldenrpg.capabilities.firecamp;
 
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -11,26 +11,24 @@ import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class PlayerFlasksProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
+public class PlayerCampfireProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
 
-    public static Capability<PlayerFlasks> PLAYER_FLASKS = CapabilityManager.get(new CapabilityToken<PlayerFlasks>() { });
+    public static Capability<PlayerCampfire> PLAYER_CAMPFIRE = CapabilityManager.get(new CapabilityToken<PlayerCampfire>() { });
 
-    private PlayerFlasks flasks = null;
-    private final LazyOptional<PlayerFlasks> optional = LazyOptional.of(this::createPlayerFlasks);
+    private PlayerCampfire campfire = null;
+    private final LazyOptional<PlayerCampfire> optional = LazyOptional.of(this::createPlayerCampfire);
 
-    private PlayerFlasks createPlayerFlasks() {
-        if (this.flasks == null) {
-            this.flasks = new PlayerFlasks();
-            this.flasks.addMaxFlasksPlayer(4);
-            this.flasks.addFlasks(4);
+    private PlayerCampfire createPlayerCampfire() {
+        if (this.campfire == null) {
+            this.campfire = new PlayerCampfire();
         }
 
-        return this.flasks;
+        return this.campfire;
     }
 
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (cap == PLAYER_FLASKS) {
+        if (cap == PLAYER_CAMPFIRE) {
             return optional.cast();
         }
 
@@ -40,13 +38,12 @@ public class PlayerFlasksProvider implements ICapabilityProvider, INBTSerializab
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag nbt = new CompoundTag();
-        createPlayerFlasks().saveNBTData(nbt);
+        createPlayerCampfire().saveNBTData(nbt);
         return nbt;
     }
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {
-        createPlayerFlasks().loadNBTData(nbt);
+        createPlayerCampfire().loadNBTData(nbt);
     }
-
 }

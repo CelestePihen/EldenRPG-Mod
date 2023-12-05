@@ -16,7 +16,7 @@
     "background": "minecraft:textures/block/stone_bricks.png"
   },
   "criteria": {
-    "crafting_table": {
+    "air": {
       "conditions": {
         "items": [
           {

@@ -31,7 +31,7 @@ public class Area {
 
         if (isPlayerIn && !playerInside.get(player)) {
             if (isHint) {
-                perform(player, player.getServer().getAdvancements().getAdvancement(new ResourceLocation("eldenrpg", message)));
+                giveHint(player, player.getServer().getAdvancements().getAdvancement(new ResourceLocation("eldenrpg", message)));
             } else {
                 player.connection.send(new ClientboundSetTitleTextPacket(Component.translatable(message)));
             }
@@ -44,7 +44,7 @@ public class Area {
 
     }
 
-    private void perform(ServerPlayer player, Advancement advancement) {
+    private void giveHint(ServerPlayer player, Advancement advancement) {
         AdvancementProgress advancementProgress = player.getAdvancements().getOrStartProgress(advancement);
         for (String s : advancementProgress.getRemainingCriteria()) {
             player.getAdvancements().award(advancement, s);
@@ -54,6 +54,7 @@ public class Area {
     public enum Areas {
 
         GRAVEYARD(new Area("eldenrpg.area.graveyard", 165, 75, -61, 136, 69, -90, false)),
+
         HINT_CAMPFIRE(new Area("hintfirecamp", 147, -15, -89, 144, -20, -93, true)),
         HINT_FAKE_BLOCK(new Area("hintfakeblock", 148, 2, -75, 152, -1, -77, true)),
         ;

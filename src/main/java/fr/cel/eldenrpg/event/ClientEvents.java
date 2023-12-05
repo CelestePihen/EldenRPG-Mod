@@ -7,12 +7,13 @@ import fr.cel.eldenrpg.client.gui.MapScreen;
 import fr.cel.eldenrpg.menu.ModMenus;
 import fr.cel.eldenrpg.networking.ModMessages;
 import fr.cel.eldenrpg.networking.packet.flasks.DrinkFlaskC2SPacket;
-import fr.cel.eldenrpg.networking.packet.SetSpawnC2SPacket;
+import fr.cel.eldenrpg.networking.packet.firecamp.SetSpawnC2SPacket;
 import fr.cel.eldenrpg.networking.packet.slots.OpenSlotsC2SPacket;
 import fr.cel.eldenrpg.sound.ModSounds;
 import fr.cel.eldenrpg.util.KeyBinding;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -22,6 +23,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -54,9 +56,19 @@ public class ClientEvents {
 
             // Campfire
             if (event.getLevel().getBlockState(pos).getBlock() == Blocks.SOUL_CAMPFIRE && event.getHand() == InteractionHand.MAIN_HAND) {
-                ModMessages.sendToServer(new SetSpawnC2SPacket(pos.north()));
+                ModMessages.sendToServer(new SetSpawnC2SPacket(pos));
                 event.getLevel().playSeededSound(player, pos.getX(), pos.getY(), pos.getZ(), ModSounds.LOST_GRACE_DISCOVERED.get(),
                         SoundSource.AMBIENT, 0.5f, 1f, 0);
+            }
+        }
+
+        @SubscribeEvent
+        public static void onOpenGui(ScreenEvent event) {
+
+            if (event.getScreen() == null) return;
+
+            if (event.getScreen().getClass() == TitleScreen.class) {
+
             }
         }
 
