@@ -2,6 +2,7 @@ package fr.cel.eldenrpg;
 
 import com.mojang.logging.LogUtils;
 import fr.cel.eldenrpg.block.ModBlocks;
+import fr.cel.eldenrpg.entity.ModEntities;
 import fr.cel.eldenrpg.item.ModCreativeModeTabs;
 import fr.cel.eldenrpg.item.ModItems;
 import fr.cel.eldenrpg.menu.ModMenus;
@@ -29,6 +30,8 @@ public class EldenRPGMod {
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+
+        ModEntities.register(modEventBus);
 
         ModMenus.register(modEventBus);
 

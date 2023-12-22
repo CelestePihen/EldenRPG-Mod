@@ -1,6 +1,6 @@
 package fr.cel.eldenrpg.menu;
 
-import fr.cel.eldenrpg.capabilities.slots.PlayerSlotsProvider;
+import fr.cel.eldenrpg.capabilities.slots.PlayerBackpackProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -9,17 +9,17 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class SlotsMenu extends AbstractContainerMenu {
+public class BackpackMenu extends AbstractContainerMenu {
 
     private IItemHandler slotsInventory = null;
 
-    public SlotsMenu(int pContainerId, Player player) {
-        super(ModMenus.SLOTS_MENU.get(), pContainerId);
+    public BackpackMenu(int pContainerId, Player player) {
+        super(ModMenus.BACKPACK_MENU.get(), pContainerId);
 
         addPlayerInventory(player.getInventory());
         addPlayerHotbar(player.getInventory());
 
-        player.getCapability(PlayerSlotsProvider.PLAYER_SLOTS).ifPresent(playerSlots -> {
+        player.getCapability(PlayerBackpackProvider.PLAYER_BACKPACK).ifPresent(playerSlots -> {
             slotsInventory = playerSlots.getStacks();
             int slot = 0;
             int size = slotsInventory.getSlots();
@@ -33,7 +33,7 @@ public class SlotsMenu extends AbstractContainerMenu {
 
     }
 
-    // TODO à faire plus tard
+    // TODO
     @Override
     public ItemStack quickMoveStack(Player pPlayer, int pIndex) {
         return null;

@@ -1,20 +1,17 @@
-package fr.cel.eldenrpg.client.gui.campfire;
+package fr.cel.eldenrpg.client.gui.campfires;
 
 import fr.cel.eldenrpg.client.gui.MapScreen;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 
-import java.awt.*;
-
-public class TPCampfireScreen extends Screen {
+public class TPCampfiresScreen extends Screen {
 
     private CampfiresSelectionList campfiresSelectionList;
 
-    public TPCampfireScreen() {
+    public TPCampfiresScreen() {
         super(Component.translatable("eldenrpg.map.screen.tpcampfires"));
     }
 

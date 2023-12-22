@@ -5,7 +5,7 @@ import net.minecraftforge.common.capabilities.AutoRegisterCapability;
 import net.minecraftforge.items.ItemStackHandler;
 
 @AutoRegisterCapability
-public class PlayerSlots {
+public class PlayerBackpack {
 
     // https://github.com/Ketheroth/Slots/blob/master/src/main/java/com/ketheroth/common/capability/PlayerSlots.java
 
@@ -15,7 +15,7 @@ public class PlayerSlots {
         return stacks;
     }
 
-    public void copyFrom(PlayerSlots source) {
+    public void copyFrom(PlayerBackpack source) {
         this.stacks = source.stacks;
     }
 

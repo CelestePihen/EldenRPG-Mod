@@ -6,8 +6,9 @@ import fr.cel.eldenrpg.networking.packet.flasks.DrinkFlaskC2SPacket;
 import fr.cel.eldenrpg.networking.packet.flasks.FlasksDataSyncS2CPacket;
 import fr.cel.eldenrpg.networking.packet.MapTeleportationC2SPacket;
 import fr.cel.eldenrpg.networking.packet.firecamp.SetSpawnC2SPacket;
-import fr.cel.eldenrpg.networking.packet.slots.OpenSlotsC2SPacket;
-import fr.cel.eldenrpg.networking.packet.slots.SlotsSyncS2CPacket;
+import fr.cel.eldenrpg.networking.packet.backpack.OpenBackpackC2SPacket;
+import fr.cel.eldenrpg.networking.packet.backpack.BackpackSyncS2CPacket;
+import fr.cel.eldenrpg.networking.packet.npc.NPCDataC2SPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkDirection;
@@ -58,22 +59,28 @@ public class ModMessages {
                 .consumerMainThread(FlasksDataSyncS2CPacket::handle)
                 .add();
 
-        net.messageBuilder(OpenSlotsC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .decoder(OpenSlotsC2SPacket::new)
-                .encoder(OpenSlotsC2SPacket::toBytes)
-                .consumerMainThread(OpenSlotsC2SPacket::handle)
+        net.messageBuilder(OpenBackpackC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(OpenBackpackC2SPacket::new)
+                .encoder(OpenBackpackC2SPacket::toBytes)
+                .consumerMainThread(OpenBackpackC2SPacket::handle)
                 .add();
 
-        net.messageBuilder(SlotsSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .decoder(SlotsSyncS2CPacket::new)
-                .encoder(SlotsSyncS2CPacket::toBytes)
-                .consumerMainThread(SlotsSyncS2CPacket::handle)
+        net.messageBuilder(BackpackSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(BackpackSyncS2CPacket::new)
+                .encoder(BackpackSyncS2CPacket::toBytes)
+                .consumerMainThread(BackpackSyncS2CPacket::handle)
                 .add();
 
         net.messageBuilder(FirecampsDataSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
                 .decoder(FirecampsDataSyncS2CPacket::new)
                 .encoder(FirecampsDataSyncS2CPacket::toBytes)
                 .consumerMainThread(FirecampsDataSyncS2CPacket::handle)
+                .add();
+
+        net.messageBuilder(NPCDataC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(NPCDataC2SPacket::new)
+                .encoder(NPCDataC2SPacket::toBytes)
+                .consumerMainThread(NPCDataC2SPacket::handle)
                 .add();
     }
 

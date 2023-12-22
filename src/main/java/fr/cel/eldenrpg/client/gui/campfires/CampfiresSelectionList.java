@@ -1,4 +1,4 @@
-package fr.cel.eldenrpg.client.gui.campfire;
+package fr.cel.eldenrpg.client.gui.campfires;
 
 import fr.cel.eldenrpg.client.data.ClientFirecampsData;
 import fr.cel.eldenrpg.networking.ModMessages;

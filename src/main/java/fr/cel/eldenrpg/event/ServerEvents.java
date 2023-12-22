@@ -4,12 +4,13 @@ import fr.cel.eldenrpg.EldenRPGMod;
 import fr.cel.eldenrpg.capabilities.firecamp.CampfireList;
 import fr.cel.eldenrpg.capabilities.firecamp.PlayerCampfireProvider;
 import fr.cel.eldenrpg.capabilities.flasks.PlayerFlasksProvider;
-import fr.cel.eldenrpg.capabilities.slots.PlayerSlotsProvider;
+import fr.cel.eldenrpg.capabilities.slots.PlayerBackpackProvider;
 import fr.cel.eldenrpg.client.data.ClientFirecampsData;
+import fr.cel.eldenrpg.command.NPCCommand;
 import fr.cel.eldenrpg.networking.ModMessages;
 import fr.cel.eldenrpg.networking.packet.firecamp.FirecampsDataSyncS2CPacket;
 import fr.cel.eldenrpg.networking.packet.flasks.FlasksDataSyncS2CPacket;
-import fr.cel.eldenrpg.networking.packet.slots.SlotsSyncS2CPacket;
+import fr.cel.eldenrpg.networking.packet.backpack.BackpackSyncS2CPacket;
 import fr.cel.eldenrpg.util.Area.Areas;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -18,6 +19,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -53,8 +55,8 @@ public class ServerEvents {
             event.addCapability(new ResourceLocation(EldenRPGMod.MOD_ID, "flasks"), new PlayerFlasksProvider());
         }
 
-        if (!player.getCapability(PlayerSlotsProvider.PLAYER_SLOTS).isPresent()) {
-            event.addCapability(new ResourceLocation(EldenRPGMod.MOD_ID, "additionnalslots"), new PlayerSlotsProvider());
+        if (!player.getCapability(PlayerBackpackProvider.PLAYER_BACKPACK).isPresent()) {
+            event.addCapability(new ResourceLocation(EldenRPGMod.MOD_ID, "backpack"), new PlayerBackpackProvider());
         }
 
         if (!player.getCapability(PlayerCampfireProvider.PLAYER_CAMPFIRE).isPresent()) {
@@ -73,8 +75,8 @@ public class ServerEvents {
                 });
             });
 
-            event.getOriginal().getCapability(PlayerSlotsProvider.PLAYER_SLOTS).ifPresent(oldStore -> {
-                event.getEntity().getCapability(PlayerSlotsProvider.PLAYER_SLOTS).ifPresent(newStore -> {
+            event.getOriginal().getCapability(PlayerBackpackProvider.PLAYER_BACKPACK).ifPresent(oldStore -> {
+                event.getEntity().getCapability(PlayerBackpackProvider.PLAYER_BACKPACK).ifPresent(newStore -> {
                     newStore.copyFrom(oldStore);
                 });
             });
@@ -95,8 +97,8 @@ public class ServerEvents {
             player.getCapability(PlayerFlasksProvider.PLAYER_FLASKS).ifPresent(flasks ->
                     ModMessages.sendToPlayer(new FlasksDataSyncS2CPacket(flasks.getFlasks()), player));
 
-            player.getCapability(PlayerSlotsProvider.PLAYER_SLOTS).ifPresent(playerSlots ->
-                    ModMessages.sendToPlayer(new SlotsSyncS2CPacket(playerSlots.getStacks().serializeNBT()), player));
+            player.getCapability(PlayerBackpackProvider.PLAYER_BACKPACK).ifPresent(playerSlots ->
+                    ModMessages.sendToPlayer(new BackpackSyncS2CPacket(playerSlots.getStacks().serializeNBT()), player));
 
             player.getCapability(PlayerCampfireProvider.PLAYER_CAMPFIRE).ifPresent(playerCampfire -> {
                 ClientFirecampsData.getFirecamps().clear();
@@ -106,6 +108,11 @@ public class ServerEvents {
                 }
             });
         }
+    }
+
+    @SubscribeEvent
+    public static void onRegisterCommand(RegisterCommandsEvent event) {
+        NPCCommand.register(event.getDispatcher());
     }
 
 }

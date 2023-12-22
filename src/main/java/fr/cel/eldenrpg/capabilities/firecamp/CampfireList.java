@@ -8,13 +8,16 @@ import java.util.Map;
 
 public class CampfireList {
 
-    public static final Map<BlockPos, Component> CAMPFIRES = new HashMap<>();
+    private static final Map<BlockPos, Component> CAMPFIRES = new HashMap<>();
+
+    public static Map<BlockPos, Component> getCampfires() {
+        return CAMPFIRES;
+    }
 
     public static Component getCampfireName(BlockPos blockPos) {
         return CAMPFIRES.get(blockPos);
     }
-
-    // TODO mettre en translatable
+    
     static {
         CAMPFIRES.put(new BlockPos(100, 94, 83), Component.translatable("Campfire 1"));
         CAMPFIRES.put(new BlockPos(105, 95, 89), Component.translatable("Campfire 2"));

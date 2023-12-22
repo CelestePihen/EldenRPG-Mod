@@ -33,11 +33,11 @@ public class SetSpawnC2SPacket {
         buf.writeBlockPos(this.blockPos);
     }
 
-    public void handle(Supplier<NetworkEvent.Context> ctx) {
-        NetworkEvent.Context context = ctx.get();
+    public void handle(Supplier<NetworkEvent.Context> context) {
+        NetworkEvent.Context ctx = context.get();
 
-        context.enqueueWork(() -> {
-            ServerPlayer player = context.getSender();
+        ctx.enqueueWork(() -> {
+            ServerPlayer player = ctx.getSender();
             ServerLevel level = player.serverLevel();
 
             player.getCapability(PlayerFlasksProvider.PLAYER_FLASKS).ifPresent(flasks -> {
@@ -45,11 +45,11 @@ public class SetSpawnC2SPacket {
                 ModMessages.sendToPlayer(new FlasksDataSyncS2CPacket(flasks.getFlasks()), player);
             });
 
-            CampfireList.CAMPFIRES.forEach((blockPos, name) -> {
-                if (checkCampfire(this.blockPos, blockPos)) {
+            CampfireList.getCampfires().forEach((campFirePos, name) -> {
+                if (checkCampfire(this.blockPos, campFirePos)) {
                     player.getCapability(PlayerCampfireProvider.PLAYER_CAMPFIRE).ifPresent(campfire -> {
-                        campfire.addCampfire(blockPos);
-                        ModMessages.sendToPlayer(new FirecampsDataSyncS2CPacket(blockPos, name), player);
+                        campfire.addCampfire(campFirePos);
+                        ModMessages.sendToPlayer(new FirecampsDataSyncS2CPacket(campFirePos, name), player);
                     });
                 }
 

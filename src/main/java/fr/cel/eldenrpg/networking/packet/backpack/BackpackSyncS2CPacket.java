@@ -1,6 +1,6 @@
-package fr.cel.eldenrpg.networking.packet.slots;
+package fr.cel.eldenrpg.networking.packet.backpack;
 
-import fr.cel.eldenrpg.capabilities.slots.PlayerSlotsProvider;
+import fr.cel.eldenrpg.capabilities.slots.PlayerBackpackProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.nbt.CompoundTag;
@@ -9,15 +9,15 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class SlotsSyncS2CPacket {
+public class BackpackSyncS2CPacket {
 
     private final CompoundTag nbt;
 
-    public SlotsSyncS2CPacket(CompoundTag nbt) {
+    public BackpackSyncS2CPacket(CompoundTag nbt) {
         this.nbt = nbt;
     }
 
-    public SlotsSyncS2CPacket(FriendlyByteBuf buf) {
+    public BackpackSyncS2CPacket(FriendlyByteBuf buf) {
         this.nbt = buf.readNbt();
     }
 
@@ -25,16 +25,14 @@ public class SlotsSyncS2CPacket {
         buf.writeNbt(nbt);
     }
 
-    public void handle(Supplier<NetworkEvent.Context> ctx) {
-        NetworkEvent.Context context = ctx.get();
+    public void handle(Supplier<NetworkEvent.Context> context) {
+        NetworkEvent.Context ctx = context.get();
 
-        context.enqueueWork(() -> {
+        ctx.enqueueWork(() -> {
             LocalPlayer player = Minecraft.getInstance().player;
-            if (player == null) {
-                return;
-            }
+            if (player == null) { return; }
 
-            player.getCapability(PlayerSlotsProvider.PLAYER_SLOTS).ifPresent(playerSlots -> {
+            player.getCapability(PlayerBackpackProvider.PLAYER_BACKPACK).ifPresent(playerSlots -> {
                 playerSlots.loadNBTData(nbt);
             });
         });

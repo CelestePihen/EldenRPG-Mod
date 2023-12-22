@@ -13,14 +13,14 @@ import java.util.Map;
 
 public class Area {
 
-    private final String message;
+    private final String name;
     private final boolean isHint;
 
     private final AABB aabb;
     private final Map<ServerPlayer, Boolean> playerInside = new HashMap<>();
 
-    public Area(String message, double x1, double y1, double z1, double x2, double y2, double z2, boolean isHint) {
-        this.message = message;
+    public Area(String name, double x1, double y1, double z1, double x2, double y2, double z2, boolean isHint) {
+        this.name = name;
         this.aabb = new AABB(x1, y1, z1, x2, y2, z2);
         this.isHint = isHint;
     }
@@ -31,9 +31,9 @@ public class Area {
 
         if (isPlayerIn && !playerInside.get(player)) {
             if (isHint) {
-                giveHint(player, player.getServer().getAdvancements().getAdvancement(new ResourceLocation("eldenrpg", message)));
+                giveHint(player, player.getServer().getAdvancements().getAdvancement(new ResourceLocation("eldenrpg", name)));
             } else {
-                player.connection.send(new ClientboundSetTitleTextPacket(Component.translatable(message)));
+                player.connection.send(new ClientboundSetTitleTextPacket(Component.translatable(name)));
             }
             playerInside.put(player, true);
         }
