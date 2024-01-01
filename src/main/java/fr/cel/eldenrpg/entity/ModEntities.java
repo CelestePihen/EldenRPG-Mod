@@ -13,7 +13,7 @@ public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, EldenRPGMod.MOD_ID);
 
     public static final RegistryObject<EntityType<EldenNPC>> NPC = ENTITY_TYPES.register("npc", () -> EntityType.Builder.of(EldenNPC::new, MobCategory.MISC)
-            .sized(0.6F, 1.8F).fireImmune().clientTrackingRange(32).updateInterval(2).build("npc"));
+            .sized(0.6F, 1.8F).noSummon().fireImmune().clientTrackingRange(32).updateInterval(2).build("npc"));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);

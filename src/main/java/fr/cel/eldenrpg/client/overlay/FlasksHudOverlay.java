@@ -14,8 +14,8 @@ public class FlasksHudOverlay {
     private static final ResourceLocation FLASKS = new ResourceLocation(EldenRPGMod.MOD_ID, "textures/flasks/flask.png");
 
     public static final IGuiOverlay HUD_FLASKS = (((gui, guiGraphics, partialTick, width, height) -> {
-        int x = guiGraphics.guiWidth() / 2;
-        int y = guiGraphics.guiHeight() / 2;
+        int x = width / 2;
+        int y = height / 2;
 
         int imageWidth = 32;
         int imageHeight = 32;

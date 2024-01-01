@@ -4,14 +4,17 @@ import fr.cel.eldenrpg.EldenRPGMod;
 import fr.cel.eldenrpg.capabilities.firecamp.CampfireList;
 import fr.cel.eldenrpg.capabilities.firecamp.PlayerCampfireProvider;
 import fr.cel.eldenrpg.capabilities.flasks.PlayerFlasksProvider;
+import fr.cel.eldenrpg.capabilities.map.PlayerMapsProvider;
 import fr.cel.eldenrpg.capabilities.slots.PlayerBackpackProvider;
 import fr.cel.eldenrpg.client.data.ClientFirecampsData;
+import fr.cel.eldenrpg.client.data.ClientMapsData;
 import fr.cel.eldenrpg.command.NPCCommand;
 import fr.cel.eldenrpg.networking.ModMessages;
 import fr.cel.eldenrpg.networking.packet.firecamp.FirecampsDataSyncS2CPacket;
 import fr.cel.eldenrpg.networking.packet.flasks.FlasksDataSyncS2CPacket;
 import fr.cel.eldenrpg.networking.packet.backpack.BackpackSyncS2CPacket;
-import fr.cel.eldenrpg.util.Area.Areas;
+import fr.cel.eldenrpg.areas.Areas;
+import fr.cel.eldenrpg.networking.packet.maps.MapsDataSyncS2CPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -28,8 +31,15 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.ArrayList;
+
 @Mod.EventBusSubscriber(modid = EldenRPGMod.MOD_ID)
 public class ServerEvents {
+
+    @SubscribeEvent
+    public static void onServerStarting(ServerStartingEvent event) {
+
+    }
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
@@ -40,11 +50,6 @@ public class ServerEvents {
                 area.getArea().detectPlayerInArea(serverPlayer);
             }
         }
-    }
-
-    @SubscribeEvent
-    public static void onServerStarting(ServerStartingEvent event) {
-
     }
 
     @SubscribeEvent
@@ -61,6 +66,10 @@ public class ServerEvents {
 
         if (!player.getCapability(PlayerCampfireProvider.PLAYER_CAMPFIRE).isPresent()) {
             event.addCapability(new ResourceLocation(EldenRPGMod.MOD_ID, "campfires"), new PlayerCampfireProvider());
+        }
+
+        if (!player.getCapability(PlayerMapsProvider.PLAYER_MAPS).isPresent()) {
+            event.addCapability(new ResourceLocation(EldenRPGMod.MOD_ID, "maps"), new PlayerMapsProvider());
         }
     }
 
@@ -87,6 +96,12 @@ public class ServerEvents {
                 });
             });
 
+            event.getOriginal().getCapability(PlayerMapsProvider.PLAYER_MAPS).ifPresent(oldStore -> {
+                event.getEntity().getCapability(PlayerMapsProvider.PLAYER_MAPS).ifPresent(newStore -> {
+                    newStore.copyFrom(oldStore);
+                });
+            });
+
             event.getOriginal().invalidateCaps();
         }
     }
@@ -95,18 +110,27 @@ public class ServerEvents {
     public static void onEntityJoinWorld(EntityJoinLevelEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
             player.getCapability(PlayerFlasksProvider.PLAYER_FLASKS).ifPresent(flasks ->
-                    ModMessages.sendToPlayer(new FlasksDataSyncS2CPacket(flasks.getFlasks()), player));
+                    ModMessages.sendToPlayer(new FlasksDataSyncS2CPacket(flasks.getFlasks()), player)
+            );
 
             player.getCapability(PlayerBackpackProvider.PLAYER_BACKPACK).ifPresent(playerSlots ->
-                    ModMessages.sendToPlayer(new BackpackSyncS2CPacket(playerSlots.getStacks().serializeNBT()), player));
+                    ModMessages.sendToPlayer(new BackpackSyncS2CPacket(playerSlots.getStacks().serializeNBT()), player)
+            );
 
             player.getCapability(PlayerCampfireProvider.PLAYER_CAMPFIRE).ifPresent(playerCampfire -> {
                 ClientFirecampsData.getFirecamps().clear();
                 for (BlockPos blockPos : playerCampfire.getCampfires()) {
-                    Component name = CampfireList.getCampfireName(blockPos);
-                    ModMessages.sendToPlayer(new FirecampsDataSyncS2CPacket(blockPos, name), player);
+                    ModMessages.sendToPlayer(new FirecampsDataSyncS2CPacket(blockPos, CampfireList.getCampfireName(blockPos)), player);
                 }
             });
+
+            player.getCapability(PlayerMapsProvider.PLAYER_MAPS).ifPresent(playerMaps -> {
+                ClientMapsData.getPlayerMaps().clear();
+                for (Integer i : playerMaps.getMapsId()) {
+                    ModMessages.sendToPlayer(new MapsDataSyncS2CPacket(i), player);
+                }
+            });
+
         }
     }
 

@@ -7,13 +7,12 @@ import fr.cel.eldenrpg.networking.packet.npc.NPCDataC2SPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Checkbox;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.game.ServerboundEntityTagQuery;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.BaseCommandBlock;
 
 import java.awt.*;
 
@@ -26,9 +25,11 @@ public class NPCScreen extends Screen {
 
     private int leftPos, topPos;
     private EditBox nameEdit;
+    private Checkbox isBaby;
+    private Checkbox canMove;
 
     public NPCScreen(EldenNPC npc) {
-        super(Component.literal("TEST"));
+        super(Component.literal("NPC's Editor"));
 
         this.npc = npc;
 
@@ -53,12 +54,18 @@ public class NPCScreen extends Screen {
         nameEdit.setMaxLength(15);
         nameEdit.setValue(npc.getCustomName().getString());
         this.addRenderableWidget(nameEdit);
+
+        isBaby = new Checkbox(this.leftPos + 60, this.topPos + 60, 20, 20, Component.empty(), npc.isBaby());
+        this.addRenderableWidget(isBaby);
+
+        canMove = new Checkbox(this.leftPos + 65, this.topPos + 95, 20, 20, Component.empty(), npc.canMove);
+        this.addRenderableWidget(canMove);
     }
 
     @Override
-    public void resize(Minecraft pMinecraft, int pWidth, int pHeight) {
+    public void resize(Minecraft minecraft, int width, int height) {
         String s = this.nameEdit.getValue();
-        this.init(pMinecraft, pWidth, pHeight);
+        this.init(minecraft, width, height);
         this.nameEdit.setValue(s);
     }
 
@@ -70,7 +77,9 @@ public class NPCScreen extends Screen {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
 
         // TODO translatable
-        guiGraphics.drawString(this.font, "NPC's name : ", this.leftPos + 10, this.topPos + 40, Color.ORANGE.getRGB());
+        guiGraphics.drawString(this.font, "NPC's name: ", this.leftPos + 10, this.topPos + 40, Color.ORANGE.getRGB());
+        guiGraphics.drawString(this.font, "Is baby: ", this.leftPos + 10, this.topPos + 65, Color.ORANGE.getRGB());
+        guiGraphics.drawString(this.font, "Can move: ", this.leftPos + 10, this.topPos + 100, Color.ORANGE.getRGB());
     }
 
     @Override
@@ -84,8 +93,8 @@ public class NPCScreen extends Screen {
     }
 
     private void onDone() {
-        ModMessages.sendToServer(new NPCDataC2SPacket(npc.getId(), Component.literal(this.nameEdit.getValue())));
-        this.minecraft.setScreen(null);
+        ModMessages.sendToServer(new NPCDataC2SPacket(npc.getId(), Component.literal(this.nameEdit.getValue()), isBaby.selected(), canMove.selected()));
+        if (minecraft != null) this.minecraft.setScreen(null);
     }
 
 }

@@ -15,13 +15,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(NameTagItem.class)
 public class NameTagItemMixin {
 
-    /**
-     * Avoid players to put name tag on NPCs
-      */
     @Inject(method = "interactLivingEntity", at = @At("HEAD"), cancellable = true)
     private void interactLivingEntity(ItemStack pStack, Player pPlayer, LivingEntity pTarget, InteractionHand pHand, CallbackInfoReturnable<InteractionResult> cir) {
         if (pTarget instanceof EldenNPC) {
-            cir.setReturnValue(InteractionResult.PASS);
+            cir.setReturnValue(InteractionResult.FAIL);
         }
     }
 

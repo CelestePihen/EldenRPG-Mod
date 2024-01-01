@@ -19,6 +19,7 @@ public class CampfireList {
     }
     
     static {
+        // TODO mettre TOUS les feux de camps quand map fini... trop hâte... + mettre traduction des lieux
         CAMPFIRES.put(new BlockPos(100, 94, 83), Component.translatable("Campfire 1"));
         CAMPFIRES.put(new BlockPos(105, 95, 89), Component.translatable("Campfire 2"));
         CAMPFIRES.put(new BlockPos(104, 95, 89), Component.translatable("Campfire 3"));

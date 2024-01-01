@@ -55,7 +55,7 @@ public class CampfiresSelectionList extends ObjectSelectionList<CampfiresSelecti
         public Component getNarration() {
             return Component.translatable("narrator.select", this.campfireName);
         }
-    }
 
+    }
 
 }

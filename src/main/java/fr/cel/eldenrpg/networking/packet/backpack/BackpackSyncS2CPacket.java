@@ -35,6 +35,7 @@ public class BackpackSyncS2CPacket {
             player.getCapability(PlayerBackpackProvider.PLAYER_BACKPACK).ifPresent(playerSlots -> {
                 playerSlots.loadNBTData(nbt);
             });
+
         });
     }
 

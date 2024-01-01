@@ -8,6 +8,8 @@ import fr.cel.eldenrpg.networking.packet.MapTeleportationC2SPacket;
 import fr.cel.eldenrpg.networking.packet.firecamp.SetSpawnC2SPacket;
 import fr.cel.eldenrpg.networking.packet.backpack.OpenBackpackC2SPacket;
 import fr.cel.eldenrpg.networking.packet.backpack.BackpackSyncS2CPacket;
+import fr.cel.eldenrpg.networking.packet.maps.MapsDataSyncS2CPacket;
+import fr.cel.eldenrpg.networking.packet.maps.PickMapC2SPacket;
 import fr.cel.eldenrpg.networking.packet.npc.NPCDataC2SPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -81,6 +83,18 @@ public class ModMessages {
                 .decoder(NPCDataC2SPacket::new)
                 .encoder(NPCDataC2SPacket::toBytes)
                 .consumerMainThread(NPCDataC2SPacket::handle)
+                .add();
+
+        net.messageBuilder(MapsDataSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(MapsDataSyncS2CPacket::new)
+                .encoder(MapsDataSyncS2CPacket::toBytes)
+                .consumerMainThread(MapsDataSyncS2CPacket::handle)
+                .add();
+
+        net.messageBuilder(PickMapC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(PickMapC2SPacket::new)
+                .encoder(PickMapC2SPacket::toBytes)
+                .consumerMainThread(PickMapC2SPacket::handle)
                 .add();
     }
 
