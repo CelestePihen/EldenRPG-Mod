@@ -5,6 +5,7 @@ import fr.cel.eldenrpg.capabilities.firecamp.CampfireList;
 import fr.cel.eldenrpg.capabilities.firecamp.PlayerCampfireProvider;
 import fr.cel.eldenrpg.capabilities.flasks.PlayerFlasksProvider;
 import fr.cel.eldenrpg.capabilities.map.PlayerMapsProvider;
+import fr.cel.eldenrpg.capabilities.quests.PlayerQuestsProvider;
 import fr.cel.eldenrpg.capabilities.slots.PlayerBackpackProvider;
 import fr.cel.eldenrpg.client.data.ClientFirecampsData;
 import fr.cel.eldenrpg.client.data.ClientMapsData;
@@ -53,6 +54,11 @@ public class ServerEvents {
     }
 
     @SubscribeEvent
+    public static void onDeathEvent(PlayerEvent.PlayerRespawnEvent event) {
+
+    }
+
+    @SubscribeEvent
     public static void onAttachCapabilitiesPlayer(AttachCapabilitiesEvent<Entity> event) {
         if (!(event.getObject() instanceof Player player)) return;
 
@@ -70,6 +76,10 @@ public class ServerEvents {
 
         if (!player.getCapability(PlayerMapsProvider.PLAYER_MAPS).isPresent()) {
             event.addCapability(new ResourceLocation(EldenRPGMod.MOD_ID, "maps"), new PlayerMapsProvider());
+        }
+
+        if (!player.getCapability(PlayerQuestsProvider.PLAYER_QUESTS).isPresent()) {
+            event.addCapability(new ResourceLocation(EldenRPGMod.MOD_ID, "quests"), new PlayerQuestsProvider(player));
         }
     }
 
@@ -98,6 +108,12 @@ public class ServerEvents {
 
             event.getOriginal().getCapability(PlayerMapsProvider.PLAYER_MAPS).ifPresent(oldStore -> {
                 event.getEntity().getCapability(PlayerMapsProvider.PLAYER_MAPS).ifPresent(newStore -> {
+                    newStore.copyFrom(oldStore);
+                });
+            });
+
+            event.getOriginal().getCapability(PlayerQuestsProvider.PLAYER_QUESTS).ifPresent(oldStore -> {
+                event.getEntity().getCapability(PlayerQuestsProvider.PLAYER_QUESTS).ifPresent(newStore -> {
                     newStore.copyFrom(oldStore);
                 });
             });

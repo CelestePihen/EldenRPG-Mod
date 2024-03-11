@@ -4,6 +4,7 @@ import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.server.ServerLifecycleHooks;
 
 public class HintArea extends Area {
 
@@ -16,7 +17,7 @@ public class HintArea extends Area {
 
     @Override
     protected void interact(ServerPlayer player, String advancementName) {
-        Advancement advancement = player.getServer().getAdvancements().getAdvancement(resourceLocation);
+        Advancement advancement = ServerLifecycleHooks.getCurrentServer().getAdvancements().getAdvancement(resourceLocation);
         if (advancement == null) return;
 
         AdvancementProgress advancementProgress = player.getAdvancements().getOrStartProgress(advancement);

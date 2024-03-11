@@ -19,13 +19,17 @@ public class NPCCommand {
                 // seulement le nom et met à la position du joueur
                 .then(Commands.argument("name", StringArgumentType.word())
                         .executes(source ->
-                                spawnNPC(source.getSource(), StringArgumentType.getString(source, "name"), source.getSource().getPlayerOrException().blockPosition())))
+                                spawnNPC(source.getSource(),
+                                        StringArgumentType.getString(source, "name"),
+                                        source.getSource().getPlayerOrException().blockPosition())))
 
                 // le nom et la position
                 .then(Commands.argument("name", StringArgumentType.word())
                         .then(Commands.argument("pos", BlockPosArgument.blockPos())
                                 .executes(source ->
-                                        spawnNPC(source.getSource(), StringArgumentType.getString(source, "name"), BlockPosArgument.getLoadedBlockPos(source, "pos")))
+                                        spawnNPC(source.getSource(),
+                                                StringArgumentType.getString(source, "name"),
+                                                BlockPosArgument.getLoadedBlockPos(source, "pos")))
                         )));
     }
 

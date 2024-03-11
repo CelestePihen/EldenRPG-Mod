@@ -4,6 +4,7 @@ import fr.cel.eldenrpg.EldenRPGMod;
 import fr.cel.eldenrpg.client.utils.ClientHooks;
 import fr.cel.eldenrpg.entity.goal.EldenNPCMoveGoal;
 import fr.cel.eldenrpg.entity.goal.TestGoal;
+import fr.cel.eldenrpg.quest.Quest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -26,6 +27,7 @@ import java.util.Arrays;
 public class EldenNPC extends AgeableMob {
 
     public boolean canMove;
+    protected Quest quest;
 
     private final BlockPos[] path = new BlockPos[] {
             new BlockPos(204, 65, -63),
@@ -98,6 +100,10 @@ public class EldenNPC extends AgeableMob {
         }
     }
 
+    protected InteractionResult playerInteract(Player player, InteractionHand hand) {
+        return InteractionResult.PASS;
+    }
+
     @Override
     protected InteractionResult mobInteract(Player player, InteractionHand hand) {
         if (hand != InteractionHand.MAIN_HAND) return InteractionResult.PASS;
@@ -107,6 +113,8 @@ public class EldenNPC extends AgeableMob {
             DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientHooks.openNPCScreen(this));
             return InteractionResult.SUCCESS;
         }
+
+        playerInteract(player, hand);
 
         return super.mobInteract(player, hand);
     }

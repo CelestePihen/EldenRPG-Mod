@@ -22,6 +22,13 @@ public class SlotsScreen extends AbstractContainerScreen<BackpackMenu> {
     }
 
     @Override
+    public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+        this.renderBackground(pGuiGraphics);
+        super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+        this.renderTooltip(pGuiGraphics, pMouseX, pMouseY);
+    }
+
+    @Override
     protected void renderBg(GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
         int relX = (this.width - this.imageWidth) / 2;
         int relY = (this.height - this.imageHeight) / 2;
@@ -31,18 +38,6 @@ public class SlotsScreen extends AbstractContainerScreen<BackpackMenu> {
             int y = i / 9;
             pGuiGraphics.blit(gui, relX + 7 + x * 18, relY + 16 + y * 18, 7, 83, 18, 18);
         }
-    }
-
-    @Override
-    public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-        this.renderBackground(pGuiGraphics);
-        super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
-        this.renderTooltip(pGuiGraphics, pMouseX, pMouseY);
-    }
-
-    @Override
-    protected void renderLabels(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
-        super.renderLabels(pGuiGraphics, pMouseX, pMouseY);
     }
 
 }

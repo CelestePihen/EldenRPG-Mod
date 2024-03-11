@@ -40,11 +40,13 @@ public class PlayerCampfire {
     public void loadNBTData(CompoundTag nbt) {
         List<BlockPos> temp_campfire = new ArrayList<>();
         ListTag campfireList = nbt.getList("campfires", Tag.TAG_COMPOUND);
+
         for (int i = 0; i < campfireList.size(); i++) {
             CompoundTag campTags = campfireList.getCompound(i);
             BlockPos pos = BlockPos.of(campTags.getLong("pos"));
             temp_campfire.add(pos);
         }
+
         this.campfires = temp_campfire;
     }
 

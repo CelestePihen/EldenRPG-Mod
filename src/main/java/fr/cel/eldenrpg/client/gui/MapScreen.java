@@ -47,6 +47,7 @@ public class MapScreen extends Screen {
 
         super.render(guiGraphics, mouseX, mouseY, partialTick);
 
+        // TODO à faire
         if (ClientMapsData.getPlayerMaps().contains(0)) {
             guiGraphics.blit(CARTE_DEV, leftPos, topPos, 0, 0, 10, 10, imageWidth, imageHeight);
         }

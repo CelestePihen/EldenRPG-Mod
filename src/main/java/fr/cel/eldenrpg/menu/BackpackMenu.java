@@ -13,8 +13,8 @@ public class BackpackMenu extends AbstractContainerMenu {
 
     private IItemHandler slotsInventory = null;
 
-    public BackpackMenu(int pContainerId, Player player) {
-        super(ModMenus.BACKPACK_MENU.get(), pContainerId);
+    public BackpackMenu(int windowId, Player player) {
+        super(ModMenus.BACKPACK_MENU.get(), windowId);
 
         addPlayerInventory(player.getInventory());
         addPlayerHotbar(player.getInventory());
@@ -36,7 +36,34 @@ public class BackpackMenu extends AbstractContainerMenu {
     // TODO
     @Override
     public ItemStack quickMoveStack(Player pPlayer, int pIndex) {
-        return null;
+        ItemStack itemstack = ItemStack.EMPTY;
+        Slot slot = this.slots.get(pIndex);
+        int size = slotsInventory.getSlots();
+
+        if (slot != null && slot.hasItem()) {
+            ItemStack slotStack = slot.getItem();
+            itemstack = slotStack.copy();
+            if (0 <= pIndex && pIndex < size) {// shift-click from slots inventory
+                if (!this.moveItemStackTo(slotStack, size, 36 + size, true)) {
+                    return ItemStack.EMPTY;
+                }
+            } else if (size <= pIndex && pIndex < 36 + size) {// shift-click from player inventory
+                if (!this.moveItemStackTo(slotStack, 0, size, false)) {
+                    return ItemStack.EMPTY;
+                }
+            }
+
+            if (slotStack.isEmpty()) {
+                slot.set(ItemStack.EMPTY);
+            } else {
+                slot.setChanged();
+            }
+            if (slotStack.getCount() == itemstack.getCount()) {
+                return ItemStack.EMPTY;
+            }
+            slot.onTake(pPlayer, slotStack);
+        }
+        return itemstack;
     }
 
     @Override
