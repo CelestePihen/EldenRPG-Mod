@@ -27,7 +27,7 @@ public class NPCRenderer extends LivingEntityRenderer<EldenNPC, PlayerModel<Elde
     @Override
     public ResourceLocation getTextureLocation(EldenNPC pEntity) {
         String s = ChatFormatting.stripFormatting(pEntity.getName().getString());
-        // TODO à refaire ?
+        // TODO à refaire
         if ("Cel___".equals(s)) {
             return CEL_SKIN;
         }

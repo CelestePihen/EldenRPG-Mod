@@ -1,5 +1,6 @@
 package fr.cel.eldenrpg.networking.packet.firecamp;
 
+import fr.cel.eldenrpg.EldenRPGMod;
 import fr.cel.eldenrpg.capabilities.firecamp.CampfireList;
 import fr.cel.eldenrpg.capabilities.firecamp.PlayerCampfireProvider;
 import fr.cel.eldenrpg.capabilities.flasks.PlayerFlasksProvider;
@@ -58,10 +59,12 @@ public class SetSpawnC2SPacket {
             player.setHealth(player.getMaxHealth());
             player.getFoodData().setFoodLevel(20);
             player.getFoodData().setSaturation(20);
-            Minecraft.getInstance().getConnection().setTitleText(new ClientboundSetTitleTextPacket(Component.translatable("eldenrpg.title.setspawn")));
-            Minecraft.getInstance().getConnection().setTitlesAnimation(new ClientboundSetTitlesAnimationPacket(20, 50, 20));
-            player.setRespawnPosition(level.dimension(), blockPos.north(), 90.0F, true, true);
-
+//            EldenRPGMod.LOGGER.info("RESPAWNPOINT AVANT: " + player.getRespawnPosition());
+//            EldenRPGMod.LOGGER.info("Blockpos" + blockPos);
+//            EldenRPGMod.LOGGER.info("Blockpos north" + blockPos.north());
+            player.setRespawnPosition(level.dimension(), blockPos.north(), player.getYRot(), true, true);
+//            EldenRPGMod.LOGGER.info("RESPAWNPOINT APRES: " + player.getRespawnPosition());
+//            EldenRPGMod.LOGGER.info("BLOCKPOS APRES");
         });
 
     }

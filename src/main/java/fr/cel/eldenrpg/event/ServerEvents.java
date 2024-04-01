@@ -17,7 +17,6 @@ import fr.cel.eldenrpg.networking.packet.backpack.BackpackSyncS2CPacket;
 import fr.cel.eldenrpg.areas.Areas;
 import fr.cel.eldenrpg.networking.packet.maps.MapsDataSyncS2CPacket;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -31,8 +30,6 @@ import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
-
-import java.util.ArrayList;
 
 @Mod.EventBusSubscriber(modid = EldenRPGMod.MOD_ID)
 public class ServerEvents {
@@ -49,6 +46,10 @@ public class ServerEvents {
             ServerPlayer serverPlayer = (ServerPlayer) player;
             for (Areas area : Areas.values()) {
                 area.getArea().detectPlayerInArea(serverPlayer);
+            }
+
+            if (serverPlayer.getFoodData().needsFood()) {
+                serverPlayer.getFoodData().setFoodLevel(20);
             }
         }
     }
