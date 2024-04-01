@@ -9,7 +9,6 @@
 *.nar
 hs_err_pid*
 replay_pid*
-.paper-nms
 
 ##############################
 ## Maven
@@ -85,4 +84,5 @@ nb-configuration.xml
 ##############################
 .DS_Store
 
-api-plugin/
+run-data
+run
