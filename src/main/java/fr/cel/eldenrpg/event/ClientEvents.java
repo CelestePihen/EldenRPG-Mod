@@ -1,18 +1,16 @@
 package fr.cel.eldenrpg.event;
 
 import fr.cel.eldenrpg.EldenRPGMod;
+import fr.cel.eldenrpg.client.gui.MapScreen;
 import fr.cel.eldenrpg.client.gui.SlotsScreen;
 import fr.cel.eldenrpg.client.overlay.FlasksHudOverlay;
-import fr.cel.eldenrpg.client.gui.MapScreen;
 import fr.cel.eldenrpg.entity.ModEntities;
 import fr.cel.eldenrpg.entity.client.ModModelLayers;
 import fr.cel.eldenrpg.entity.client.NPCRenderer;
 import fr.cel.eldenrpg.menu.ModMenus;
 import fr.cel.eldenrpg.networking.ModMessages;
-import fr.cel.eldenrpg.networking.packet.flasks.DrinkFlaskC2SPacket;
-import fr.cel.eldenrpg.networking.packet.firecamp.SetSpawnC2SPacket;
 import fr.cel.eldenrpg.networking.packet.backpack.OpenBackpackC2SPacket;
-import fr.cel.eldenrpg.sound.ModSounds;
+import fr.cel.eldenrpg.networking.packet.flasks.DrinkFlaskC2SPacket;
 import fr.cel.eldenrpg.util.ModKeyBindings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -21,20 +19,14 @@ import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.entity.EntityRenderers;
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
-import net.minecraft.network.protocol.game.ClientboundSetTitlesAnimationPacket;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+
+import java.awt.*;
 
 public class ClientEvents {
 
@@ -56,30 +48,30 @@ public class ClientEvents {
             }
         }
 
-        @SubscribeEvent
-        public static void onPlayerRightClick(PlayerInteractEvent.RightClickBlock event) {
-            BlockPos pos = event.getPos();
-
-            if (event.getLevel().getBlockState(pos).getBlock() == Blocks.SOUL_CAMPFIRE && event.getHand() == InteractionHand.MAIN_HAND) {
-                Minecraft.getInstance().getConnection().setTitleText(new ClientboundSetTitleTextPacket(Component.translatable("eldenrpg.title.setspawn")));
-                Minecraft.getInstance().getConnection().setTitlesAnimation(new ClientboundSetTitlesAnimationPacket(20, 50, 20));
-                ModMessages.sendToServer(new SetSpawnC2SPacket(pos));
-                event.getLevel().playSeededSound(event.getEntity(), pos.getX(), pos.getY(), pos.getZ(), ModSounds.LOST_GRACE_DISCOVERED.get(), SoundSource.AMBIENT,
-                        0.5f, 1f, 0);
-            }
-        }
+//        @SubscribeEvent
+//        public static void onPlayerRightClick(PlayerInteractEvent.RightClickBlock event) {
+//            BlockPos pos = event.getPos();
+//
+//            if (event.getLevel().getBlockState(pos).getBlock() == Blocks.SOUL_CAMPFIRE && event.getHand() == InteractionHand.MAIN_HAND) {
+//                Minecraft.getInstance().getConnection().setTitleText(new ClientboundSetTitleTextPacket(Component.translatable("eldenrpg.title.setspawn")));
+//                Minecraft.getInstance().getConnection().setTitlesAnimation(new ClientboundSetTitlesAnimationPacket(20, 50, 20));
+//                ModMessages.sendToServer(new SetSpawnC2SPacket(pos));
+//                event.getLevel().playSeededSound(event.getEntity(), pos.getX(), pos.getY(), pos.getZ(), ModSounds.LOST_GRACE_DISCOVERED.get(), SoundSource.AMBIENT,
+//                        0.5f, 1f, 0);
+//            }
+//        }
 
         @SubscribeEvent
         public static void onRenderGameOverlay(RenderGuiOverlayEvent.Pre event) {
-            if (!Minecraft.getInstance().player.isCreative() && !Minecraft.getInstance().player.isSpectator()) {
-                if (event.getOverlay() == VanillaGuiOverlay.PLAYER_HEALTH.type()) {
-                    renderCustomHealthBar(event.getGuiGraphics());
-                    event.setCanceled(true);
-                }
+            if (Minecraft.getInstance().player.getAbilities().invulnerable) return;
 
-                if (event.getOverlay() == VanillaGuiOverlay.FOOD_LEVEL.type()) {
-                    event.setCanceled(true);
-                }
+            if (event.getOverlay() == VanillaGuiOverlay.PLAYER_HEALTH.type()) {
+                renderCustomHealthBar(event.getGuiGraphics());
+                event.setCanceled(true);
+            }
+
+            if (event.getOverlay() == VanillaGuiOverlay.FOOD_LEVEL.type()) {
+                event.setCanceled(true);
             }
         }
 
@@ -100,7 +92,7 @@ public class ClientEvents {
 
             String healthText = String.format("%.1f", health) + " / " + String.format("%.1f", maxHealth);
             int textX = barX + (barWidth - mc.font.width(healthText)) / 2;
-            pGuiGraphics.drawString(Minecraft.getInstance().font, healthText, textX, barY + 1, 0xFFFFFF, true);
+            pGuiGraphics.drawString(mc.font, healthText, textX, barY + 1, Color.WHITE.getRGB(), true);
         }
 
     }
@@ -123,7 +115,7 @@ public class ClientEvents {
 
         @SubscribeEvent
         public static void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
-            event.registerAboveAll("flasks", FlasksHudOverlay.HUD_FLASKS);
+            event.registerAboveAll("flasks", new FlasksHudOverlay());
         }
 
         @SubscribeEvent

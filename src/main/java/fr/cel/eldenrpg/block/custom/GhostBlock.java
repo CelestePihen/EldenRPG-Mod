@@ -1,4 +1,4 @@
-package fr.cel.eldenrpg.block;
+package fr.cel.eldenrpg.block.custom;
 
 import net.minecraft.world.level.block.Block;
 

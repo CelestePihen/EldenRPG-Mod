@@ -26,5 +26,9 @@
 
   "block.eldenrpg.stone_ghost_block": "Stone Ghost Block",
   "block.eldenrpg.gravel_ghost_block": "Gravel Ghost Block",
-  "block.eldenrpg.stone_bricks_ghost_block": "Stone Bricks Ghost Block"
+  "block.eldenrpg.stone_bricks_ghost_block": "Stone Bricks Ghost Block",
+  "block.eldenrpg.custom_campfire": "Custom Campfire",
+
+  "eldenrpg.quest.beginning": "The Beginning",
+  "eldenrpg.quest.blacksmith": "Test Blacksmith"
 }

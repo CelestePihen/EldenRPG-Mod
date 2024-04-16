@@ -5,16 +5,18 @@ import net.minecraft.network.chat.Component;
 public class Quest {
 
     private final String id;
-    private final Component displayName;
+    private final String langName;
+    private final Component translatedName;
     private QuestState questState;
 
-    public Quest(String id, Component displayName) {
-        this(id, displayName, QuestState.ACTIVE);
+    public Quest(String id, String langName) {
+        this(id, langName, QuestState.ACTIVE);
     }
 
-    public Quest(String id, Component displayName, QuestState questState) {
+    public Quest(String id, String langName, QuestState questState) {
         this.id = id;
-        this.displayName = displayName;
+        this.langName = langName;
+        this.translatedName = Component.translatable(langName);
         this.questState = questState;
     }
 
@@ -22,8 +24,12 @@ public class Quest {
         return id;
     }
 
-    public Component getDisplayName() {
-        return displayName;
+    public String getLangName() {
+        return langName;
+    }
+
+    public Component getTranslatedName() {
+        return translatedName;
     }
 
     public QuestState getQuestState() {

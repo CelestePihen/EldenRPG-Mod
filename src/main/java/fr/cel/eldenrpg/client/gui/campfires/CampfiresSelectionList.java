@@ -1,6 +1,6 @@
 package fr.cel.eldenrpg.client.gui.campfires;
 
-import fr.cel.eldenrpg.client.data.ClientFirecampsData;
+import fr.cel.eldenrpg.client.data.ClientCampfiresData;
 import fr.cel.eldenrpg.networking.ModMessages;
 import fr.cel.eldenrpg.networking.packet.MapTeleportationC2SPacket;
 import net.minecraft.client.Minecraft;
@@ -14,7 +14,7 @@ public class CampfiresSelectionList extends ObjectSelectionList<CampfiresSelecti
 
     public CampfiresSelectionList(Minecraft pMinecraft, Screen screen) {
         super(pMinecraft, screen.width, screen.height, 32, screen.height - 65 + 4, 18);
-        ClientFirecampsData.getFirecamps().forEach((blockPos, s) -> {
+        ClientCampfiresData.getCampfires().forEach((blockPos, s) -> {
             CampfiresSelectionList.Entry entry = new Entry(blockPos, s, this.minecraft);
             this.addEntry(entry);
         });
@@ -47,7 +47,7 @@ public class CampfiresSelectionList extends ObjectSelectionList<CampfiresSelecti
         }
 
         public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
-            ModMessages.sendToServer(new MapTeleportationC2SPacket(pos.getX(), pos.getY(), pos.getZ()));
+            ModMessages.sendToServer(new MapTeleportationC2SPacket(pos.north()));
             minecraft.setScreen(null);
             return true;
         }

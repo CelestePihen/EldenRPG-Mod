@@ -26,5 +26,8 @@
 
   "block.eldenrpg.stone_ghost_block": "Bloc fantôme de Roche",
   "block.eldenrpg.gravel_ghost_block": "Bloc fantôme de Gravier",
-  "block.eldenrpg.stone_bricks_ghost_block": "Bloc fantôme de Pierre taillée"
+  "block.eldenrpg.stone_bricks_ghost_block": "Bloc fantôme de Pierre taillée",
+  "block.eldenrpg.custom_campfire": "Feu de camp personnalisé",
+
+  "eldenrpg.quest.beginning": "Le Commencement"
 }

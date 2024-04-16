@@ -6,7 +6,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.TicketType;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraftforge.network.NetworkEvent;
 
@@ -19,10 +18,10 @@ public class MapTeleportationC2SPacket {
     private final double y;
     private final double z;
 
-    public MapTeleportationC2SPacket(double pX, double pY, double pZ) {
-        this.x = pX;
-        this.y = pY;
-        this.z = pZ;
+    public MapTeleportationC2SPacket(BlockPos pos) {
+        this.x = pos.getX();
+        this.y = pos.getY();
+        this.z = pos.getZ();
     }
 
     public MapTeleportationC2SPacket(FriendlyByteBuf buf) {
@@ -37,13 +36,15 @@ public class MapTeleportationC2SPacket {
         buf.writeDouble(this.z);
     }
 
-    public void handle(Supplier<NetworkEvent.Context> ctx) {
-        NetworkEvent.Context context = ctx.get();
+    public void handle(Supplier<NetworkEvent.Context> context) {
+        NetworkEvent.Context ctx = context.get();
 
-        ServerPlayer player = context.getSender();
-        ServerLevel level = player.serverLevel();
+        ctx.enqueueWork(() -> {
+            ServerPlayer player = ctx.getSender();
+            ServerLevel level = player.serverLevel();
 
-        context.enqueueWork(() -> teleportEntity(player, level, this.x, this.y, this.z));
+            teleportEntity(player, level, this.x, this.y, this.z);
+        });
     }
 
     private void teleportEntity(Entity entity, ServerLevel targetWorld, double x, double y, double z) {
@@ -58,11 +59,6 @@ public class MapTeleportationC2SPacket {
             }
 
             entity.setYHeadRot(entity.getYRot());
-        }
-
-        if (!(entity instanceof LivingEntity) || !((LivingEntity) entity).isFallFlying()) {
-            entity.setDeltaMovement(entity.getDeltaMovement().multiply(1, 0, 1));
-            entity.setOnGround(true);
         }
 
     }

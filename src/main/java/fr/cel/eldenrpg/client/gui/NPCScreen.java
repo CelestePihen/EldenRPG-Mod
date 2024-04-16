@@ -26,7 +26,6 @@ public class NPCScreen extends Screen {
     private int leftPos, topPos;
     private EditBox nameEdit;
     private Checkbox isBaby;
-    private Checkbox canMove;
 
     public NPCScreen(EldenNPC npc) {
         super(Component.literal("NPC's Editor"));
@@ -46,7 +45,7 @@ public class NPCScreen extends Screen {
 
         if (this.minecraft == null) return;
 
-        this.addRenderableWidget(Button.builder(CommonComponents.GUI_DONE, (p_97691_) -> this.onDone())
+        this.addRenderableWidget(Button.builder(CommonComponents.GUI_DONE, (button) -> this.onDone())
                 .bounds(this.width / 2 - 40, this.height / 2 + 60, 80, 20).build());
 
         // TODO translatable
@@ -57,9 +56,6 @@ public class NPCScreen extends Screen {
 
         isBaby = new Checkbox(this.leftPos + 60, this.topPos + 60, 20, 20, Component.empty(), npc.isBaby());
         this.addRenderableWidget(isBaby);
-
-        canMove = new Checkbox(this.leftPos + 65, this.topPos + 95, 20, 20, Component.empty(), npc.canMove);
-        this.addRenderableWidget(canMove);
     }
 
     @Override
@@ -79,7 +75,6 @@ public class NPCScreen extends Screen {
         // TODO translatable
         guiGraphics.drawString(this.font, "NPC's name: ", this.leftPos + 10, this.topPos + 40, Color.ORANGE.getRGB());
         guiGraphics.drawString(this.font, "Is baby: ", this.leftPos + 10, this.topPos + 65, Color.ORANGE.getRGB());
-        guiGraphics.drawString(this.font, "Can move: ", this.leftPos + 10, this.topPos + 100, Color.ORANGE.getRGB());
     }
 
     @Override
@@ -93,7 +88,7 @@ public class NPCScreen extends Screen {
     }
 
     private void onDone() {
-        ModMessages.sendToServer(new NPCDataC2SPacket(npc.getId(), Component.literal(this.nameEdit.getValue()), isBaby.selected(), canMove.selected()));
+        ModMessages.sendToServer(new NPCDataC2SPacket(npc.getId(), Component.literal(this.nameEdit.getValue()), isBaby.selected()));
         if (minecraft != null) this.minecraft.setScreen(null);
     }
 

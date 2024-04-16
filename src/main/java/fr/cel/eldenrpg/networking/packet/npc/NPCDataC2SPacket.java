@@ -14,27 +14,23 @@ public class NPCDataC2SPacket {
     private final int id;
     private final Component customName;
     private final boolean isBaby;
-    private final boolean canMove;
 
-    public NPCDataC2SPacket(int id, Component customName, boolean isBaby, boolean canMove) {
+    public NPCDataC2SPacket(int id, Component customName, boolean isBaby) {
         this.id = id;
         this.customName = customName;
         this.isBaby = isBaby;
-        this.canMove = canMove;
     }
 
     public NPCDataC2SPacket(FriendlyByteBuf buf) {
         this.id = buf.readInt();
         this.customName = buf.readComponent();
         this.isBaby = buf.readBoolean();
-        this.canMove = buf.readBoolean();
     }
 
     public void toBytes(FriendlyByteBuf buf) {
         buf.writeInt(this.id);
         buf.writeComponent(this.customName);
         buf.writeBoolean(this.isBaby);
-        buf.writeBoolean(this.canMove);
     }
 
     public void handle(Supplier<NetworkEvent.Context> context) {
@@ -47,7 +43,6 @@ public class NPCDataC2SPacket {
             if (entity instanceof EldenNPC npc) {
                 npc.setCustomName(customName);
                 npc.setBaby(isBaby);
-                npc.setCanMove(canMove);
             }
         });
 

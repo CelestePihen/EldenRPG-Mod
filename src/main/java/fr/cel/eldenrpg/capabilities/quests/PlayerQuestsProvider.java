@@ -1,10 +1,9 @@
 package fr.cel.eldenrpg.capabilities.quests;
 
 import fr.cel.eldenrpg.quest.Quest;
+import fr.cel.eldenrpg.quest.Quests;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
@@ -21,16 +20,10 @@ public class PlayerQuestsProvider implements ICapabilityProvider, INBTSerializab
     private PlayerQuests quests = null;
     private final LazyOptional<PlayerQuests> optional = LazyOptional.of(this::createPlayerQuests);
 
-    private final Player player;
-
-    public PlayerQuestsProvider(Player player) {
-        this.player = player;
-    }
-
-    private PlayerQuests createPlayerQuests() {
+    public PlayerQuests createPlayerQuests() {
         if (this.quests == null) {
-            this.quests = new PlayerQuests(player);
-//            this.quests.addQuest(new Quest("beginning", Component.translatable("eldenrpg.quest.beginning"), Quest.QuestState.ACTIVE));
+            this.quests = new PlayerQuests();
+            this.quests.addQuest(Quests.getQuest("beginner"));
         }
 
         return this.quests;

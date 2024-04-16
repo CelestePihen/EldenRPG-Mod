@@ -5,11 +5,13 @@ public enum Areas {
     // TODO mettre les zones
     GRAVEYARD(new TitleArea("graveyard", 165, 75, -61, 136, 69, -90)),
 
-    HINT_CAMPFIRE(new HintArea("hintfirecamp", 147, -15, -89, 144, -20, -93)),
+    ADVANCEMENT_ROOT(new HintArea("root", 152, -25, -86, 156, -27, -81)),
+    HINT_CAMPFIRE(new HintArea("hintfirecamp", 148, -21, -87, 144, -15, -93)),
     HINT_FAKE_BLOCK(new HintArea("hintfakeblock", 148, 2, -75, 152, -1, -77)),
 
     MAP_ONE(new MapArea("0", 194, 71, -81, 192, 68, -83)),
 
+    // TODO
     MAP_TWO(new MapArea("1", 0, 0, 0, 0, 0, 0)),
     MAP_THREE(new MapArea("2", 0, 0, 0, 0, 0, 0)),
     MAP_FOUR(new MapArea("3", 0, 0, 0, 0, 0, 0)),

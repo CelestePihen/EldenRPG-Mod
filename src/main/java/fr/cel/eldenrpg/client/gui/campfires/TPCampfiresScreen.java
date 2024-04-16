@@ -36,7 +36,6 @@ public class TPCampfiresScreen extends Screen {
     @Override
     public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         this.campfiresSelectionList.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
-
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
     }
 

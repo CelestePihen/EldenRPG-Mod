@@ -1,6 +1,6 @@
-package fr.cel.eldenrpg.datagen;
+package fr.cel.eldenrpg.datagen.server;
 
-import fr.cel.eldenrpg.datagen.loot.ModBlockLootTables;
+import fr.cel.eldenrpg.datagen.server.loot.ModBlockLootTables;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;

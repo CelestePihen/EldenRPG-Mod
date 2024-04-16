@@ -1,10 +1,10 @@
-package fr.cel.eldenrpg.datagen;
+package fr.cel.eldenrpg.datagen.client;
 
 import fr.cel.eldenrpg.EldenRPGMod;
 import fr.cel.eldenrpg.block.ModBlocks;
-import fr.cel.eldenrpg.item.ModItems;
 import net.minecraft.data.PackOutput;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
@@ -20,10 +20,11 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockWithItem(ModBlocks.STONE_GHOST_BLOCK, Blocks.STONE);
         blockWithItem(ModBlocks.GRAVEL_GHOST_BLOCK, Blocks.GRAVEL);
         blockWithItem(ModBlocks.STONE_BRICKS_GHOST_BLOCK, Blocks.STONE_BRICKS);
+        blockWithItem(ModBlocks.CUSTOM_CAMPFIRE);
     }
 
-    private void blockWithItem(RegistryObject<Block> blockRegistryObject, Block apparence) {
-        simpleBlockWithItem(blockRegistryObject.get(), cubeAll(apparence));
+    private void blockWithItem(RegistryObject<Block> blockRegistryObject, Block block) {
+        simpleBlockWithItem(blockRegistryObject.get(), cubeAll(block));
     }
 
     private void blockWithItem(RegistryObject<Block> blockRegistryObject) {

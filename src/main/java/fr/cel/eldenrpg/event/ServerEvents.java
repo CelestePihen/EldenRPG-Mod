@@ -1,30 +1,33 @@
 package fr.cel.eldenrpg.event;
 
 import fr.cel.eldenrpg.EldenRPGMod;
+import fr.cel.eldenrpg.areas.Areas;
 import fr.cel.eldenrpg.capabilities.firecamp.CampfireList;
 import fr.cel.eldenrpg.capabilities.firecamp.PlayerCampfireProvider;
 import fr.cel.eldenrpg.capabilities.flasks.PlayerFlasksProvider;
 import fr.cel.eldenrpg.capabilities.map.PlayerMapsProvider;
 import fr.cel.eldenrpg.capabilities.quests.PlayerQuestsProvider;
 import fr.cel.eldenrpg.capabilities.slots.PlayerBackpackProvider;
-import fr.cel.eldenrpg.client.data.ClientFirecampsData;
+import fr.cel.eldenrpg.client.data.ClientCampfiresData;
 import fr.cel.eldenrpg.client.data.ClientMapsData;
 import fr.cel.eldenrpg.command.NPCCommand;
+import fr.cel.eldenrpg.command.QuestCommand;
 import fr.cel.eldenrpg.networking.ModMessages;
+import fr.cel.eldenrpg.networking.packet.backpack.BackpackSyncS2CPacket;
 import fr.cel.eldenrpg.networking.packet.firecamp.FirecampsDataSyncS2CPacket;
 import fr.cel.eldenrpg.networking.packet.flasks.FlasksDataSyncS2CPacket;
-import fr.cel.eldenrpg.networking.packet.backpack.BackpackSyncS2CPacket;
-import fr.cel.eldenrpg.areas.Areas;
 import fr.cel.eldenrpg.networking.packet.maps.MapsDataSyncS2CPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.living.LivingExperienceDropEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -41,22 +44,32 @@ public class ServerEvents {
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        Player player = event.player;
-        if (event.phase == TickEvent.Phase.END && event.side == LogicalSide.SERVER && player != null) {
-            ServerPlayer serverPlayer = (ServerPlayer) player;
+        if (event.side != LogicalSide.SERVER) return;
+
+        ServerPlayer serverPlayer = (ServerPlayer) event.player;
+
+        if (serverPlayer.getFoodData().needsFood()) {
+            serverPlayer.getFoodData().setFoodLevel(20);
+        }
+
+        if (event.phase == TickEvent.Phase.END) {
             for (Areas area : Areas.values()) {
                 area.getArea().detectPlayerInArea(serverPlayer);
             }
+        }
 
-            if (serverPlayer.getFoodData().needsFood()) {
-                serverPlayer.getFoodData().setFoodLevel(20);
-            }
+    }
+
+    @SubscribeEvent
+    public static void onLivingExperienceDrop(LivingExperienceDropEvent event) {
+        if (event.getEntity() instanceof EnderMan) {
+            event.setDroppedExperience(0);
         }
     }
 
     @SubscribeEvent
-    public static void onDeathEvent(PlayerEvent.PlayerRespawnEvent event) {
-
+    public static void onRespawnEvent(PlayerEvent.PlayerRespawnEvent event) {
+        EldenRPGMod.LOGGER.info("RESPAWN");
     }
 
     @SubscribeEvent
@@ -80,7 +93,7 @@ public class ServerEvents {
         }
 
         if (!player.getCapability(PlayerQuestsProvider.PLAYER_QUESTS).isPresent()) {
-            event.addCapability(new ResourceLocation(EldenRPGMod.MOD_ID, "quests"), new PlayerQuestsProvider(player));
+            event.addCapability(new ResourceLocation(EldenRPGMod.MOD_ID, "quests"), new PlayerQuestsProvider());
         }
     }
 
@@ -135,7 +148,7 @@ public class ServerEvents {
             );
 
             player.getCapability(PlayerCampfireProvider.PLAYER_CAMPFIRE).ifPresent(playerCampfire -> {
-                ClientFirecampsData.getFirecamps().clear();
+                ClientCampfiresData.getCampfires().clear();
                 for (BlockPos blockPos : playerCampfire.getCampfires()) {
                     ModMessages.sendToPlayer(new FirecampsDataSyncS2CPacket(blockPos, CampfireList.getCampfireName(blockPos)), player);
                 }
@@ -154,6 +167,7 @@ public class ServerEvents {
     @SubscribeEvent
     public static void onRegisterCommand(RegisterCommandsEvent event) {
         NPCCommand.register(event.getDispatcher());
+        QuestCommand.register(event.getDispatcher());
     }
 
 }

@@ -1,13 +1,13 @@
 package fr.cel.eldenrpg.networking;
 
 import fr.cel.eldenrpg.EldenRPGMod;
+import fr.cel.eldenrpg.networking.packet.MapTeleportationC2SPacket;
+import fr.cel.eldenrpg.networking.packet.backpack.BackpackSyncS2CPacket;
+import fr.cel.eldenrpg.networking.packet.backpack.OpenBackpackC2SPacket;
 import fr.cel.eldenrpg.networking.packet.firecamp.FirecampsDataSyncS2CPacket;
+import fr.cel.eldenrpg.networking.packet.firecamp.SetSpawnC2SPacket;
 import fr.cel.eldenrpg.networking.packet.flasks.DrinkFlaskC2SPacket;
 import fr.cel.eldenrpg.networking.packet.flasks.FlasksDataSyncS2CPacket;
-import fr.cel.eldenrpg.networking.packet.MapTeleportationC2SPacket;
-import fr.cel.eldenrpg.networking.packet.firecamp.SetSpawnC2SPacket;
-import fr.cel.eldenrpg.networking.packet.backpack.OpenBackpackC2SPacket;
-import fr.cel.eldenrpg.networking.packet.backpack.BackpackSyncS2CPacket;
 import fr.cel.eldenrpg.networking.packet.maps.MapsDataSyncS2CPacket;
 import fr.cel.eldenrpg.networking.packet.maps.PickMapC2SPacket;
 import fr.cel.eldenrpg.networking.packet.npc.NPCDataC2SPacket;

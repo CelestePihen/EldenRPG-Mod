@@ -1,18 +1,12 @@
 package fr.cel.eldenrpg.networking.packet.firecamp;
 
-import fr.cel.eldenrpg.EldenRPGMod;
 import fr.cel.eldenrpg.capabilities.firecamp.CampfireList;
 import fr.cel.eldenrpg.capabilities.firecamp.PlayerCampfireProvider;
 import fr.cel.eldenrpg.capabilities.flasks.PlayerFlasksProvider;
 import fr.cel.eldenrpg.networking.ModMessages;
 import fr.cel.eldenrpg.networking.packet.flasks.FlasksDataSyncS2CPacket;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
-import net.minecraft.network.protocol.game.ClientboundSetTitlesAnimationPacket;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
 
@@ -39,7 +33,6 @@ public class SetSpawnC2SPacket {
 
         ctx.enqueueWork(() -> {
             ServerPlayer player = ctx.getSender();
-            ServerLevel level = player.serverLevel();
 
             player.getCapability(PlayerFlasksProvider.PLAYER_FLASKS).ifPresent(flasks -> {
                 flasks.addFlasks(14);
@@ -59,12 +52,8 @@ public class SetSpawnC2SPacket {
             player.setHealth(player.getMaxHealth());
             player.getFoodData().setFoodLevel(20);
             player.getFoodData().setSaturation(20);
-//            EldenRPGMod.LOGGER.info("RESPAWNPOINT AVANT: " + player.getRespawnPosition());
-//            EldenRPGMod.LOGGER.info("Blockpos" + blockPos);
-//            EldenRPGMod.LOGGER.info("Blockpos north" + blockPos.north());
-            player.setRespawnPosition(level.dimension(), blockPos.north(), player.getYRot(), true, true);
-//            EldenRPGMod.LOGGER.info("RESPAWNPOINT APRES: " + player.getRespawnPosition());
-//            EldenRPGMod.LOGGER.info("BLOCKPOS APRES");
+            player.getFoodData().setExhaustion(20);
+            player.setRespawnPosition(player.serverLevel().dimension(), blockPos.north(), player.getYRot(), true, true);
         });
 
     }

@@ -1,7 +1,6 @@
 package fr.cel.eldenrpg.networking.packet.firecamp;
 
-import fr.cel.eldenrpg.EldenRPGMod;
-import fr.cel.eldenrpg.client.data.ClientFirecampsData;
+import fr.cel.eldenrpg.client.data.ClientCampfiresData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -30,7 +29,7 @@ public class FirecampsDataSyncS2CPacket {
     }
 
     public void handle(Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> ClientFirecampsData.add(blockPos, name));
+        ctx.get().enqueueWork(() -> ClientCampfiresData.add(blockPos, name));
     }
 
 }

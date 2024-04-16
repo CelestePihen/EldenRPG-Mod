@@ -11,7 +11,7 @@
     },
     "frame": "task",
     "hidden": false,
-    "show_toast": false,
+    "show_toast": true,
     "announce_to_chat": false,
     "background": "minecraft:textures/block/stone_bricks.png"
   },

@@ -1,4 +1,4 @@
-package fr.cel.eldenrpg.datagen;
+package fr.cel.eldenrpg.datagen.server;
 
 import fr.cel.eldenrpg.EldenRPGMod;
 import net.minecraft.core.HolderLookup;

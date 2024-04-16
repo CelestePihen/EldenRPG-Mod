@@ -4,7 +4,7 @@ import fr.cel.eldenrpg.capabilities.quests.PlayerQuestsProvider;
 import fr.cel.eldenrpg.entity.EldenNPC;
 import fr.cel.eldenrpg.quest.Quest;
 import fr.cel.eldenrpg.quest.Quest.QuestState;
-import net.minecraft.core.BlockPos;
+import fr.cel.eldenrpg.quest.Quests;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -19,6 +19,7 @@ public class BlacksmithNPC extends EldenNPC {
 
     public BlacksmithNPC(EntityType<? extends AgeableMob> entityType, Level world) {
         super(entityType, world);
+        this.quest = Quests.getQuest("blacksmith");
     }
 
     @Override
@@ -49,7 +50,6 @@ public class BlacksmithNPC extends EldenNPC {
             if (q.getQuestState() == QuestState.COMPLETED) {
 
             }
-
         });
         return InteractionResult.SUCCESS;
     }

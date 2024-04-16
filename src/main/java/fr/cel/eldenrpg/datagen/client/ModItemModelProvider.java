@@ -1,4 +1,4 @@
-package fr.cel.eldenrpg.datagen;
+package fr.cel.eldenrpg.datagen.client;
 
 import fr.cel.eldenrpg.EldenRPGMod;
 import net.minecraft.data.PackOutput;

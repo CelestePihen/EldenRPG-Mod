@@ -14,7 +14,8 @@ public class ModMenus {
 
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, EldenRPGMod.MOD_ID);
 
-    public static final RegistryObject<MenuType<BackpackMenu>> BACKPACK_MENU = registerMenuType("gem_polishing_menu", (windowId, inv, data) -> new BackpackMenu(windowId, inv.player));
+    public static final RegistryObject<MenuType<BackpackMenu>> BACKPACK_MENU = registerMenuType("backpack_menu",
+            (windowId, inv, data) -> new BackpackMenu(windowId, inv.player));
 
     private static <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> registerMenuType(String name, IContainerFactory<T> factory) {
         return MENUS.register(name, () -> IForgeMenuType.create(factory));

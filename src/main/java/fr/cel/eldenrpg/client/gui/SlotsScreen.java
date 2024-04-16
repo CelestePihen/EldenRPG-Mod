@@ -43,8 +43,8 @@ public class SlotsScreen extends AbstractContainerScreen<BackpackMenu> {
             minecraft.setScreen(new MapScreen());
         }).bounds(leftPos + 26, topPos - 28, 26, 30).build();
 
-        addRenderableWidget(inventoryButton);
-        addRenderableWidget(mapButton);
+        addWidget(inventoryButton);
+        addWidget(mapButton);
     }
 
     @Override
@@ -87,4 +87,8 @@ public class SlotsScreen extends AbstractContainerScreen<BackpackMenu> {
         pGuiGraphics.pose().popPose();
     }
 
+    @Override
+    public boolean isPauseScreen() {
+        return false;
+    }
 }

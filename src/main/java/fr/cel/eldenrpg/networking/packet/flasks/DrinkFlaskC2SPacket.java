@@ -3,15 +3,9 @@ package fr.cel.eldenrpg.networking.packet.flasks;
 import fr.cel.eldenrpg.capabilities.flasks.PlayerFlasksProvider;
 import fr.cel.eldenrpg.networking.ModMessages;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
-import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
