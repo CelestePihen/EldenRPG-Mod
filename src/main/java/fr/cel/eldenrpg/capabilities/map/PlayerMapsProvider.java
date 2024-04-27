@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class PlayerMapsProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
 
-    public static Capability<PlayerMaps> PLAYER_MAPS = CapabilityManager.get(new CapabilityToken<PlayerMaps>() { });
+    public static Capability<PlayerMaps> PLAYER_MAPS = CapabilityManager.get(new CapabilityToken<PlayerMaps>(){});
 
     private PlayerMaps maps = null;
     private final LazyOptional<PlayerMaps> optional = LazyOptional.of(this::createPlayerMaps);

@@ -1,22 +1,19 @@
 package fr.cel.eldenrpg.block;
 
 import fr.cel.eldenrpg.EldenRPGMod;
-import fr.cel.eldenrpg.block.custom.CustomCampfire;
+import fr.cel.eldenrpg.block.custom.BonfireBlock;
 import fr.cel.eldenrpg.block.custom.GhostBlock;
 import fr.cel.eldenrpg.item.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Supplier;
-import java.util.function.ToIntFunction;
 
 public class ModBlocks {
 
@@ -26,7 +23,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> GRAVEL_GHOST_BLOCK = registerBlock("gravel_ghost_block", () -> new GhostBlock(Blocks.GRAVEL));
     public static final RegistryObject<Block> STONE_BRICKS_GHOST_BLOCK = registerBlock("stone_bricks_ghost_block",  () -> new GhostBlock(Blocks.STONE_BRICKS));
 
-    public static final RegistryObject<Block> CUSTOM_CAMPFIRE = registerBlock("custom_campfire", CustomCampfire::new);
+    public static final RegistryObject<Block> BONFIRE_BLOCK = registerBlock("bonfire_block", BonfireBlock::new);
 
     /**
      * Permet de créer un bloc

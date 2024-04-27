@@ -1,6 +1,5 @@
 package fr.cel.eldenrpg.capabilities.quests;
 
-import fr.cel.eldenrpg.quest.Quest;
 import fr.cel.eldenrpg.quest.Quests;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -23,7 +22,7 @@ public class PlayerQuestsProvider implements ICapabilityProvider, INBTSerializab
     public PlayerQuests createPlayerQuests() {
         if (this.quests == null) {
             this.quests = new PlayerQuests();
-            this.quests.addQuest(Quests.getQuest("beginner"));
+            this.quests.addQuest(Quests.BEGINNING);
         }
 
         return this.quests;

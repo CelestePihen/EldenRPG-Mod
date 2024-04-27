@@ -1,7 +1,7 @@
 package fr.cel.eldenrpg.client.gui;
 
 import fr.cel.eldenrpg.EldenRPGMod;
-import fr.cel.eldenrpg.client.gui.campfires.TPCampfiresScreen;
+import fr.cel.eldenrpg.client.gui.bonfires.BonfiresSelectionList;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
@@ -16,6 +16,8 @@ public class MapScreen extends Screen {
     private final int imageWidth, imageHeight;
     private int leftPos, topPos;
 
+    private BonfiresSelectionList bonfiresSelectionList;
+
     public MapScreen() {
         super(Component.translatable("eldenrpg.map.screen.title"));
 
@@ -27,22 +29,21 @@ public class MapScreen extends Screen {
     protected void init() {
         super.init();
 
+        this.bonfiresSelectionList = new BonfiresSelectionList(minecraft, this);
+        this.addWidget(bonfiresSelectionList);
+
         this.leftPos = (this.width - this.imageWidth) / 2;
         this.topPos = (this.height - this.imageHeight) / 2;
-
-        if (minecraft == null) return;
-        this.addRenderableWidget(Button.builder(Component.translatable("eldenrpg.map.screen.tpcampfires"), pButton ->  minecraft.setScreen(new TPCampfiresScreen()))
-                .bounds(this.width / 2 - 200, this.height / 2 - 15, 60, 20)
-                .build());
     }
 
     @Override
     public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         this.renderBackground(guiGraphics);
+        this.bonfiresSelectionList.render(guiGraphics, mouseX, mouseY, partialTick);
 
         super.render(guiGraphics, mouseX, mouseY, partialTick);
 
-        guiGraphics.blit(CARTE_DEV, leftPos, topPos, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
+        guiGraphics.blit(CARTE_DEV, leftPos + 100, topPos, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
 
         // TODO mettre un zoom comme ça plus de problèmes avec GUI SCALE (en vrai je sais pas si ça va vraiment marcher mais bon autant essayer)
         // TODO avoir la motiv de le faire un jour

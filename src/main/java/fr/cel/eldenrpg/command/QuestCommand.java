@@ -10,6 +10,7 @@ import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 
 public class QuestCommand {
 
@@ -58,7 +59,7 @@ public class QuestCommand {
         );
     }
 
-    private static int addQuest(ServerPlayer player, String questId) {
+    private static int addQuest(Player player, String questId) {
         Quest quest = Quests.getQuest(questId);
         if (quest == null) return 0;
 
@@ -66,7 +67,7 @@ public class QuestCommand {
         return 1;
     }
 
-    private static int removeQuest(ServerPlayer player, String questId) {
+    private static int removeQuest(Player player, String questId) {
         Quest quest = Quests.getQuest(questId);
         if (quest == null) return 0;
 
@@ -74,10 +75,13 @@ public class QuestCommand {
         return 1;
     }
 
-    private static int getQuestList(ServerPlayer player) {
+    private static int getQuestList(Player player) {
         player.sendSystemMessage(Component.literal("Voici la liste de quêtes de " + player.getName().getString() + " : "));
         player.getCapability(PlayerQuestsProvider.PLAYER_QUESTS).ifPresent(playerQuests -> playerQuests.getQuests()
-                .forEach(quest -> player.sendSystemMessage(quest.getTranslatedName())));
+                .forEach(quest -> {
+                    Component message = quest.getTranslatedName().copy().append(" | ").append(quest.getQuestState().toString());
+                    player.sendSystemMessage(message);
+                }));
         return 1;
     }
 

@@ -5,30 +5,34 @@
   "key.eldenrpg.backpack": "Open Backpack",
 
   "eldenrpg.map.screen.title": "Map",
-  "eldenrpg.map.screen.tpcampfires": "Campfires",
   "eldenrpg.slots.screen.title": "Backpack",
 
-  "eldenrpg.title.setspawn": "Lost Grace Discovered",
-  "sounds.eldenrpg.lost_grace_discovered": "Lost Grace Discovered",
+  "eldenrpg.title.setspawn": "Bonfire lit",
+  "sounds.eldenrpg.lost_grace_discovered": "Bonfire lit",
 
   "eldenrpg.area.graveyard": "Graveyard",
 
   "advancements.eldenrpg.root.title": "EldenRPG",
   "advancements.eldenrpg.root.description": "The beginning of the end",
 
-  "advancements.eldenrpg.firecamp.title": "Firecamp",
-  "advancements.eldenrpg.firecamp.description": "Doing right click on a soul firecamp, you can set your spawn, heal and upgrade your stuff.",
+  "advancements.eldenrpg.bonfire.title": "Bonfire",
+  "advancements.eldenrpg.bonfire.description": "Doing right click on a bonfire, you can set your spawn, heal and upgrade your stuff.",
 
   "advancements.eldenrpg.fakeblock.title": "Fake Blocks",
   "advancements.eldenrpg.fakeblock.description": "There are many fake blocks where you can pass through. Behind these, some interesting equipment may be hidden...",
+
+  "entity.eldenrpg.npc": "EldenNPC",
+  "entity.eldenrpg.blacksmith": "Blacksmith",
+
+  "eldenrpg.quest.beginning": "The Beginning",
+  "eldenrpg.quest.blacksmith": "Blacksmith - Kill 5 slimes",
 
   "itemGroup.eldenrpg": "EldenRPG",
 
   "block.eldenrpg.stone_ghost_block": "Stone Ghost Block",
   "block.eldenrpg.gravel_ghost_block": "Gravel Ghost Block",
   "block.eldenrpg.stone_bricks_ghost_block": "Stone Bricks Ghost Block",
-  "block.eldenrpg.custom_campfire": "Custom Campfire",
+  "block.eldenrpg.bonfire_block": "Bonfire",
 
-  "eldenrpg.quest.beginning": "The Beginning",
-  "eldenrpg.quest.blacksmith": "Test Blacksmith"
+  "item.eldenrpg.speed_talisman": "Speed Talisman"
 }

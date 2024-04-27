@@ -1,9 +1,11 @@
 package fr.cel.eldenrpg.datagen.client;
 
 import fr.cel.eldenrpg.EldenRPGMod;
+import fr.cel.eldenrpg.item.ModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
@@ -19,7 +21,8 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-
+        simpleItem(ModItems.TEST_ITEM);
+        simpleItem(ModItems.SPEED_TALISMAN);
     }
 
     private ItemModelBuilder simpleItem(RegistryObject<Item> item) {
@@ -39,10 +42,10 @@ public class ModItemModelProvider extends ItemModelProvider {
                 new ResourceLocation(EldenRPGMod.MOD_ID, "item/" + item.getId().getPath()));
     }
 
-    private ItemModelBuilder simpleBlockItem(RegistryObject<Block> item) {
-        return withExistingParent(item.getId().getPath(),
+    private ItemModelBuilder simpleBlockItem(RegistryObject<Block> block) {
+        return withExistingParent(block.getId().getPath(),
                 new ResourceLocation("item/generated")).texture("layer0",
-                new ResourceLocation(EldenRPGMod.MOD_ID, "item/" + item.getId().getPath()));
+                new ResourceLocation(EldenRPGMod.MOD_ID, "item/" + block.getId().getPath()));
     }
 
 }

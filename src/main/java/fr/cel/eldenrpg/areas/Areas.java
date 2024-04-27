@@ -1,35 +1,64 @@
 package fr.cel.eldenrpg.areas;
 
-public enum Areas {
+import fr.cel.eldenrpg.areas.type.HintArea;
+import fr.cel.eldenrpg.areas.type.MapArea;
+import fr.cel.eldenrpg.areas.type.POIArea;
+import fr.cel.eldenrpg.quest.Quest;
+import fr.cel.eldenrpg.quest.Quests;
 
-    // TODO mettre les zones
-    GRAVEYARD(new TitleArea("graveyard", 165, 75, -61, 136, 69, -90)),
+import java.util.HashMap;
+import java.util.Map;
 
-    ADVANCEMENT_ROOT(new HintArea("root", 152, -25, -86, 156, -27, -81)),
-    HINT_CAMPFIRE(new HintArea("hintfirecamp", 148, -21, -87, 144, -15, -93)),
-    HINT_FAKE_BLOCK(new HintArea("hintfakeblock", 148, 2, -75, 152, -1, -77)),
+public class Areas {
 
-    MAP_ONE(new MapArea("0", 194, 71, -81, 192, 68, -83)),
+    private static final Map<String, Area> areas = new HashMap<>();
 
-    // TODO
-    MAP_TWO(new MapArea("1", 0, 0, 0, 0, 0, 0)),
-    MAP_THREE(new MapArea("2", 0, 0, 0, 0, 0, 0)),
-    MAP_FOUR(new MapArea("3", 0, 0, 0, 0, 0, 0)),
-    MAP_FIVE(new MapArea("4", 0, 0, 0, 0, 0, 0)),
-    MAP_SIX(new MapArea("5", 0, 0, 0, 0, 0, 0)),
-    MAP_SEVEN(new MapArea("6", 0, 0, 0, 0, 0, 0)),
-    MAP_EIGHT(new MapArea("7", 0, 0, 0, 0, 0, 0)),
-    MAP_NINE(new MapArea("8", 0, 0, 0, 0, 0, 0)),
-    ;
+    // POI Area
+    public static final POIArea GRAVEYARD = registerPOI("graveyard", 165, 75, -61, 136, 69, -90, Quests.BEGINNING);
 
-    private final Area area;
+    // Hint Area
+    public static final HintArea FIRECAMP = registerHint("hintfirecamp", 148, -21, -87, 144, -15, -93);
+    public static final HintArea FAKE_BLOCK = registerHint("hintfakeblock", 148, 2, -75, 152, -1, -77);
 
-    Areas(Area area) {
-        this.area = area;
+    // Map Area
+    public static final MapArea ZONE_1 = registerMap("0", 194, 71, -81, 192, 68, -83);
+    public static final MapArea ZONE_2 = registerMap("1", 0, 0, 0, 0, 0, 0);
+    public static final MapArea ZONE_3 = registerMap("2", 0, 0, 0, 0, 0, 0);
+    public static final MapArea ZONE_4 = registerMap("3", 0, 0, 0, 0, 0, 0);
+    public static final MapArea ZONE_5 = registerMap("4", 0, 0, 0, 0, 0, 0);
+    public static final MapArea ZONE_6 = registerMap("5", 0, 0, 0, 0, 0, 0);
+    public static final MapArea ZONE_7 = registerMap("6", 0, 0, 0, 0, 0, 0);
+    public static final MapArea ZONE_8 = registerMap("7", 0, 0, 0, 0, 0, 0);
+    public static final MapArea ZONE_9 = registerMap("8", 0, 0, 0, 0, 0, 0);
+    public static final MapArea ZONE_10 = registerMap("9", 0, 0, 0, 0, 0, 0);
+
+
+    public static Map<String, Area> getAreas() {
+        return areas;
     }
 
-    public Area getArea() {
-        return area;
+    private static POIArea registerPOI(String id, double x1, double y1, double z1, double x2, double y2, double z2) {
+        POIArea poiArea = new POIArea(id, x1, y1, z1, x2, y2, z2);
+        areas.put(id, poiArea);
+        return poiArea;
+    }
+
+    private static POIArea registerPOI(String id, double x1, double y1, double z1, double x2, double y2, double z2, Quest quest) {
+        POIArea poiArea = new POIArea(id, x1, y1, z1, x2, y2, z2, quest);
+        areas.put(id, poiArea);
+        return poiArea;
+    }
+
+    private static HintArea registerHint(String id, double x1, double y1, double z1, double x2, double y2, double z2) {
+        HintArea hintArea = new HintArea(id, x1, y1, z1, x2, y2, z2);
+        areas.put(id, hintArea);
+        return hintArea;
+    }
+
+    private static MapArea registerMap(String id, double x1, double y1, double z1, double x2, double y2, double z2) {
+        MapArea mapArea = new MapArea(id, x1, y1, z1, x2, y2, z2);
+        areas.put(id, mapArea);
+        return mapArea;
     }
 
 }

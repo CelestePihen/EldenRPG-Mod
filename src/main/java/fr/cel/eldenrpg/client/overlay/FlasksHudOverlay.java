@@ -22,7 +22,7 @@ public class FlasksHudOverlay implements IGuiOverlay {
         if (Minecraft.getInstance().player.getAbilities().invulnerable) return;
         gui.setupOverlayRenderState(true, false);
 
-        int xPosition = screenWidth / 2 - 125;
+        int xPosition = screenWidth / 2 - 150;
         int yPosition = screenHeight - 34;
 
         guiGraphics.drawString(gui.getFont(), "" + ClientFlaskData.getPlayerFlasks(), xPosition - 4, yPosition + 15, Color.WHITE.getRGB());

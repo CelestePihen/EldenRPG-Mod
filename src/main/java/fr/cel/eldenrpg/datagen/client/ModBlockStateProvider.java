@@ -20,7 +20,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockWithItem(ModBlocks.STONE_GHOST_BLOCK, Blocks.STONE);
         blockWithItem(ModBlocks.GRAVEL_GHOST_BLOCK, Blocks.GRAVEL);
         blockWithItem(ModBlocks.STONE_BRICKS_GHOST_BLOCK, Blocks.STONE_BRICKS);
-        blockWithItem(ModBlocks.CUSTOM_CAMPFIRE);
+        blockWithItem(ModBlocks.BONFIRE_BLOCK);
     }
 
     private void blockWithItem(RegistryObject<Block> blockRegistryObject, Block block) {

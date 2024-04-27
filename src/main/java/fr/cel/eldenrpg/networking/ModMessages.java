@@ -1,11 +1,10 @@
 package fr.cel.eldenrpg.networking;
 
 import fr.cel.eldenrpg.EldenRPGMod;
-import fr.cel.eldenrpg.networking.packet.MapTeleportationC2SPacket;
+import fr.cel.eldenrpg.networking.packet.bonfires.MapTeleportationC2SPacket;
 import fr.cel.eldenrpg.networking.packet.backpack.BackpackSyncS2CPacket;
 import fr.cel.eldenrpg.networking.packet.backpack.OpenBackpackC2SPacket;
-import fr.cel.eldenrpg.networking.packet.firecamp.FirecampsDataSyncS2CPacket;
-import fr.cel.eldenrpg.networking.packet.firecamp.SetSpawnC2SPacket;
+import fr.cel.eldenrpg.networking.packet.bonfires.BonfireDataSyncS2CPacket;
 import fr.cel.eldenrpg.networking.packet.flasks.DrinkFlaskC2SPacket;
 import fr.cel.eldenrpg.networking.packet.flasks.FlasksDataSyncS2CPacket;
 import fr.cel.eldenrpg.networking.packet.maps.MapsDataSyncS2CPacket;
@@ -37,6 +36,7 @@ public class ModMessages {
 
         INSTANCE = net;
 
+        // Client to Server (Serverbound)
         net.messageBuilder(MapTeleportationC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
                 .decoder(MapTeleportationC2SPacket::new)
                 .encoder(MapTeleportationC2SPacket::toBytes)
@@ -49,34 +49,10 @@ public class ModMessages {
                 .consumerMainThread(DrinkFlaskC2SPacket::handle)
                 .add();
 
-        net.messageBuilder(SetSpawnC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .decoder(SetSpawnC2SPacket::new)
-                .encoder(SetSpawnC2SPacket::toBytes)
-                .consumerMainThread(SetSpawnC2SPacket::handle)
-                .add();
-
-        net.messageBuilder(FlasksDataSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .decoder(FlasksDataSyncS2CPacket::new)
-                .encoder(FlasksDataSyncS2CPacket::toBytes)
-                .consumerMainThread(FlasksDataSyncS2CPacket::handle)
-                .add();
-
         net.messageBuilder(OpenBackpackC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
                 .decoder(OpenBackpackC2SPacket::new)
                 .encoder(OpenBackpackC2SPacket::toBytes)
                 .consumerMainThread(OpenBackpackC2SPacket::handle)
-                .add();
-
-        net.messageBuilder(BackpackSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .decoder(BackpackSyncS2CPacket::new)
-                .encoder(BackpackSyncS2CPacket::toBytes)
-                .consumerMainThread(BackpackSyncS2CPacket::handle)
-                .add();
-
-        net.messageBuilder(FirecampsDataSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .decoder(FirecampsDataSyncS2CPacket::new)
-                .encoder(FirecampsDataSyncS2CPacket::toBytes)
-                .consumerMainThread(FirecampsDataSyncS2CPacket::handle)
                 .add();
 
         net.messageBuilder(NPCDataC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
@@ -85,17 +61,37 @@ public class ModMessages {
                 .consumerMainThread(NPCDataC2SPacket::handle)
                 .add();
 
+        net.messageBuilder(PickMapC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(PickMapC2SPacket::new)
+                .encoder(PickMapC2SPacket::toBytes)
+                .consumerMainThread(PickMapC2SPacket::handle)
+                .add();
+
+        // Server to Client (Clientbound)
+        net.messageBuilder(FlasksDataSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(FlasksDataSyncS2CPacket::new)
+                .encoder(FlasksDataSyncS2CPacket::toBytes)
+                .consumerMainThread(FlasksDataSyncS2CPacket::handle)
+                .add();
+
+        net.messageBuilder(BackpackSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(BackpackSyncS2CPacket::new)
+                .encoder(BackpackSyncS2CPacket::toBytes)
+                .consumerMainThread(BackpackSyncS2CPacket::handle)
+                .add();
+
+        net.messageBuilder(BonfireDataSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(BonfireDataSyncS2CPacket::new)
+                .encoder(BonfireDataSyncS2CPacket::toBytes)
+                .consumerMainThread(BonfireDataSyncS2CPacket::handle)
+                .add();
+
         net.messageBuilder(MapsDataSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
                 .decoder(MapsDataSyncS2CPacket::new)
                 .encoder(MapsDataSyncS2CPacket::toBytes)
                 .consumerMainThread(MapsDataSyncS2CPacket::handle)
                 .add();
 
-        net.messageBuilder(PickMapC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .decoder(PickMapC2SPacket::new)
-                .encoder(PickMapC2SPacket::toBytes)
-                .consumerMainThread(PickMapC2SPacket::handle)
-                .add();
     }
 
     public static <MSG> void sendToServer(MSG message) {

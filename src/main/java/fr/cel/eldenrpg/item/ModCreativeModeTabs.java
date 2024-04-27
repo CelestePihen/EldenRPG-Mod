@@ -24,7 +24,10 @@ public class ModCreativeModeTabs {
                         pOutput.accept(ModBlocks.STONE_GHOST_BLOCK.get());
                         pOutput.accept(ModBlocks.GRAVEL_GHOST_BLOCK.get());
                         pOutput.accept(ModBlocks.STONE_BRICKS_GHOST_BLOCK.get());
-                        pOutput.accept(ModBlocks.CUSTOM_CAMPFIRE.get());
+                        pOutput.accept(ModBlocks.BONFIRE_BLOCK.get());
+
+                        pOutput.accept(ModItems.TEST_ITEM.get());
+                        pOutput.accept(ModItems.SPEED_TALISMAN.get());
                     })
                     .build()
     );

@@ -7,12 +7,11 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
@@ -33,24 +32,31 @@ public class EldenNPC extends AgeableMob {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return LivingEntity.createLivingAttributes().add(Attributes.FOLLOW_RANGE, 48.0D);
+        return LivingEntity.createLivingAttributes().add(Attributes.FOLLOW_RANGE, 32.0D);
     }
 
-    protected InteractionResult playerInteract(Player player, InteractionHand hand) {
-        return InteractionResult.PASS;
+    @Override
+    protected void registerGoals() {
+        this.goalSelector.addGoal(1, new LookAtPlayerGoal(this, Player.class, 32.0F));
+        this.goalSelector.addGoal(2, new RandomLookAroundGoal(this));
+    }
+
+    protected void playerInteract(Player player, InteractionHand hand) {
+
     }
 
     @Override
     protected InteractionResult mobInteract(Player player, InteractionHand hand) {
         if (hand != InteractionHand.MAIN_HAND) return InteractionResult.PASS;
-        if (!level().isClientSide()) return InteractionResult.SUCCESS;
+        if (!level().isClientSide()) {
+            playerInteract(player, hand);
+            return InteractionResult.SUCCESS;
+        }
 
         if (player.isShiftKeyDown() && player.canUseGameMasterBlocks()) {
             DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ClientHooks.openNPCScreen(this));
             return InteractionResult.SUCCESS;
         }
-
-        playerInteract(player, hand);
 
         return super.mobInteract(player, hand);
     }
@@ -75,7 +81,6 @@ public class EldenNPC extends AgeableMob {
         return false;
     }
 
-    @Nullable
     @Override
     public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob otherParent) {
         return null;

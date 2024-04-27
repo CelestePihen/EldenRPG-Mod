@@ -3,10 +3,11 @@ package fr.cel.eldenrpg.event;
 import fr.cel.eldenrpg.EldenRPGMod;
 import fr.cel.eldenrpg.client.gui.MapScreen;
 import fr.cel.eldenrpg.client.gui.SlotsScreen;
+import fr.cel.eldenrpg.client.model.ModModelLayers;
+import fr.cel.eldenrpg.client.model.npc.BlacksmithRenderer;
+import fr.cel.eldenrpg.client.model.npc.NPCRenderer;
 import fr.cel.eldenrpg.client.overlay.FlasksHudOverlay;
 import fr.cel.eldenrpg.entity.ModEntities;
-import fr.cel.eldenrpg.entity.client.ModModelLayers;
-import fr.cel.eldenrpg.entity.client.NPCRenderer;
 import fr.cel.eldenrpg.menu.ModMenus;
 import fr.cel.eldenrpg.networking.ModMessages;
 import fr.cel.eldenrpg.networking.packet.backpack.OpenBackpackC2SPacket;
@@ -39,7 +40,7 @@ public class ClientEvents {
                 Minecraft.getInstance().setScreen(new MapScreen());
             }
 
-            else if (ModKeyBindings.DRINK_FLASK.consumeClick()) {
+            else if (ModKeyBindings.DRINK_FLASK.consumeClick() && !Minecraft.getInstance().player.getAbilities().invulnerable) {
                 ModMessages.sendToServer(new DrinkFlaskC2SPacket());
             }
 
@@ -47,19 +48,6 @@ public class ClientEvents {
                 ModMessages.sendToServer(new OpenBackpackC2SPacket());
             }
         }
-
-//        @SubscribeEvent
-//        public static void onPlayerRightClick(PlayerInteractEvent.RightClickBlock event) {
-//            BlockPos pos = event.getPos();
-//
-//            if (event.getLevel().getBlockState(pos).getBlock() == Blocks.SOUL_CAMPFIRE && event.getHand() == InteractionHand.MAIN_HAND) {
-//                Minecraft.getInstance().getConnection().setTitleText(new ClientboundSetTitleTextPacket(Component.translatable("eldenrpg.title.setspawn")));
-//                Minecraft.getInstance().getConnection().setTitlesAnimation(new ClientboundSetTitlesAnimationPacket(20, 50, 20));
-//                ModMessages.sendToServer(new SetSpawnC2SPacket(pos));
-//                event.getLevel().playSeededSound(event.getEntity(), pos.getX(), pos.getY(), pos.getZ(), ModSounds.LOST_GRACE_DISCOVERED.get(), SoundSource.AMBIENT,
-//                        0.5f, 1f, 0);
-//            }
-//        }
 
         @SubscribeEvent
         public static void onRenderGameOverlay(RenderGuiOverlayEvent.Pre event) {
@@ -110,7 +98,9 @@ public class ClientEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
             MenuScreens.register(ModMenus.BACKPACK_MENU.get(), SlotsScreen::new);
-            EntityRenderers.register(ModEntities.NPC.get(), NPCRenderer::new);
+
+            EntityRenderers.register(ModEntities.ELDEN_NPC.get(), NPCRenderer::new);
+            EntityRenderers.register(ModEntities.BLACKSMITH.get(), BlacksmithRenderer::new);
         }
 
         @SubscribeEvent
@@ -121,6 +111,7 @@ public class ClientEvents {
         @SubscribeEvent
         public static void registerLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
             event.registerLayerDefinition(ModModelLayers.ELDENNPC_LAYER, () -> LayerDefinition.create(PlayerModel.createMesh(CubeDeformation.NONE, false), 64, 64));
+            event.registerLayerDefinition(ModModelLayers.BLACKSMITH_LAYER, () -> LayerDefinition.create(PlayerModel.createMesh(CubeDeformation.NONE, false), 64, 64));
         }
 
     }

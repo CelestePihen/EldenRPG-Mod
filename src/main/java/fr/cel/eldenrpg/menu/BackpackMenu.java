@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
+// TODO
 public class BackpackMenu extends AbstractContainerMenu {
 
     private IItemHandler slotsInventory = null;
@@ -33,7 +34,6 @@ public class BackpackMenu extends AbstractContainerMenu {
 
     }
 
-    // TODO
     @Override
     public ItemStack quickMoveStack(Player pPlayer, int pIndex) {
         ItemStack itemstack = ItemStack.EMPTY;
