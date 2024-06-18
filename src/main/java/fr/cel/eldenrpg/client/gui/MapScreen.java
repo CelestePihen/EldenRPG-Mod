@@ -1,7 +1,9 @@
 package fr.cel.eldenrpg.client.gui;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import fr.cel.eldenrpg.EldenRPGMod;
 import fr.cel.eldenrpg.client.gui.bonfires.BonfiresSelectionList;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
@@ -41,12 +43,10 @@ public class MapScreen extends Screen {
         this.renderBackground(guiGraphics);
         this.bonfiresSelectionList.render(guiGraphics, mouseX, mouseY, partialTick);
 
+        RenderSystem.setShaderTexture(0, CARTE_DEV);
+        guiGraphics.blit(CARTE_DEV, leftPos + 100, topPos, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
         super.render(guiGraphics, mouseX, mouseY, partialTick);
 
-        guiGraphics.blit(CARTE_DEV, leftPos + 100, topPos, 0, 0, imageWidth, imageHeight, imageWidth, imageHeight);
-
-        // TODO mettre un zoom comme ça plus de problèmes avec GUI SCALE (en vrai je sais pas si ça va vraiment marcher mais bon autant essayer)
-        // TODO avoir la motiv de le faire un jour
 //        if (ClientMapsData.getPlayerMaps().contains(0)) {
 //            guiGraphics.blit(CARTE_DEV, leftPos, topPos, 0, 0, 10, 10, imageWidth, imageHeight);
 //        }

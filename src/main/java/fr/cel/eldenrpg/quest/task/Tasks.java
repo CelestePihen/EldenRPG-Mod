@@ -1,7 +1,5 @@
 package fr.cel.eldenrpg.quest.task;
 
-import fr.cel.eldenrpg.areas.Area;
-import fr.cel.eldenrpg.areas.Areas;
 import fr.cel.eldenrpg.item.ModItems;
 import fr.cel.eldenrpg.quest.task.type.ItemTask;
 import fr.cel.eldenrpg.quest.task.type.KillTask;

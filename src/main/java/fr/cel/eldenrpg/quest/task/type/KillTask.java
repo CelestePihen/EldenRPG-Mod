@@ -32,8 +32,10 @@ public class KillTask extends Task {
                 setProgress(getProgress() + 1);
                 if (getProgress() == getNumberOfMobsToKill()) {
                     quest.setQuestState(Quest.QuestState.FINISHED);
+                    // TODO translatable
                     player.sendSystemMessage(Component.literal("Tu as fini la quête ").append(quest.getTranslatedName()).append(" !"));
                 } else {
+                    // TODO translatable
                     Component component = Component.literal("Tu as tué " + getProgress() + " ")
                             .append(entity.getCustomName() != null ? entity.getCustomName() : entity.getName())
                             .append(". Plus que " + (getNumberOfMobsToKill() - getProgress()));
