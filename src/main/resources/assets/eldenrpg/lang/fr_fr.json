@@ -1,39 +1,47 @@
 {
-  "key.category.eldenrpg.eldenrpg": "EldenRPG",
-  "key.eldenrpg.open_map": "Ouvrir la carte",
-  "key.eldenrpg.drink_flask": "Boire une fiole de larmes pourpres",
-  "key.eldenrpg.backpack": "Ouvrir les emplacements additionnels",
+  "advancement.eldenrpg.bonfire.description": "En faisant clique droit sur un site de grâce, tu peux mettre ton point de réapparition, te soigner et améliorer tes statistiques.",
+  "advancement.eldenrpg.bonfire.title": "Site de grâce",
+  "advancement.eldenrpg.fakeblock.description": "Il y a beaucoup de faux blocs où vous pouvez passer à travers. Derrière ceux-ci, peut se cacher de l'équipement intéressant...",
+  "advancement.eldenrpg.fakeblock.title": "Faux blocs",
+  "advancement.eldenrpg.root.description": "Le début de la fin",
+  "advancement.eldenrpg.root.title": "EldenRPG",
 
-  "eldenrpg.map.screen.title": "Carte",
-  "eldenrpg.map.screen.tpcampfires": "Feux",
-  "eldenrpg.slots.screen.title": "Sac à dos",
-
-  "eldenrpg.title.setspawn": "Grâce évanouie découverte",
-  "sounds.eldenrpg.lost_grace_discovered": "Grâce évanouie découverte",
+  "block.eldenrpg.grace_block": "Site de grâce",
+  "block.eldenrpg.gravel_ghost_block": "Bloc fantôme de Gravier",
+  "block.eldenrpg.snow_ghost_block": "Bloc fantôme de Neige",
+  "block.eldenrpg.stone_bricks_ghost_block": "Bloc fantôme de Pierre taillée",
+  "block.eldenrpg.stone_ghost_block": "Bloc fantôme de Roche",
 
   "eldenrpg.area.graveyard": "Cimetière",
 
-  "advancements.eldenrpg.root.title": "EldenRPG",
-  "advancements.eldenrpg.root.description": "Le début de la fin",
+  "eldenrpg.command.quest.add": "%s a été ajouté à %s",
+  "eldenrpg.command.quest.list": "Quêtes de %s: ",
+  "eldenrpg.command.quest.remove": "%s a été retiré à %s",
 
-  "advancements.eldenrpg.bonfire.title": "Feu",
-  "advancements.eldenrpg.bonfire.description": "En faisant clique droit sur un feu, tu peux mettre ton point de réapparition, te soigner et améliorer ton équipement.",
+  "eldenrpg.gracesselection.screen.title": "Graces",
 
-  "advancements.eldenrpg.fakeblock.title": "Faux blocs",
-  "advancements.eldenrpg.fakeblock.description": "Il y a beaucoup de faux blocs où vous pouvez passer à travers. Derrière ceux-ci, peut se cacher de l'équipement intéressant...",
+  "eldenrpg.map.screen.gracesselection": "Grâces",
+  "eldenrpg.map.screen.title": "Carte",
+  "eldenrpg.npc.screen.editName": "Nom du PNJ: ",
+  "eldenrpg.npc.screen.isBaby": "Enfant: ",
 
+  "eldenrpg.npc.screen.title": "Éditeur de PNJ",
+
+  "eldenrpg.slots.screen.title": "Sac à dos",
+
+  "eldenrpg.title.lostgracediscovered": "GRÂCE ÉVANOUIE DÉCOUVERTE",
+
+  "entity.eldenrpg.blacksmith": "Forgeron",
   "entity.eldenrpg.npc": "EldenNPC",
-  "entity.eldenrpg.blacksmith": "Blacksmith",
 
-  "eldenrpg.quest.beginning": "Le Commencement",
-  "eldenrpg.quest.blacksmith": "Forgeron - Tuer 5 slimes",
+  "item.eldenrpg.speed_talisman": "Talisman de vitesse",
 
   "itemGroup.eldenrpg": "EldenRPG",
 
-  "block.eldenrpg.stone_ghost_block": "Bloc fantôme de Roche",
-  "block.eldenrpg.gravel_ghost_block": "Bloc fantôme de Gravier",
-  "block.eldenrpg.stone_bricks_ghost_block": "Bloc fantôme de Pierre taillée",
-  "block.eldenrpg.bonfire_block": "Feu",
+  "key.category.eldenrpg.eldenrpg": "EldenRPG",
+  "key.eldenrpg.backpack": "Ouvrir les emplacements additionnels",
+  "key.eldenrpg.drink_flask": "Boire une fiole de larmes pourpres",
+  "key.eldenrpg.open_map": "Ouvrir la carte",
 
-  "item.eldenrpg.speed_talisman": "Talisman de vitesse"
+  "sounds.eldenrpg.lost_grace_discovered": "Grâce évanouie découverte"
 }

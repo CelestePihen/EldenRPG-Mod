@@ -1,0 +1,97 @@
+package fr.cel.eldenrpg.client.gui.screen;
+
+import fr.cel.eldenrpg.EldenRPG;
+import fr.cel.eldenrpg.networking.packets.bonfires.MapTeleportationC2SPacket;
+import fr.cel.eldenrpg.util.IPlayerDataSaver;
+import fr.cel.eldenrpg.util.data.GracesData;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.ThreePartsLayoutWidget;
+import net.minecraft.screen.ScreenTexts;
+import net.minecraft.text.Text;
+import net.minecraft.util.Colors;
+import net.minecraft.util.math.BlockPos;
+
+public class GracesSelectionScreen extends Screen {
+
+    private final ThreePartsLayoutWidget layout = new ThreePartsLayoutWidget(this);
+
+    public GracesSelectionScreen() {
+        super(Text.translatable("eldenrpg.gracesselection.screen.title"));
+        this.layout.setFooterHeight(53);
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+        this.layout.addHeader(this.title, this.textRenderer);
+        GracesSelectionListWidget gracesSelectionList = this.layout.addBody(new GracesSelectionListWidget(this.client));
+        this.layout.addFooter(ButtonWidget.builder(ScreenTexts.DONE, button -> this.close()).width(200).build());
+
+        this.layout.forEachChild(this::addDrawableChild);
+
+        this.layout.refreshPositions();
+        gracesSelectionList.position(this.width, this.layout);
+    }
+
+    class GracesSelectionListWidget extends AlwaysSelectedEntryListWidget<GracesSelectionListWidget.GraceEntry> {
+        public GracesSelectionListWidget(final MinecraftClient minecraftClient) {
+            super(minecraftClient, GracesSelectionScreen.this.width, GracesSelectionScreen.this.height  - 33 - 53, 33, 18);
+
+            if (minecraftClient.player == null) {
+                EldenRPG.LOGGER.error("Player est null");
+                return;
+            }
+
+            GracesData.getGraces(((IPlayerDataSaver) minecraftClient.player)).forEach(pos -> {
+                Text text = GracesData.getGraceName(BlockPos.fromLong(pos));
+                GracesSelectionListWidget.GraceEntry entry = new GraceEntry(BlockPos.fromLong(pos), text, minecraftClient);
+                this.addEntry(entry);
+            });
+
+            if (this.getSelectedOrNull() != null) {
+                this.centerScrollOn(this.getSelectedOrNull());
+            }
+        }
+
+        @Override
+        public int getRowWidth() {
+            return super.getRowWidth() + 50;
+        }
+
+        public class GraceEntry extends AlwaysSelectedEntryListWidget.Entry<GraceEntry> {
+
+            private final BlockPos pos;
+            private final Text graceName;
+            private final MinecraftClient client;
+
+            public GraceEntry(final BlockPos pos, final Text graceName, final MinecraftClient client) {
+                this.pos = pos;
+                this.graceName = graceName;
+                this.client = client;
+            }
+
+            @Override
+            public void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+                context.drawCenteredTextWithShadow(GracesSelectionScreen.this.textRenderer, this.graceName, GracesSelectionScreen.this.width / 2, y + entryHeight / 2 - 9 / 2, Colors.WHITE);
+            }
+
+            @Override
+            public boolean mouseClicked(double mouseX, double mouseY, int button) {
+                ClientPlayNetworking.send(new MapTeleportationC2SPacket(pos.north()));
+                client.setScreen(null);
+                return true;
+            }
+
+            @Override
+            public Text getNarration() {
+                return Text.translatable("narrator.select", this.graceName);
+            }
+        }
+    }
+
+}

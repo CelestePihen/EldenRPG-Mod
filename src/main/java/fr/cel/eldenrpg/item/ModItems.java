@@ -1,28 +1,34 @@
 package fr.cel.eldenrpg.item;
 
-import fr.cel.eldenrpg.EldenRPGMod;
+import fr.cel.eldenrpg.EldenRPG;
 import fr.cel.eldenrpg.item.custom.TalismanItem;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.item.Item;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.item.Item;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.util.Identifier;
 
 public class ModItems {
 
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, EldenRPGMod.MOD_ID);
+    public static final Item TEST_ITEM = registerItem("test_item", new Item(new Item.Settings()));
 
-    public static final RegistryObject<Item> TEST_ITEM = ITEMS.register("test_item", () -> new Item(new Item.Properties()));
+    public static final Item SPEED_TALISMAN = registerItem("speed_talisman", new TalismanItem(StatusEffects.SPEED));
 
-    public static final RegistryObject<Item> SPEED_TALISMAN = ITEMS.register("speed_talisman", () -> new TalismanItem(MobEffects.MOVEMENT_SPEED));
+    /**
+     * Permet d'enregistrer un nouvel Item
+     * @param name Le nom de l'Item
+     * @param item La classe de l'Item
+     * @return Retourne l'Item qui vient d'être enregistré
+     */
+    private static Item registerItem(String name, Item item) {
+        return Registry.register(Registries.ITEM, Identifier.of(EldenRPG.MOD_ID, name), item);
+    }
 
     /**
      * Permet d'enregistrer tous les items de la classe
-     * @param eventBus Interface qui permet d'enregistrer les items
      */
-    public static void register(IEventBus eventBus) {
-        ITEMS.register(eventBus);
+    public static void registerModItems() {
+        EldenRPG.LOGGER.info("Enregistrement des Items pour " + EldenRPG.MOD_ID);
     }
 
 }

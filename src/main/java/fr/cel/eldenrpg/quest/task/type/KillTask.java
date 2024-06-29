@@ -2,22 +2,20 @@ package fr.cel.eldenrpg.quest.task.type;
 
 import fr.cel.eldenrpg.quest.Quest;
 import fr.cel.eldenrpg.quest.task.Task;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.entity.mob.MobEntity;
 
 public class KillTask extends Task {
 
-    private final Class<? extends Mob> entity;
+    private final Class<? extends MobEntity> entity;
     private final int numberOfMobsToKill;
 
-    public KillTask(String id, String langName, Class<? extends Mob> entity, int numberOfMobsToKill) {
+    public KillTask(String id, String langName, Class<? extends MobEntity> entity, int numberOfMobsToKill) {
         super(id, langName);
         this.entity = entity;
         this.numberOfMobsToKill = numberOfMobsToKill;
     }
 
-    public Class<? extends Mob> getEntityClass() {
+    public Class<? extends MobEntity> getEntityClass() {
         return entity;
     }
 
@@ -25,25 +23,18 @@ public class KillTask extends Task {
         return numberOfMobsToKill;
     }
 
-    public void mobKilled(Player player, Mob entity, Quest quest) {
+    public void mobKilled(MobEntity entity, Quest quest) {
         if (quest.getQuestState() != Quest.QuestState.ACTIVE) return;
+
         if (getEntityClass() == entity.getClass()) {
             if (getProgress() < getNumberOfMobsToKill()) {
                 setProgress(getProgress() + 1);
                 if (getProgress() == getNumberOfMobsToKill()) {
                     quest.setQuestState(Quest.QuestState.FINISHED);
-                    // TODO translatable
-                    player.sendSystemMessage(Component.literal("Tu as fini la quête ").append(quest.getTranslatedName()).append(" !"));
-                } else {
-                    // TODO translatable
-                    Component component = Component.literal("Tu as tué " + getProgress() + " ")
-                            .append(entity.getCustomName() != null ? entity.getCustomName() : entity.getName())
-                            .append(". Plus que " + (getNumberOfMobsToKill() - getProgress()));
-                    player.sendSystemMessage(component);
                 }
             }
-
         }
+
     }
 
 }

@@ -1,33 +1,28 @@
 package fr.cel.eldenrpg.item.custom;
 
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.world.World;
 
 public class TalismanItem extends Item {
 
-    private final MobEffect mobEffect;
+    private final RegistryEntry<StatusEffect> effect;
 
-    public TalismanItem(MobEffect mobEffect) {
-        super(new Properties().stacksTo(1));
-        this.mobEffect = mobEffect;
+    public TalismanItem(RegistryEntry<StatusEffect> effect) {
+        super(new Settings().maxCount(1));
+        this.effect = effect;
     }
 
     @Override
-    public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
-        if (pLevel.isClientSide()) return;
-        if (!(pEntity instanceof Player player)) return;
-        if (!player.getInventory().contains(pStack)) return;
-        player.addEffect(new MobEffectInstance(mobEffect, 20, 0, false, false, true));
+    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+        if (world.isClient()) return;
+        if (!(entity instanceof PlayerEntity player)) return;
+        if (!player.getInventory().contains(stack)) return;
+        player.addStatusEffect(new StatusEffectInstance(effect, 20, 0, false, false, true));
     }
-
-    @Override
-    public boolean isFoil(ItemStack pStack) {
-        return true;
-    }
-
 }

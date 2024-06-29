@@ -1,19 +1,20 @@
 package fr.cel.eldenrpg.datagen.server;
 
-import fr.cel.eldenrpg.datagen.server.loot.ModBlockLootTables;
-import net.minecraft.data.PackOutput;
-import net.minecraft.data.loot.LootTableProvider;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
+import net.minecraft.registry.RegistryWrapper;
 
-import java.util.List;
-import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
-public class ModLootTableProvider {
+public class ModLootTableProvider extends FabricBlockLootTableProvider {
 
-    public static LootTableProvider create(PackOutput output) {
-        return new LootTableProvider(output, Set.of(), List.of(
-                new LootTableProvider.SubProviderEntry(ModBlockLootTables::new, LootContextParamSets.BLOCK)
-        ));
+    public ModLootTableProvider(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+        super(dataOutput, registryLookup);
+    }
+
+    @Override
+    public void generate() {
+
     }
 
 }

@@ -2,32 +2,18 @@ package fr.cel.eldenrpg.event.custom;
 
 import fr.cel.eldenrpg.areas.Area;
 import fr.cel.eldenrpg.quest.Quest;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.eventbus.api.Event;
+import net.fabricmc.fabric.api.event.Event;
+import net.fabricmc.fabric.api.event.EventFactory;
+import net.minecraft.server.network.ServerPlayerEntity;
 
-public class EnterAreaEvent extends Event {
+public interface EnterAreaEvent {
+    Event<fr.cel.eldenrpg.event.custom.EnterAreaEvent> EVENT = EventFactory.createArrayBacked(EnterAreaEvent.class,
+            (listeners) -> (player, area, quest) -> {
+                for (fr.cel.eldenrpg.event.custom.EnterAreaEvent listener : listeners) {
+                    listener.onEnterArea(player, area, quest);
+                }
+            });
 
-    private final ServerPlayer player;
-    private final Area area;
-
-    private final Quest quest;
-
-    public EnterAreaEvent(ServerPlayer player, Area area, Quest quest) {
-        this.player = player;
-        this.area = area;
-        this.quest = quest;
-    }
-
-    public Area getArea() {
-        return area;
-    }
-
-    public ServerPlayer getPlayer() {
-        return player;
-    }
-
-    public Quest getQuest() {
-        return quest;
-    }
+    void onEnterArea(ServerPlayerEntity player, Area area, Quest quest);
 
 }

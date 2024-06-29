@@ -17,7 +17,7 @@ public class Areas {
     public static final POIArea GRAVEYARD = registerPOI("graveyard", 165, 75, -61, 136, 69, -90, Quests.BEGINNING);
 
     // Hint Area
-    public static final HintArea FIRECAMP = registerHint("hintfirecamp", 148, -21, -87, 144, -15, -93);
+    public static final HintArea BONFIRE = registerHint("hintbonfire", 148, -21, -87, 144, -15, -93);
     public static final HintArea FAKE_BLOCK = registerHint("hintfakeblock", 148, 2, -75, 152, -1, -77);
 
     // Map Area
@@ -32,15 +32,12 @@ public class Areas {
     public static final MapArea ZONE_9 = registerMap("8", 0, 0, 0, 0, 0, 0);
     public static final MapArea ZONE_10 = registerMap("9", 0, 0, 0, 0, 0, 0);
 
-
     public static Map<String, Area> getAreas() {
         return areas;
     }
 
     private static POIArea registerPOI(String id, double x1, double y1, double z1, double x2, double y2, double z2) {
-        POIArea poiArea = new POIArea(id, x1, y1, z1, x2, y2, z2);
-        areas.put(id, poiArea);
-        return poiArea;
+        return registerPOI(id, x1, y1, z1, x2, y2, z2, null);
     }
 
     private static POIArea registerPOI(String id, double x1, double y1, double z1, double x2, double y2, double z2, Quest quest) {

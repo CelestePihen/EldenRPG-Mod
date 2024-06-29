@@ -1,13 +1,13 @@
 package fr.cel.eldenrpg.quest.task;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.text.Text;
 
 public class Task {
 
     private final String id;
     private final String langName;
-    private final Component translatedName;
+    private final Text translatedName;
 
     private int progress;
 
@@ -18,7 +18,7 @@ public class Task {
     public Task(String id, String langName, int progress) {
         this.id = id;
         this.langName = langName;
-        this.translatedName = Component.translatable(langName);
+        this.translatedName = Text.translatable(langName);
         this.progress = progress;
     }
 
@@ -30,7 +30,7 @@ public class Task {
         return langName;
     }
 
-    public Component getTranslatedName() {
+    public Text getTranslatedName() {
         return translatedName;
     }
 
@@ -42,8 +42,8 @@ public class Task {
         this.progress = progress;
     }
 
-    public CompoundTag saveNBTData() {
-        CompoundTag compoundTag = new CompoundTag();
+    public NbtCompound writeNbt() {
+        NbtCompound compoundTag = new NbtCompound();
         compoundTag.putString("id", id);
         compoundTag.putInt("progress", progress);
         return compoundTag;

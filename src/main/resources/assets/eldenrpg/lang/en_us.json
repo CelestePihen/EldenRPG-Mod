@@ -1,38 +1,46 @@
 {
+  "advancement.eldenrpg.bonfire.title": "Bonfire",
+  "advancement.eldenrpg.bonfire.description": "Doing right click on a bonfire, you can set your spawn, heal and upgrade your stuff.",
+  "advancement.eldenrpg.fakeblock.title": "Fake Blocks",
+  "advancement.eldenrpg.fakeblock.description": "There are many fake blocks where you can pass through. Behind these, some interesting equipment may be hidden...",
+  "advancement.eldenrpg.root.title": "EldenRPG",
+  "advancement.eldenrpg.root.description": "The beginning of the end",
+
+  "block.eldenrpg.stone_ghost_block": "Stone Ghost Block",
+  "block.eldenrpg.grace_block": "Site of Grace",
+  "block.eldenrpg.gravel_ghost_block": "Gravel Ghost Block",
+  "block.eldenrpg.stone_bricks_ghost_block": "Stone Bricks Ghost Block",
+  "block.eldenrpg.snow_ghost_block": "Snow Ghost Block",
+
+  "eldenrpg.area.graveyard": "Graveyard",
+
+  "eldenrpg.command.quest.add": "%s has been added to %s",
+  "eldenrpg.command.quest.remove": "%s has been removed to %s",
+  "eldenrpg.command.quest.list": "Quests of %s: ",
+
+  "eldenrpg.gracesselection.screen.title": "Graces",
+
+  "eldenrpg.npc.screen.title": "NPC's Editor",
+  "eldenrpg.npc.screen.editName": "NPC's name: ",
+  "eldenrpg.npc.screen.isBaby": "Is baby: ",
+
+  "eldenrpg.map.screen.gracesselection": "Graces",
+  "eldenrpg.map.screen.title": "Map",
+
+  "eldenrpg.slots.screen.title": "Backpack",
+
+  "eldenrpg.title.lostgracediscovered": "LOST GRACE DISCOVERED",
+
+  "entity.eldenrpg.npc": "EldenNPC",
+  "entity.eldenrpg.blacksmith": "Blacksmith",
+
+  "item.eldenrpg.speed_talisman": "Speed Talisman",
+  "itemGroup.eldenrpg": "EldenRPG",
+
   "key.category.eldenrpg.eldenrpg": "EldenRPG",
   "key.eldenrpg.open_map": "Open Map",
   "key.eldenrpg.drink_flask": "Drink Flask of Crimson Tears",
   "key.eldenrpg.backpack": "Open Backpack",
 
-  "eldenrpg.map.screen.title": "Map",
-  "eldenrpg.slots.screen.title": "Backpack",
-
-  "eldenrpg.title.setspawn": "Bonfire lit",
-  "sounds.eldenrpg.lost_grace_discovered": "Bonfire lit",
-
-  "eldenrpg.area.graveyard": "Graveyard",
-
-  "advancements.eldenrpg.root.title": "EldenRPG",
-  "advancements.eldenrpg.root.description": "The beginning of the end",
-
-  "advancements.eldenrpg.bonfire.title": "Bonfire",
-  "advancements.eldenrpg.bonfire.description": "Doing right click on a bonfire, you can set your spawn, heal and upgrade your stuff.",
-
-  "advancements.eldenrpg.fakeblock.title": "Fake Blocks",
-  "advancements.eldenrpg.fakeblock.description": "There are many fake blocks where you can pass through. Behind these, some interesting equipment may be hidden...",
-
-  "entity.eldenrpg.npc": "EldenNPC",
-  "entity.eldenrpg.blacksmith": "Blacksmith",
-
-  "eldenrpg.quest.beginning": "The Beginning",
-  "eldenrpg.quest.blacksmith": "Blacksmith - Kill 5 slimes",
-
-  "itemGroup.eldenrpg": "EldenRPG",
-
-  "block.eldenrpg.stone_ghost_block": "Stone Ghost Block",
-  "block.eldenrpg.gravel_ghost_block": "Gravel Ghost Block",
-  "block.eldenrpg.stone_bricks_ghost_block": "Stone Bricks Ghost Block",
-  "block.eldenrpg.bonfire_block": "Bonfire",
-
-  "item.eldenrpg.speed_talisman": "Speed Talisman"
+  "sounds.eldenrpg.lost_grace_discovered": "Bonfire lit"
 }

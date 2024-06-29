@@ -1,23 +1,19 @@
 package fr.cel.eldenrpg.datagen.server;
 
-import fr.cel.eldenrpg.EldenRPGMod;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.ItemTagsProvider;
-import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import org.jetbrains.annotations.Nullable;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.minecraft.registry.RegistryWrapper;
 
 import java.util.concurrent.CompletableFuture;
 
-public class ModItemTagProvider extends ItemTagsProvider {
+public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
-    public ModItemTagProvider(PackOutput pOutput, CompletableFuture<HolderLookup.Provider> pLookupProvider, CompletableFuture<TagLookup<Block>> pBlockTags, @Nullable ExistingFileHelper existingFileHelper) {
-        super(pOutput, pLookupProvider, pBlockTags, EldenRPGMod.MOD_ID, existingFileHelper);
+    public ModItemTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> completableFuture) {
+        super(output, completableFuture);
     }
 
     @Override
-    protected void addTags(HolderLookup.Provider pProvider) {
+    protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
 
     }
 

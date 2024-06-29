@@ -1,105 +1,55 @@
 package fr.cel.eldenrpg.networking;
 
-import fr.cel.eldenrpg.EldenRPGMod;
-import fr.cel.eldenrpg.networking.packet.bonfires.MapTeleportationC2SPacket;
-import fr.cel.eldenrpg.networking.packet.backpack.BackpackSyncS2CPacket;
-import fr.cel.eldenrpg.networking.packet.backpack.OpenBackpackC2SPacket;
-import fr.cel.eldenrpg.networking.packet.bonfires.BonfireDataSyncS2CPacket;
-import fr.cel.eldenrpg.networking.packet.flasks.DrinkFlaskC2SPacket;
-import fr.cel.eldenrpg.networking.packet.flasks.FlasksDataSyncS2CPacket;
-import fr.cel.eldenrpg.networking.packet.maps.MapsDataSyncS2CPacket;
-import fr.cel.eldenrpg.networking.packet.maps.PickMapC2SPacket;
-import fr.cel.eldenrpg.networking.packet.npc.NPCDataC2SPacket;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.network.NetworkDirection;
-import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.network.simple.SimpleChannel;
+import fr.cel.eldenrpg.EldenRPG;
+import fr.cel.eldenrpg.networking.packets.bonfires.GracesSyncDataS2CPacket;
+import fr.cel.eldenrpg.networking.packets.bonfires.MapTeleportationC2SPacket;
+import fr.cel.eldenrpg.networking.packets.flasks.DrinkFlaskC2SPacket;
+import fr.cel.eldenrpg.networking.packets.flasks.FlasksSyncDataS2CPacket;
+import fr.cel.eldenrpg.networking.packets.maps.MapsSyncDataS2CPacket;
+import fr.cel.eldenrpg.networking.packets.maps.PickMapC2SPacket;
+import fr.cel.eldenrpg.networking.packets.npc.NPCDataC2SPacket;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.util.Identifier;
 
 public class ModMessages {
 
-    private static SimpleChannel INSTANCE;
+    public static final Identifier DRINK_FLASK_ID = Identifier.of(EldenRPG.MOD_ID, "drinkflask");
+    public static final Identifier SYNC_FLASK_ID = Identifier.of(EldenRPG.MOD_ID, "syncflasks");
 
-    private static int packetId = 0;
-    private static int id() {
-        return packetId++;
+    public static final Identifier PICK_MAP_ID = Identifier.of(EldenRPG.MOD_ID, "pickmap");
+    public static final Identifier SYNC_MAP_ID = Identifier.of(EldenRPG.MOD_ID, "syncmaps");
+
+    public static final Identifier MAP_TELEPORTATION_ID = Identifier.of(EldenRPG.MOD_ID, "mapteleportation");
+    public static final Identifier GRACES_SYNC_ID = Identifier.of(EldenRPG.MOD_ID, "syncgraces");
+
+    public static final Identifier NPC_DATA_ID = Identifier.of(EldenRPG.MOD_ID, "npcdata");
+
+    public static void registerC2SPackets() {
+        ServerPlayNetworking.registerGlobalReceiver(DrinkFlaskC2SPacket.ID, DrinkFlaskC2SPacket::handle);
+        ServerPlayNetworking.registerGlobalReceiver(PickMapC2SPacket.ID, PickMapC2SPacket::handle);
+        ServerPlayNetworking.registerGlobalReceiver(MapTeleportationC2SPacket.ID, MapTeleportationC2SPacket::handle);
+        ServerPlayNetworking.registerGlobalReceiver(NPCDataC2SPacket.ID, NPCDataC2SPacket::handle);
     }
 
-    public static void register() {
-        SimpleChannel net = NetworkRegistry.ChannelBuilder
-                .named(new ResourceLocation(EldenRPGMod.MOD_ID, "messages"))
-                .networkProtocolVersion(() -> "1.0")
-                .clientAcceptedVersions(s -> true)
-                .serverAcceptedVersions(s -> true)
-                .simpleChannel();
-
-        INSTANCE = net;
-
-        // Client to Server (Serverbound)
-        net.messageBuilder(MapTeleportationC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .decoder(MapTeleportationC2SPacket::new)
-                .encoder(MapTeleportationC2SPacket::toBytes)
-                .consumerMainThread(MapTeleportationC2SPacket::handle)
-                .add();
-
-        net.messageBuilder(DrinkFlaskC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .decoder(DrinkFlaskC2SPacket::new)
-                .encoder(DrinkFlaskC2SPacket::toBytes)
-                .consumerMainThread(DrinkFlaskC2SPacket::handle)
-                .add();
-
-        net.messageBuilder(OpenBackpackC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .decoder(OpenBackpackC2SPacket::new)
-                .encoder(OpenBackpackC2SPacket::toBytes)
-                .consumerMainThread(OpenBackpackC2SPacket::handle)
-                .add();
-
-        net.messageBuilder(NPCDataC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .decoder(NPCDataC2SPacket::new)
-                .encoder(NPCDataC2SPacket::toBytes)
-                .consumerMainThread(NPCDataC2SPacket::handle)
-                .add();
-
-        net.messageBuilder(PickMapC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
-                .decoder(PickMapC2SPacket::new)
-                .encoder(PickMapC2SPacket::toBytes)
-                .consumerMainThread(PickMapC2SPacket::handle)
-                .add();
-
-        // Server to Client (Clientbound)
-        net.messageBuilder(FlasksDataSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .decoder(FlasksDataSyncS2CPacket::new)
-                .encoder(FlasksDataSyncS2CPacket::toBytes)
-                .consumerMainThread(FlasksDataSyncS2CPacket::handle)
-                .add();
-
-        net.messageBuilder(BackpackSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .decoder(BackpackSyncS2CPacket::new)
-                .encoder(BackpackSyncS2CPacket::toBytes)
-                .consumerMainThread(BackpackSyncS2CPacket::handle)
-                .add();
-
-        net.messageBuilder(BonfireDataSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .decoder(BonfireDataSyncS2CPacket::new)
-                .encoder(BonfireDataSyncS2CPacket::toBytes)
-                .consumerMainThread(BonfireDataSyncS2CPacket::handle)
-                .add();
-
-        net.messageBuilder(MapsDataSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
-                .decoder(MapsDataSyncS2CPacket::new)
-                .encoder(MapsDataSyncS2CPacket::toBytes)
-                .consumerMainThread(MapsDataSyncS2CPacket::handle)
-                .add();
-
+    public static void registerS2CPackets() {
+        ClientPlayNetworking.registerGlobalReceiver(FlasksSyncDataS2CPacket.ID, FlasksSyncDataS2CPacket::handle);
+        ClientPlayNetworking.registerGlobalReceiver(MapsSyncDataS2CPacket.ID, MapsSyncDataS2CPacket::handle);
+        ClientPlayNetworking.registerGlobalReceiver(GracesSyncDataS2CPacket.ID, GracesSyncDataS2CPacket::handle);
     }
 
-    public static <MSG> void sendToServer(MSG message) {
-        INSTANCE.sendToServer(message);
-    }
+    public static void registerCommonPayload() {
+        PayloadTypeRegistry.playC2S().register(DrinkFlaskC2SPacket.ID, DrinkFlaskC2SPacket.CODEC);
+        PayloadTypeRegistry.playS2C().register(FlasksSyncDataS2CPacket.ID, FlasksSyncDataS2CPacket.CODEC);
 
-    public static <MSG> void sendToPlayer(MSG message, ServerPlayer player) {
-        INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), message);
+        PayloadTypeRegistry.playC2S().register(PickMapC2SPacket.ID, PickMapC2SPacket.CODEC);
+        PayloadTypeRegistry.playS2C().register(MapsSyncDataS2CPacket.ID, MapsSyncDataS2CPacket.CODEC);
+
+        PayloadTypeRegistry.playC2S().register(MapTeleportationC2SPacket.ID, MapTeleportationC2SPacket.CODEC);
+        PayloadTypeRegistry.playS2C().register(GracesSyncDataS2CPacket.ID, GracesSyncDataS2CPacket.CODEC);
+
+        PayloadTypeRegistry.playC2S().register(NPCDataC2SPacket.ID, NPCDataC2SPacket.CODEC);
     }
 
 }

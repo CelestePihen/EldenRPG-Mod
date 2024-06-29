@@ -1,10 +1,9 @@
 package fr.cel.eldenrpg.areas.type;
 
 import fr.cel.eldenrpg.areas.Area;
-import fr.cel.eldenrpg.networking.ModMessages;
-import fr.cel.eldenrpg.networking.packet.maps.PickMapC2SPacket;
-import fr.cel.eldenrpg.quest.Quest;
-import net.minecraft.server.level.ServerPlayer;
+import fr.cel.eldenrpg.networking.packets.maps.PickMapC2SPacket;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.server.network.ServerPlayerEntity;
 
 public class MapArea extends Area {
 
@@ -13,8 +12,8 @@ public class MapArea extends Area {
     }
 
     @Override
-    protected void interact(ServerPlayer player, String mapId) {
-        ModMessages.sendToServer(new PickMapC2SPacket(Integer.parseInt(mapId)));
+    protected void interact(ServerPlayerEntity player, String mapId) {
+        ClientPlayNetworking.send(new PickMapC2SPacket(Integer.parseInt(mapId)));
     }
 
 }

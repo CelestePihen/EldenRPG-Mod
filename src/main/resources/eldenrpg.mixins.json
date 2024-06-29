@@ -1,16 +1,17 @@
 {
   "required": true,
-  "package": "fr.cel.eldenrpg.mixins",
-  "refmap": "eldenrpg.refmap.json",
-  "compatibilityLevel": "JAVA_17",
+  "package": "fr.cel.eldenrpg.mixin",
+  "compatibilityLevel": "JAVA_21",
   "client": [
-    "WindowTitleMixin",
-    "InventoryScreenMixin"
+    "InventoryScreenMixin",
+    "RenderOverlayMixin",
+    "WindowTitleMixin"
   ],
   "mixins": [
-    "NameTagItemMixin"
+    "NameTagMixin",
+    "PlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+	}
 }

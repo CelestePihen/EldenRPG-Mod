@@ -2,9 +2,9 @@ package fr.cel.eldenrpg.quest.task.type;
 
 import fr.cel.eldenrpg.quest.Quest;
 import fr.cel.eldenrpg.quest.task.Task;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.text.Text;
 
 public class ItemTask extends Task {
 
@@ -17,12 +17,12 @@ public class ItemTask extends Task {
         this.amount = amount;
     }
 
-    public void checkItems(Player player, Quest quest) {
+    public void checkItems(PlayerEntity player, Quest quest) {
         if (quest.getQuestState() != Quest.QuestState.ACTIVE) return;
-        if (player.getInventory().countItem(item) == amount) {
-            player.sendSystemMessage(Component.literal("Tu as fini la quête ").append(quest.getTranslatedName()).append(" !"));
-            quest.setQuestState(Quest.QuestState.FINISHED);
-        }
+        if (player.getInventory().count(item) != amount) return;
+
+        player.sendMessage(Text.literal("DEBUG - Tu as fini la quête " + quest.getId() + " !"));
+        quest.setQuestState(Quest.QuestState.FINISHED);
     }
 
 }

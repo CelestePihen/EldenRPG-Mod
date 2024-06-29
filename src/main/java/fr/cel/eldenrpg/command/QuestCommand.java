@@ -2,86 +2,77 @@ package fr.cel.eldenrpg.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
-import fr.cel.eldenrpg.capabilities.quests.PlayerQuestsProvider;
 import fr.cel.eldenrpg.quest.Quest;
 import fr.cel.eldenrpg.quest.Quests;
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.Commands;
-import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
+import fr.cel.eldenrpg.util.IPlayerDataSaver;
+import net.minecraft.command.argument.EntityArgumentType;
+import net.minecraft.server.command.CommandManager;
+import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
 
 public class QuestCommand {
 
-    public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(Commands.literal("quests").requires(source -> source.hasPermission(Commands.LEVEL_ADMINS))
+    public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
+        dispatcher.register(CommandManager.literal("quests").requires(source -> source.hasPermissionLevel(3))
 
-                // Add
-                .then(Commands.literal("add").then(Commands.argument("questId", StringArgumentType.word())
-                        .executes(source -> addQuest(source.getSource().getPlayerOrException(), StringArgumentType.getString(source, "questId")))))
+                // Add Quest
+                .then(CommandManager.literal("add").then(CommandManager.argument("questId", StringArgumentType.word())
+                        .executes(source -> addQuest(source.getSource().getPlayerOrThrow(), StringArgumentType.getString(source, "questId")))))
 
-                .then(Commands.literal("add").then(Commands.argument("questId", StringArgumentType.word()).then(Commands.argument("player", EntityArgument.player())
-                        .executes(source -> {
-                            ServerPlayer target = EntityArgument.getPlayer(source, "player");
-                            String questIdArg = StringArgumentType.getString(source, "questId");
+                .then(CommandManager.literal("add").then(CommandManager.argument("questId", StringArgumentType.word()).then(CommandManager.argument("player", EntityArgumentType.player())
+                        .executes(source -> addQuest(EntityArgumentType.getPlayer(source, "player"), source.getSource().getPlayerOrThrow(), StringArgumentType.getString(source, "questId"))))))
 
-                            source.getSource().getPlayerOrException().sendSystemMessage(Component.literal("Vous avez donné la quête ")
-                                    .append(Quests.getQuest(questIdArg).getTranslatedName()).append(" à " + target.getName().getString()));
+                // Remove Quest
+                .then(CommandManager.literal("remove").then(CommandManager.argument("questId", StringArgumentType.word())
+                        .executes(source -> removeQuest(source.getSource().getPlayerOrThrow(), StringArgumentType.getString(source, "questId")))))
 
-                            return addQuest(target, questIdArg);
-                }))))
-
-                // Remove
-                .then(Commands.literal("remove").then(Commands.argument("questId", StringArgumentType.word())
-                        .executes(source -> {
-                            ServerPlayer player = source.getSource().getPlayerOrException();
-                            String questIdArg = StringArgumentType.getString(source, "questId");
-
-                            player.sendSystemMessage(Component.literal("Tu t'es retiré la quête ").append(Quests.getQuest(questIdArg).getTranslatedName()));
-                            return removeQuest(player, questIdArg);
-                        })))
-
-                .then(Commands.literal("remove").then(Commands.argument("questId", StringArgumentType.word()).then(Commands.argument("player", EntityArgument.player()).executes(source -> {
-                    ServerPlayer target = EntityArgument.getPlayer(source, "player");
-                    String questIdArg = StringArgumentType.getString(source, "questId");
-
-                    source.getSource().getPlayerOrException().sendSystemMessage(Component.literal("Vous avez retiré la quête ")
-                            .append(Quests.getQuest(questIdArg).getTranslatedName()));
-                    return removeQuest(target, questIdArg);
-                }))))
+                .then(CommandManager.literal("remove").then(CommandManager.argument("questId", StringArgumentType.word())
+                        .then(CommandManager.argument("player", EntityArgumentType.player()).executes(source ->
+                                removeQuest(EntityArgumentType.getPlayer(source, "player"), StringArgumentType.getString(source, "questId"))))))
 
                 // List
-                .then(Commands.literal("list").executes(source -> getQuestList(source.getSource().getPlayerOrException())))
+                .then(CommandManager.literal("list").executes(source -> getQuestList(source.getSource().getPlayerOrThrow())))
 
-                .then(Commands.literal("list").then(Commands.argument("player", EntityArgument.player())
-                        .executes(source -> getQuestList(EntityArgument.getPlayer(source, "player")))))
+                .then(CommandManager.literal("list").then(CommandManager.argument("player", EntityArgumentType.player())
+                        .executes(source -> getQuestList(EntityArgumentType.getPlayer(source, "player")))))
         );
     }
 
-    private static int addQuest(Player player, String questId) {
+    private static int addQuest(ServerPlayerEntity player, String questId) {
+        return addQuest(player, player, questId);
+    }
+
+    private static int addQuest(ServerPlayerEntity target, ServerPlayerEntity player, String questId) {
         Quest quest = Quests.getQuest(questId);
         if (quest == null) return 0;
 
-        player.getCapability(PlayerQuestsProvider.PLAYER_QUESTS).ifPresent(playerQuests -> playerQuests.addQuest(quest));
+        player.sendMessage(Text.translatable("eldenrpg.command.quest.add", questId, target.getName().getString()));
+
+        ((IPlayerDataSaver) target).eldenrpg$getQuests().add(quest);
         return 1;
     }
 
-    private static int removeQuest(Player player, String questId) {
+    private static int removeQuest(ServerPlayerEntity player, String questId) {
         Quest quest = Quests.getQuest(questId);
         if (quest == null) return 0;
 
-        player.getCapability(PlayerQuestsProvider.PLAYER_QUESTS).ifPresent(playerQuests -> playerQuests.removeQuest(questId));
+        player.sendMessage(Text.translatable("eldenrpg.command.quest.remove", questId, player.getName().getString()));
+
+        IPlayerDataSaver playerDataSaver = (IPlayerDataSaver) player;
+        playerDataSaver.eldenrpg$getQuests().stream().filter(quest1 -> quest1.getId().equals(questId)).findFirst().ifPresent(quest1 -> playerDataSaver.eldenrpg$getQuests().remove(quest1));
         return 1;
     }
 
-    private static int getQuestList(Player player) {
-        player.sendSystemMessage(Component.literal("Voici la liste de quêtes de " + player.getName().getString() + " : "));
-        player.getCapability(PlayerQuestsProvider.PLAYER_QUESTS).ifPresent(playerQuests -> playerQuests.getQuests()
-                .forEach(quest -> {
-                    Component message = quest.getTranslatedName().copy().append(" | ").append(quest.getQuestState().toString());
-                    player.sendSystemMessage(message);
-                }));
+    private static int getQuestList(ServerPlayerEntity player) {
+        player.sendMessage(Text.translatable("eldenrpg.command.quest.list", player.getName()));
+
+        IPlayerDataSaver playerDataSaver = (IPlayerDataSaver) player;
+        for (Quest quest : playerDataSaver.eldenrpg$getQuests()) {
+            Text message = Text.literal(quest.getId()).append(" | ").append(quest.getQuestState().toString()).append(" | ").append(quest.getTask().getClass().getSimpleName());
+            player.sendMessage(message);
+        }
+
         return 1;
     }
 
