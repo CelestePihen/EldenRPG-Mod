@@ -74,5 +74,4 @@ public class BonfireBlock extends Block {
         return (camp1.getX() == camp2.getX()) && (camp1.getY() == camp2.getY()) && (camp1.getZ() == camp2.getZ());
     }
 
-
 }

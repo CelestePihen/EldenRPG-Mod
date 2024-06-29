@@ -43,8 +43,6 @@ public class NPCScreen extends Screen {
         this.leftPos = (this.width - this.imageWidth) / 2;
         this.topPos = (this.height - this.imageHeight) / 2;
 
-        if (this.minecraft == null) return;
-
         this.addRenderableWidget(Button.builder(CommonComponents.GUI_DONE, (button) -> this.onDone())
                 .bounds(this.width / 2 - 40, this.height / 2 + 60, 80, 20).build());
 

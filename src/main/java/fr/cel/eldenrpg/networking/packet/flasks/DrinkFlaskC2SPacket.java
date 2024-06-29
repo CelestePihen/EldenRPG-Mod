@@ -29,6 +29,7 @@ public class DrinkFlaskC2SPacket {
 
         ctx.enqueueWork(() -> {
             ServerPlayer player = ctx.getSender();
+            if (player == null) return;
 
             player.getCapability(PlayerFlasksProvider.PLAYER_FLASKS).ifPresent(flasks -> {
                 if (flasks.getFlasks() > 0) {

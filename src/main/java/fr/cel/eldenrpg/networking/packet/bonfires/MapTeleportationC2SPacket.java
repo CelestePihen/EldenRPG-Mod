@@ -41,6 +41,7 @@ public class MapTeleportationC2SPacket {
 
         ctx.enqueueWork(() -> {
             ServerPlayer player = ctx.getSender();
+            if (player == null) return;
             ServerLevel level = player.serverLevel();
 
             teleportEntity(player, level, this.x, this.y, this.z);

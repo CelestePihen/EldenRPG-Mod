@@ -32,6 +32,7 @@ public class OpenBackpackC2SPacket {
 
         ctx.enqueueWork(() -> {
             ServerPlayer player = ctx.getSender();
+            if (player == null) return;
 
             MenuProvider menuProvider = new MenuProvider() {
                 @Override

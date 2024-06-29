@@ -28,6 +28,7 @@ public class PickMapC2SPacket {
 
         ctx.enqueueWork(() -> {
             ServerPlayer player = ctx.getSender();
+            if (player == null) return;
 
             player.getCapability(PlayerMapsProvider.PLAYER_MAPS).ifPresent(maps -> {
                 maps.addMap(this.id);

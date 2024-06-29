@@ -17,8 +17,6 @@ public class ModItems {
 
     public static final RegistryObject<Item> SPEED_TALISMAN = ITEMS.register("speed_talisman", () -> new TalismanItem(MobEffects.MOVEMENT_SPEED));
 
-    //  Rarity.create("name", ChatFormatting.color) -> permet de créer une nouvelle Rarité (système du jeu)
-
     /**
      * Permet d'enregistrer tous les items de la classe
      * @param eventBus Interface qui permet d'enregistrer les items

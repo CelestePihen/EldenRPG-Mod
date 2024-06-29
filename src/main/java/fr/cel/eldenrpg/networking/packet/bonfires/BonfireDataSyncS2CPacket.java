@@ -1,7 +1,6 @@
 package fr.cel.eldenrpg.networking.packet.bonfires;
 
 import fr.cel.eldenrpg.client.data.ClientBonfiresData;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;

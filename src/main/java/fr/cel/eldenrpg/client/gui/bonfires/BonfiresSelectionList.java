@@ -42,16 +42,19 @@ public class BonfiresSelectionList extends ObjectSelectionList<BonfiresSelection
             this.minecraft = minecraft;
         }
 
+        @Override
         public void render(GuiGraphics pGuiGraphics, int pIndex, int pTop, int pLeft, int pWidth, int pHeight, int pMouseX, int pMouseY, boolean pHovering, float pPartialTick) {
             pGuiGraphics.drawCenteredString(minecraft.font, this.bonfireName, BonfiresSelectionList.this.width / 2, pTop + 1, 16777215);
         }
 
+        @Override
         public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
             ModMessages.sendToServer(new MapTeleportationC2SPacket(pos.north()));
             minecraft.setScreen(null);
             return true;
         }
 
+        @Override
         public Component getNarration() {
             return Component.translatable("narrator.select", this.bonfireName);
         }

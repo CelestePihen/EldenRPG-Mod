@@ -22,8 +22,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(InventoryScreen.class)
 public class InventoryScreenMixin extends Screen {
 
-    @Unique private final int eldenRPG_Mod$imageWidth = 176;
-    @Unique private final int eldenRPG_Mod$imageHeight = 166;
+    @Unique private final int eldenRPG_Mod$imageWidth;
+    @Unique private final int eldenRPG_Mod$imageHeight;
 
     @Unique private int eldenRPG_Mod$leftPos;
     @Unique private int eldenRPG_Mod$topPos;
@@ -32,6 +32,9 @@ public class InventoryScreenMixin extends Screen {
 
     protected InventoryScreenMixin(Component pTitle) {
         super(pTitle);
+
+        this.eldenRPG_Mod$imageWidth = 176;
+        this.eldenRPG_Mod$imageHeight = 166;
     }
 
     @Inject(method = "init", at = @At("TAIL"))
@@ -43,9 +46,8 @@ public class InventoryScreenMixin extends Screen {
             minecraft.setScreen(new MapScreen());
         }).bounds(eldenRPG_Mod$leftPos + 26, eldenRPG_Mod$topPos - 28, 26, 30).build();
 
-        Button backpackButton = Button.builder(Component.empty(), button -> {
-            ModMessages.sendToServer(new OpenBackpackC2SPacket());
-        }).bounds(eldenRPG_Mod$leftPos + 52, eldenRPG_Mod$topPos - 28, 26, 30).build();
+        Button backpackButton = Button.builder(Component.empty(), button -> ModMessages.sendToServer(new OpenBackpackC2SPacket()))
+                .bounds(eldenRPG_Mod$leftPos + 52, eldenRPG_Mod$topPos - 28, 26, 30).build();
 
        addWidget(mapButton);
        addWidget(backpackButton);

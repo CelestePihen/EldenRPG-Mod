@@ -89,9 +89,9 @@ public class ServerEvents {
         if (areaQuest == null) return;
 
         player.getCapability(PlayerQuestsProvider.PLAYER_QUESTS).ifPresent(playerQuests -> {
-            for (Quest quest1 : playerQuests.getZoneQuest()) {
-                if (quest1.getId().equalsIgnoreCase(areaQuest.getId())) {
-                    ((ZoneTask)quest1.getTask()).interact(player, areaQuest);
+            for (Quest quest : playerQuests.getZoneQuest()) {
+                if (quest.getId().equalsIgnoreCase(areaQuest.getId())) {
+                    ((ZoneTask)quest.getTask()).interact(player, areaQuest);
                 }
             }
         });
