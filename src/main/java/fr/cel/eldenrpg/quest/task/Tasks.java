@@ -1,6 +1,5 @@
 package fr.cel.eldenrpg.quest.task;
 
-import fr.cel.eldenrpg.item.ModItems;
 import fr.cel.eldenrpg.quest.task.type.ItemTask;
 import fr.cel.eldenrpg.quest.task.type.KillTask;
 import fr.cel.eldenrpg.quest.task.type.ZoneTask;
@@ -16,44 +15,36 @@ public class Tasks {
 
     private static final Map<String, Task> tasks = new HashMap<>();
 
-    // Zone Tasks
-    public static final ZoneTask LEAVE_TUTORIAL_CAVE = registerZone("leaveTutorialCave", "eldenrpg.task.leave_tutorial_cave");
-
-    // Kill Tasks
-    public static final KillTask KILL_5_SLIMES = registerKill("kill5Slimes", "eldenrpg.task.kill_5_slimes", SlimeEntity.class, 5);
-
-    // Item Tasks
-    public static final ItemTask OBTAIN_TEST_ITEM = registerItem("obtainTestItem", "eldenrpg.task.obtain_test_item", ModItems.TEST_ITEM, 2);
-
-
     public static Map<String, Task> getTasks() {
         return tasks;
     }
 
-    private static ZoneTask registerZone(String id, String langName) {
-        ZoneTask task = new ZoneTask(id, langName);
+    public static final ZoneTask LEAVE_TUTORIAL_CAVE = registerZone("leaveTutorialCave");
+
+    public static final KillTask KILL_5_SLIMES = registerKill("kill5Slimes", SlimeEntity.class, 5);
+
+    private static ZoneTask registerZone(String id) {
+        ZoneTask task = new ZoneTask(id);
         tasks.put(id, task);
         return task;
     }
 
-    private static KillTask registerKill(String id, String langName, Class<? extends MobEntity> type, int amount) {
-        KillTask task = new KillTask(id, langName, type, amount);
+    private static KillTask registerKill(String id, Class<? extends MobEntity> type, int amount) {
+        KillTask task = new KillTask(id, type, amount);
         tasks.put(id, task);
         return task;
     }
 
-    private static ItemTask registerItem(String id, String langName, Item item, int amount) {
-        ItemTask task = new ItemTask(id, langName, item, amount);
+    private static ItemTask registerItem(String id, Item item, int amount) {
+        ItemTask task = new ItemTask(id, item, amount);
         tasks.put(id, task);
         return task;
     }
 
     public static Task loadNbt(NbtCompound nbt) {
         NbtCompound taskTag = nbt.getCompound("task");
-
         Task task = Tasks.getTasks().get(taskTag.getString("id"));
         task.setProgress(taskTag.getInt("progress"));
-
         return task;
     }
 

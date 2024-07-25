@@ -3,15 +3,18 @@
   "package": "fr.cel.eldenrpg.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "InventoryScreenMixin",
-    "RenderOverlayMixin",
-    "WindowTitleMixin"
+    "client.InGameHudMixin",
+    "client.MinecraftClientMixin",
+    "client.screen.AccessibilityOnboardingScreenMixin",
+    "client.screen.LogoDrawerMixin",
+    "client.screen.ScreenMixin",
+    "client.screen.TitleScreenMixin"
   ],
   "mixins": [
-    "NameTagMixin",
-    "PlayerEntityMixin"
+    "server.NameTagMixin",
+    "server.PlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
-	}
+  }
 }

@@ -7,6 +7,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.util.Rarity;
 import net.minecraft.world.World;
 
 public class TalismanItem extends Item {
@@ -14,7 +15,7 @@ public class TalismanItem extends Item {
     private final RegistryEntry<StatusEffect> effect;
 
     public TalismanItem(RegistryEntry<StatusEffect> effect) {
-        super(new Settings().maxCount(1));
+        super(new Settings().maxCount(1).rarity(Rarity.EPIC));
         this.effect = effect;
     }
 

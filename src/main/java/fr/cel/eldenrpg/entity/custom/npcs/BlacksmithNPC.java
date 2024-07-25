@@ -4,17 +4,23 @@ import fr.cel.eldenrpg.entity.custom.EldenNPC;
 import fr.cel.eldenrpg.quest.Quest;
 import fr.cel.eldenrpg.quest.Quest.QuestState;
 import fr.cel.eldenrpg.quest.Quests;
+import fr.cel.eldenrpg.sound.ModSounds;
+import fr.cel.eldenrpg.util.DialogueManager;
 import fr.cel.eldenrpg.util.IPlayerDataSaver;
 import fr.cel.eldenrpg.util.data.QuestsData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.SlimeEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.network.packet.s2c.play.StopSoundS2CPacket;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class BlacksmithNPC extends EldenNPC {
 
@@ -26,16 +32,19 @@ public class BlacksmithNPC extends EldenNPC {
     }
 
     @Override
-    protected void playerInteract(PlayerEntity player, Hand hand) {
+    protected void playerInteract(ServerPlayerEntity player, Hand hand) {
         IPlayerDataSaver playerDataSaver = (IPlayerDataSaver) player;
         Quest q = QuestsData.getQuest(playerDataSaver, "blacksmith");
 
         if (q == null) {
-            playerDataSaver.eldenrpg$getQuests().add(quest);
-            // TODO translatable
-            player.sendMessage(Text.literal("Bonjour aventurier. Pourriez-vous tuer ces 5 créatures vertes et gluantes dans ma maison ? Vous aurez une belle récompense si vous le faites !"));
+            QuestsData.addQuest(playerDataSaver, quest);
+            List<DialogueManager.MessageWithSound> messages = List.of(
+                    new DialogueManager.MessageWithSound("entity.eldenrpg.blacksmith.dialogue1", 0, ModSounds.BLACKSMITH_1),
+                    new DialogueManager.MessageWithSound("entity.eldenrpg.blacksmith.dialogue2", 30, ModSounds.BLACKSMITH_2), // comme le 1er message dure 1.5 seconde alors on met le 2ème dialogue au bout de 1.5 seconde
+                    new DialogueManager.MessageWithSound("entity.eldenrpg.blacksmith.dialogue3", 80, ModSounds.BLACKSMITH_3)
+            );
+            DialogueManager.sendMessages(player, messages);
 
-            // fait apparaître les 5 slimes
             for (int i = 0; i < 5; i++) {
                 SlimeEntity slime = new SlimeEntity(EntityType.SLIME, getWorld());
                 slime.setPos(207.5, 69, -49.5);
@@ -47,22 +56,31 @@ public class BlacksmithNPC extends EldenNPC {
         }
 
         if (q.getQuestState() == QuestState.ACTIVE) {
-            // TODO translatable
-            player.sendMessage(Text.literal("Allez tuer ces 5 slimes pour avoir la récompense, aventurier."));
+            player.networkHandler.sendPacket(new StopSoundS2CPacket(ModSounds.BLACKSMITH_4.getId(), SoundCategory.VOICE));
+            List<DialogueManager.MessageWithSound> messages = List.of(
+                    new DialogueManager.MessageWithSound("entity.eldenrpg.blacksmith.dialogue4", 0, ModSounds.BLACKSMITH_4)
+            );
+            DialogueManager.sendMessages(player, messages);
             return;
         }
 
         if (q.getQuestState() == QuestState.FINISHED) {
-            // TODO translatable
-            player.sendMessage(Text.literal("Vous êtes mon héros ! Voici votre récompense."));
+            List<DialogueManager.MessageWithSound> messages = List.of(
+                    new DialogueManager.MessageWithSound("entity.eldenrpg.blacksmith.dialogue5", 0, ModSounds.BLACKSMITH_5)
+            );
+            DialogueManager.sendMessages(player, messages);
+
             player.giveItemStack(new ItemStack(Items.LEVER));
             q.setQuestState(QuestState.COMPLETED);
             return;
         }
 
         if (q.getQuestState() == QuestState.COMPLETED) {
-            // TODO translatable
-            player.sendMessage(Text.literal("Encore merci d'avoir dégagé ces bestioles hors de chez moi !"));
+            player.networkHandler.sendPacket(new StopSoundS2CPacket(ModSounds.BLACKSMITH_6.getId(), SoundCategory.VOICE));
+            List<DialogueManager.MessageWithSound> messages = List.of(
+                    new DialogueManager.MessageWithSound("entity.eldenrpg.blacksmith.dialogue6", 40, ModSounds.BLACKSMITH_6) // 3 seconde de délai
+            );
+            DialogueManager.sendMessages(player, messages);
         }
     }
 

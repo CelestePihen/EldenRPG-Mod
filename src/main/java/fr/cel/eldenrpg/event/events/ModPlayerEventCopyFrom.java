@@ -2,25 +2,33 @@ package fr.cel.eldenrpg.event.events;
 
 import fr.cel.eldenrpg.util.IPlayerDataSaver;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 public class ModPlayerEventCopyFrom implements ServerPlayerEvents.CopyFrom {
 
+    public static void init() {
+        ServerPlayerEvents.COPY_FROM.register(new ModPlayerEventCopyFrom());
+    }
+
     @Override
     public void copyFromPlayer(ServerPlayerEntity oldPlayer, ServerPlayerEntity newPlayer, boolean alive) {
-        IPlayerDataSaver original = ((IPlayerDataSaver) oldPlayer);
-        IPlayerDataSaver player = ((IPlayerDataSaver) newPlayer);
+        IPlayerDataSaver original = (IPlayerDataSaver) oldPlayer;
+        IPlayerDataSaver player = (IPlayerDataSaver) newPlayer;
 
-        player.eldenrpg$getPersistentData().putInt("flasks", original.eldenrpg$getPersistentData().getInt("maxFlasks"));
-        player.eldenrpg$getPersistentData().putInt("maxFlasks", original.eldenrpg$getPersistentData().getInt("maxFlasks"));
+        NbtCompound originalNbt = original.eldenrpg$getPersistentData();
+        NbtCompound newNbt = player.eldenrpg$getPersistentData();
 
-        player.eldenrpg$getPersistentData().putBoolean("firstTime", original.eldenrpg$getPersistentData().getBoolean("firstTime"));
+        newNbt.putInt("flasks", originalNbt.getInt("maxFlasks"));
+        newNbt.putInt("maxFlasks", originalNbt.getInt("maxFlasks"));
 
-        player.eldenrpg$getPersistentData().putIntArray("mapsId", original.eldenrpg$getPersistentData().getIntArray("mapsId"));
+        newNbt.putBoolean("firstTime", originalNbt.getBoolean("firstTime"));
 
-        player.eldenrpg$getPersistentData().put("quests", original.eldenrpg$getPersistentData().get("quests"));
+        newNbt.putIntArray("mapsId", originalNbt.getIntArray("mapsId"));
 
-        player.eldenrpg$getPersistentData().putLongArray("graces", original.eldenrpg$getPersistentData().getLongArray("graces"));
+        newNbt.put("quests", originalNbt.get("quests"));
+
+        newNbt.putLongArray("graces", originalNbt.getLongArray("graces"));
     }
 
 }

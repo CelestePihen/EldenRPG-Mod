@@ -3,7 +3,7 @@ package fr.cel.eldenrpg.util.data;
 import fr.cel.eldenrpg.networking.packets.maps.MapsSyncDataS2CPacket;
 import fr.cel.eldenrpg.util.IPlayerDataSaver;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.ArrayList;
@@ -11,14 +11,14 @@ import java.util.List;
 
 public class MapsData {
 
-    public static void addMapId(IPlayerDataSaver player, int mapId) {
-        NbtCompound nbt = player.eldenrpg$getPersistentData();
+    public static boolean addMapId(IPlayerDataSaver player, int mapId) {
         List<Integer> mapsId = getMapsId(player);
+        if (mapsId.contains(mapId)) return false;
+        mapsId.add(mapId);
 
-        if (mapsId.contains(mapId)) return;
-
-        nbt.putIntArray("mapsId", new ArrayList<>(mapId));
-        syncMap((ServerPlayerEntity) player, mapId);
+        player.eldenrpg$getPersistentData().putIntArray("mapsId", mapsId);
+        syncMap((PlayerEntity)  player, mapId);
+        return true;
     }
 
     public static List<Integer> getMapsId(IPlayerDataSaver player) {
@@ -29,8 +29,10 @@ public class MapsData {
         return temp;
     }
 
-    public static void syncMap(ServerPlayerEntity player, int mapId) {
-        ServerPlayNetworking.send(player, new MapsSyncDataS2CPacket(mapId));
+    public static void syncMap(PlayerEntity player, int mapId) {
+        if (player instanceof ServerPlayerEntity serverPlayer) {
+            ServerPlayNetworking.send(serverPlayer, new MapsSyncDataS2CPacket(mapId));
+        }
     }
 
 }

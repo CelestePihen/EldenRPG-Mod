@@ -2,6 +2,7 @@ package fr.cel.eldenrpg.item;
 
 import fr.cel.eldenrpg.EldenRPG;
 import fr.cel.eldenrpg.item.custom.TalismanItem;
+import fr.cel.eldenrpg.item.custom.TutorialKey;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -10,9 +11,9 @@ import net.minecraft.util.Identifier;
 
 public class ModItems {
 
-    public static final Item TEST_ITEM = registerItem("test_item", new Item(new Item.Settings()));
-
     public static final Item SPEED_TALISMAN = registerItem("speed_talisman", new TalismanItem(StatusEffects.SPEED));
+
+    public static final Item TUTORIAL_KEY = registerItem("tutorial_key", new TutorialKey());
 
     /**
      * Permet d'enregistrer un nouvel Item

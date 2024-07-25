@@ -9,16 +9,16 @@ import net.minecraft.util.Identifier;
 
 public class HintArea extends Area {
 
-    private final Identifier resourceLocation;
+    private final Identifier identifier;
 
     public HintArea(String advancementName, double x1, double y1, double z1, double x2, double y2, double z2) {
         super(advancementName, x1, y1, z1, x2, y2, z2);
-        resourceLocation = Identifier.of(EldenRPG.MOD_ID, advancementName);
+        identifier = Identifier.of(EldenRPG.MOD_ID, advancementName);
     }
 
     @Override
     protected void interact(ServerPlayerEntity player, String advancementName) {
-        AdvancementEntry rootAdvancement = player.server.getAdvancementLoader().get(resourceLocation);
+        AdvancementEntry rootAdvancement = player.server.getAdvancementLoader().get(identifier);
         if (rootAdvancement == null) return;
         PlayerAdvancementTracker advancementTracker = player.getAdvancementTracker();
         for (String criteria : advancementTracker.getProgress(rootAdvancement).getUnobtainedCriteria()) {

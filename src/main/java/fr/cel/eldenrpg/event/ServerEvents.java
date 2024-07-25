@@ -12,22 +12,16 @@ import fr.cel.eldenrpg.event.events.ModPlayerEventCopyFrom;
 import fr.cel.eldenrpg.quest.Quest;
 import fr.cel.eldenrpg.quest.task.type.ZoneTask;
 import fr.cel.eldenrpg.util.IPlayerDataSaver;
+import fr.cel.eldenrpg.util.data.QuestsData;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
-import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 
 public class ServerEvents {
 
     public static void registerEvents() {
-        ServerPlayerEvents.COPY_FROM.register(new ModPlayerEventCopyFrom());
-
-        ServerEntityEvents.ENTITY_LOAD.register(new ModEntityLoad());
-
-        ServerLivingEntityEvents.AFTER_DEATH.register(new ModAfterDeath());
-
-        ServerTickEvents.END_SERVER_TICK.register(new ModEndServerTick());
+        ModPlayerEventCopyFrom.init();
+        ModEntityLoad.init();
+        ModAfterDeath.init();
+        ModEndServerTick.init();
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             NPCCommand.register(dispatcher);
@@ -35,15 +29,15 @@ public class ServerEvents {
             GraceCommand.register(dispatcher);
         });
 
-        EnterAreaEvent.EVENT.register((player, area, areaQuest) -> {
-            if (!(area instanceof POIArea)) return;
-            if (areaQuest == null) return;
+        EnterAreaEvent.EVENT.register((player, area, quest) -> {
+            if (!(area instanceof POIArea) || quest == null) return;
 
-            for (Quest quest : ((IPlayerDataSaver) player).eldenrpg$getZoneQuests()) {
-                if (quest.getId().equalsIgnoreCase(areaQuest.getId())) {
-                    ((ZoneTask)quest.getTask()).interact(player, areaQuest);
+            for (Quest zoneQuest : QuestsData.getZoneQuests((IPlayerDataSaver) player)) {
+                if (zoneQuest.getId().equalsIgnoreCase(quest.getId())) {
+                    ((ZoneTask) zoneQuest.getTask()).interact(quest);
                 }
             }
+
         });
 
     }

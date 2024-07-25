@@ -9,8 +9,8 @@ public class KillTask extends Task {
     private final Class<? extends MobEntity> entity;
     private final int numberOfMobsToKill;
 
-    public KillTask(String id, String langName, Class<? extends MobEntity> entity, int numberOfMobsToKill) {
-        super(id, langName);
+    public KillTask(String id, Class<? extends MobEntity> entity, int numberOfMobsToKill) {
+        super(id);
         this.entity = entity;
         this.numberOfMobsToKill = numberOfMobsToKill;
     }

@@ -1,47 +1,81 @@
 {
-  "advancement.eldenrpg.bonfire.description": "En faisant clique droit sur un site de grâce, tu peux mettre ton point de réapparition, te soigner et améliorer tes statistiques.",
-  "advancement.eldenrpg.bonfire.title": "Site de grâce",
+  "advancement.eldenrpg.grace.description": "En faisant clique droit sur un site de grâce, tu peux mettre ton point de réapparition, te soigner et améliorer tes statistiques.",
+  "advancement.eldenrpg.grace.title": "Site de grâce",
   "advancement.eldenrpg.fakeblock.description": "Il y a beaucoup de faux blocs où vous pouvez passer à travers. Derrière ceux-ci, peut se cacher de l'équipement intéressant...",
   "advancement.eldenrpg.fakeblock.title": "Faux blocs",
+  "advancement.eldenrpg.map.title": "Carte",
+  "advancement.eldenrpg.map.description": "Dans toute la carte, vous pouvez trouver des pilliers avec des parties de carte.",
   "advancement.eldenrpg.root.description": "Le début de la fin",
   "advancement.eldenrpg.root.title": "EldenRPG",
 
   "block.eldenrpg.grace_block": "Site de grâce",
   "block.eldenrpg.gravel_ghost_block": "Bloc fantôme de Gravier",
+  "block.eldenrpg.sandstone_block": "Bloc fantôme de Grès",
   "block.eldenrpg.snow_ghost_block": "Bloc fantôme de Neige",
   "block.eldenrpg.stone_bricks_ghost_block": "Bloc fantôme de Pierre taillée",
   "block.eldenrpg.stone_ghost_block": "Bloc fantôme de Roche",
 
-  "eldenrpg.area.graveyard": "Cimetière",
+  "eldenrpg.area.graveyard": "CIMETIÈRE",
+  "eldenrpg.area.partofmap": "PARTIE DE CARTE DÉCOUVERTE",
 
   "eldenrpg.command.quest.add": "%s a été ajouté à %s",
   "eldenrpg.command.quest.list": "Quêtes de %s: ",
   "eldenrpg.command.quest.remove": "%s a été retiré à %s",
 
-  "eldenrpg.gracesselection.screen.title": "Graces",
+  "eldenrpg.command.graces.list": "Grâces de %s: ",
+
+  "eldenrpg.graces.screen.leave": "Quitter",
+
+  "eldenrpg.gracesselection.screen.title": "Grâces",
 
   "eldenrpg.map.screen.gracesselection": "Grâces",
   "eldenrpg.map.screen.title": "Carte",
+
   "eldenrpg.npc.screen.editName": "Nom du PNJ: ",
   "eldenrpg.npc.screen.isBaby": "Enfant: ",
-
   "eldenrpg.npc.screen.title": "Éditeur de PNJ",
 
-  "eldenrpg.slots.screen.title": "Sac à dos",
+  "eldenrpg.recommendation.screen.brightness": "Luminosité : Vive",
+  "eldenrpg.recommendation.screen.healthindicator": "Health Indicator TXF :",
+  "eldenrpg.recommendation.screen.hiDistance": "Distance: 5",
+  "eldenrpg.recommendation.screen.hiPosition": "Position: Bottom Center",
+  "eldenrpg.recommendation.screen.hiYValue": "Y Value: 80",
+  "eldenrpg.recommendation.screen.hiScale": "Scale: 1.5",
+  "eldenrpg.recommendation.screen.renderdistance": "Dist. d'affichage : 8-12",
+  "eldenrpg.recommendation.screen.shader": "Shader: ComplementaryUnbound",
+  "eldenrpg.recommendation.screen.shaderlightning": "Activer Advanced Colored Lightning (Performance Settings) : 4 Chunks",
+  "eldenrpg.recommendation.screen.simulationdistance": "Dist. de simulation: 5-8",
 
   "eldenrpg.title.lostgracediscovered": "GRÂCE ÉVANOUIE DÉCOUVERTE",
 
   "entity.eldenrpg.blacksmith": "Forgeron",
+  "entity.eldenrpg.blacksmith.dialogue1": "Bonjour aventurier...",
+  "entity.eldenrpg.blacksmith.dialogue2": "Pourriez-vous tuer ces 5 créatures vertes et gluantes dans ma maison ?",
+  "entity.eldenrpg.blacksmith.dialogue3": "Vous aurez une belle récompense si vous le faites !",
+  "entity.eldenrpg.blacksmith.dialogue4": "Allez tuer ces 5 créatures pour avoir la récompense, aventurier.",
+  "entity.eldenrpg.blacksmith.dialogue5": "Vous êtes mon héros ! Voici votre récompense.",
+  "entity.eldenrpg.blacksmith.dialogue6": "Encore merci d'avoir dégagé ces bestioles hors de chez moi !",
+
   "entity.eldenrpg.npc": "EldenNPC",
 
   "item.eldenrpg.speed_talisman": "Talisman de vitesse",
+  "item.eldenrpg.tutorial_key": "Clé du Squelette",
+  "item.eldenrpg.tutorial_key.desc": "Clique droit sur la porte en fer.",
 
   "itemGroup.eldenrpg": "EldenRPG",
 
   "key.category.eldenrpg.eldenrpg": "EldenRPG",
-  "key.eldenrpg.backpack": "Ouvrir les emplacements additionnels",
   "key.eldenrpg.drink_flask": "Boire une fiole de larmes pourpres",
   "key.eldenrpg.open_map": "Ouvrir la carte",
 
+  "menu.recommendation": "Recommandation",
+
+  "sounds.eldenrpg.death": "Mort",
+  "sounds.eldenrpg.dialogue.blacksmith_1": "Dialogue 1 du Forgeron",
+  "sounds.eldenrpg.dialogue.blacksmith_2": "Dialogue 2 du Forgeron",
+  "sounds.eldenrpg.dialogue.blacksmith_3": "Dialogue 3 du Forgeron",
+  "sounds.eldenrpg.dialogue.blacksmith_4": "Dialogue 4 du Forgeron",
+  "sounds.eldenrpg.dialogue.blacksmith_5": "Dialogue 5 du Forgeron",
+  "sounds.eldenrpg.dialogue.blacksmith_6": "Dialogue 6 du Forgeron",
   "sounds.eldenrpg.lost_grace_discovered": "Grâce évanouie découverte"
 }

@@ -1,7 +1,6 @@
 package fr.cel.eldenrpg.client.gui.screen;
 
-import fr.cel.eldenrpg.EldenRPG;
-import fr.cel.eldenrpg.networking.packets.bonfires.MapTeleportationC2SPacket;
+import fr.cel.eldenrpg.networking.packets.graces.MapTeleportationC2SPacket;
 import fr.cel.eldenrpg.util.IPlayerDataSaver;
 import fr.cel.eldenrpg.util.data.GracesData;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -19,18 +18,21 @@ import net.minecraft.util.math.BlockPos;
 public class GracesSelectionScreen extends Screen {
 
     private final ThreePartsLayoutWidget layout = new ThreePartsLayoutWidget(this);
+    private final Screen parent;
 
-    public GracesSelectionScreen() {
+    public GracesSelectionScreen(Screen parent) {
         super(Text.translatable("eldenrpg.gracesselection.screen.title"));
+        this.parent = parent;
         this.layout.setFooterHeight(53);
     }
 
     @Override
     protected void init() {
         super.init();
+
         this.layout.addHeader(this.title, this.textRenderer);
         GracesSelectionListWidget gracesSelectionList = this.layout.addBody(new GracesSelectionListWidget(this.client));
-        this.layout.addFooter(ButtonWidget.builder(ScreenTexts.DONE, button -> this.close()).width(200).build());
+        this.layout.addFooter(ButtonWidget.builder(ScreenTexts.DONE, button -> client.setScreen(parent)).width(200).build());
 
         this.layout.forEachChild(this::addDrawableChild);
 
@@ -42,10 +44,7 @@ public class GracesSelectionScreen extends Screen {
         public GracesSelectionListWidget(final MinecraftClient minecraftClient) {
             super(minecraftClient, GracesSelectionScreen.this.width, GracesSelectionScreen.this.height  - 33 - 53, 33, 18);
 
-            if (minecraftClient.player == null) {
-                EldenRPG.LOGGER.error("Player est null");
-                return;
-            }
+            if (minecraftClient.player == null) return;
 
             GracesData.getGraces(((IPlayerDataSaver) minecraftClient.player)).forEach(pos -> {
                 Text text = GracesData.getGraceName(BlockPos.fromLong(pos));
@@ -64,7 +63,6 @@ public class GracesSelectionScreen extends Screen {
         }
 
         public class GraceEntry extends AlwaysSelectedEntryListWidget.Entry<GraceEntry> {
-
             private final BlockPos pos;
             private final Text graceName;
             private final MinecraftClient client;

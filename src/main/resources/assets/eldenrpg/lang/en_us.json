@@ -1,46 +1,81 @@
 {
-  "advancement.eldenrpg.bonfire.title": "Bonfire",
-  "advancement.eldenrpg.bonfire.description": "Doing right click on a bonfire, you can set your spawn, heal and upgrade your stuff.",
+  "advancement.eldenrpg.grace.title": "Grace",
+  "advancement.eldenrpg.grace.description": "Doing right click on a grace, you can set your spawn, heal and upgrade your stuff.",
   "advancement.eldenrpg.fakeblock.title": "Fake Blocks",
   "advancement.eldenrpg.fakeblock.description": "There are many fake blocks where you can pass through. Behind these, some interesting equipment may be hidden...",
+  "advancement.eldenrpg.map.title": "Map",
+  "advancement.eldenrpg.map.description": "In the whole map, you can find pillars with parts of the map.",
   "advancement.eldenrpg.root.title": "EldenRPG",
   "advancement.eldenrpg.root.description": "The beginning of the end",
 
-  "block.eldenrpg.stone_ghost_block": "Stone Ghost Block",
   "block.eldenrpg.grace_block": "Site of Grace",
   "block.eldenrpg.gravel_ghost_block": "Gravel Ghost Block",
-  "block.eldenrpg.stone_bricks_ghost_block": "Stone Bricks Ghost Block",
+  "block.eldenrpg.sandstone_block": "Sandstone Ghost Block",
   "block.eldenrpg.snow_ghost_block": "Snow Ghost Block",
+  "block.eldenrpg.stone_bricks_ghost_block": "Stone Bricks Ghost Block",
+  "block.eldenrpg.stone_ghost_block": "Stone Ghost Block",
 
-  "eldenrpg.area.graveyard": "Graveyard",
+  "eldenrpg.area.graveyard": "GRAVEYARD",
+  "eldenrpg.area.partofmap": "PART OF MAP DISCOVERED",
 
   "eldenrpg.command.quest.add": "%s has been added to %s",
-  "eldenrpg.command.quest.remove": "%s has been removed to %s",
   "eldenrpg.command.quest.list": "Quests of %s: ",
+  "eldenrpg.command.quest.remove": "%s has been removed to %s",
+
+  "eldenrpg.command.graces.list": "Graces of %s: ",
+
+  "eldenrpg.graces.screen.leave": "Leave",
 
   "eldenrpg.gracesselection.screen.title": "Graces",
-
-  "eldenrpg.npc.screen.title": "NPC's Editor",
-  "eldenrpg.npc.screen.editName": "NPC's name: ",
-  "eldenrpg.npc.screen.isBaby": "Is baby: ",
 
   "eldenrpg.map.screen.gracesselection": "Graces",
   "eldenrpg.map.screen.title": "Map",
 
-  "eldenrpg.slots.screen.title": "Backpack",
+  "eldenrpg.npc.screen.editName": "NPC's name: ",
+  "eldenrpg.npc.screen.isBaby": "Is baby: ",
+  "eldenrpg.npc.screen.title": "NPC's Editor",
+
+  "eldenrpg.recommendation.screen.brightness": "Brightness: Bright",
+  "eldenrpg.recommendation.screen.healthindicator": "Health Indicator TXF :",
+  "eldenrpg.recommendation.screen.hiDistance": "Distance: 5",
+  "eldenrpg.recommendation.screen.hiPosition": "Position: Bottom Center",
+  "eldenrpg.recommendation.screen.hiYValue": "Y Value: 80",
+  "eldenrpg.recommendation.screen.hiScale": "Scale: 1.5",
+  "eldenrpg.recommendation.screen.renderdistance": "Render Distance: 8-12",
+  "eldenrpg.recommendation.screen.shader": "Shader: ComplementaryUnbound",
+  "eldenrpg.recommendation.screen.shaderlightning": "Enable Advanced Colored Lightning (Performance Settings) : 4 Chunks",
+  "eldenrpg.recommendation.screen.simulationdistance": "Simulation Distance: 5-8",
 
   "eldenrpg.title.lostgracediscovered": "LOST GRACE DISCOVERED",
 
-  "entity.eldenrpg.npc": "EldenNPC",
   "entity.eldenrpg.blacksmith": "Blacksmith",
+  "entity.eldenrpg.blacksmith.dialogue1": "Hello adventurer...",
+  "entity.eldenrpg.blacksmith.dialogue2": "Can you kill these 5 green and slimy creatures in my house?",
+  "entity.eldenrpg.blacksmith.dialogue3": "You will have a good reward if you do it!",
+  "entity.eldenrpg.blacksmith.dialogue4": "Go kill these 5 slimes to have the reward, adventurer!",
+  "entity.eldenrpg.blacksmith.dialogue5": "You are my hero ! Here your reward.",
+  "entity.eldenrpg.blacksmith.dialogue6": "Thanks again for getting these critters out of my house!",
+
+  "entity.eldenrpg.npc": "EldenNPC",
 
   "item.eldenrpg.speed_talisman": "Speed Talisman",
+  "item.eldenrpg.tutorial_key": "Skeleton Key",
+  "item.eldenrpg.tutorial_key.desc": "Right click on the iron door.",
+
   "itemGroup.eldenrpg": "EldenRPG",
 
   "key.category.eldenrpg.eldenrpg": "EldenRPG",
-  "key.eldenrpg.open_map": "Open Map",
   "key.eldenrpg.drink_flask": "Drink Flask of Crimson Tears",
-  "key.eldenrpg.backpack": "Open Backpack",
+  "key.eldenrpg.open_map": "Open Map",
 
-  "sounds.eldenrpg.lost_grace_discovered": "Bonfire lit"
+  "menu.recommendation": "Recommendation",
+
+  "sounds.eldenrpg.dialogue.blacksmith_1": "Blacksmith dialogue 1",
+  "sounds.eldenrpg.dialogue.blacksmith_2": "Blacksmith dialogue 2",
+  "sounds.eldenrpg.dialogue.blacksmith_3": "Blacksmith dialogue 3",
+  "sounds.eldenrpg.dialogue.blacksmith_4": "Blacksmith dialogue 4",
+  "sounds.eldenrpg.dialogue.blacksmith_5": "Blacksmith dialogue 5",
+  "sounds.eldenrpg.dialogue.blacksmith_6": "Blacksmith dialogue 6",
+  "sounds.eldenrpg.lost_grace_discovered": "Lost Grace discovered",
+  "sounds.eldenrpg.death": "Death"
 }

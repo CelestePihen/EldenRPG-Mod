@@ -20,12 +20,11 @@ public record DrinkFlaskC2SPacket() implements CustomPayload {
 
     public static void handle(DrinkFlaskC2SPacket payload, ServerPlayNetworking.Context context) {
         ServerPlayerEntity player = context.player();
-        IPlayerDataSaver entityDataSaver = (IPlayerDataSaver) player;
+        IPlayerDataSaver playerDataSaver = (IPlayerDataSaver) player;
 
-        if (FlasksData.getFlasks(entityDataSaver) > 0) {
-            player.addStatusEffect(new StatusEffectInstance(StatusEffects.INSTANT_HEALTH, 1, 1));
-            FlasksData.removeFlasks(entityDataSaver, 1);
-            FlasksData.syncFlasks(FlasksData.getFlasks(entityDataSaver), player);
+        FlasksData.removeFlasks(playerDataSaver, 1);
+        if (FlasksData.getFlasks(playerDataSaver) > 0) {
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.INSTANT_HEALTH, 1, FlasksData.getLevelFlasks(playerDataSaver)));
         }
     }
 

@@ -14,7 +14,7 @@
     "announce_to_chat": false,
     "hidden": true
   },
-  "parent": "eldenrpg:hintbonfire",
+  "parent": "eldenrpg:hintgrace",
   "criteria": {
     "requirement": {
       "trigger": "minecraft:impossible"

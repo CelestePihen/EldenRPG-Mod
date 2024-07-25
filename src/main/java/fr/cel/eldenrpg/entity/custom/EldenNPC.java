@@ -1,6 +1,5 @@
 package fr.cel.eldenrpg.entity.custom;
 
-import fr.cel.eldenrpg.client.util.ClientHooks;
 import fr.cel.eldenrpg.quest.Quest;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
@@ -11,6 +10,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
@@ -22,7 +22,6 @@ public class EldenNPC extends MobEntity {
     public EldenNPC(EntityType<? extends MobEntity> entityType, World world) {
         super(entityType, world);
         this.setInvulnerable(true);
-        this.enterCombat();
         this.setCustomNameVisible(true);
         this.setPersistent();
     }
@@ -42,21 +41,14 @@ public class EldenNPC extends MobEntity {
         if (hand != Hand.MAIN_HAND) return ActionResult.PASS;
 
         if (!getWorld().isClient()) {
-            playerInteract(player, hand);
-            return ActionResult.SUCCESS;
-        }
-
-        if (player.isSneaking() && player.isCreativeLevelTwoOp()) {
-            ClientHooks.openNPCScreen(this);
-            return ActionResult.SUCCESS;
+            playerInteract((ServerPlayerEntity) player, hand);
+            return ActionResult.PASS;
         }
 
         return super.interactMob(player, hand);
     }
 
-    protected void playerInteract(PlayerEntity player, Hand hand) {
-
-    }
+    protected void playerInteract(ServerPlayerEntity player, Hand hand) {}
 
     @Override
     public boolean isPushable() {

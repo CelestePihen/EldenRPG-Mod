@@ -1,9 +1,11 @@
 package fr.cel.eldenrpg.block.custom;
 
+import fr.cel.eldenrpg.networking.packets.graces.screen.OpenGraceScreenS2CPacket;
 import fr.cel.eldenrpg.sound.ModSounds;
 import fr.cel.eldenrpg.util.IPlayerDataSaver;
 import fr.cel.eldenrpg.util.data.FlasksData;
 import fr.cel.eldenrpg.util.data.GracesData;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.MapColor;
@@ -14,15 +16,13 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Colors;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
 public class GraceBlock extends Block {
-
-    // faire model 3D qui ressemble à :
-    // https://media.sketchfab.com/models/b0d68c8f4cd0487da3d1fb8327ab1044/thumbnails/1284c50549804436af85a32618855e7a/99a6abdb401e4ba1a11772ac3381908f.jpeg
 
     /**
      * Le bloc qui fait office de Site de Grace.
@@ -38,7 +38,7 @@ public class GraceBlock extends Block {
      * @param world Le monde
      * @param pos La position du bloc
      * @param player Le joueur qui a intéragi
-     * @param hit La face du bloc sur lequel le joueur a intéragi
+     * @param hit J'arrive pas à comprendre ce que c'est
      * @return Le résultat de l'action
      */
     @Override
@@ -48,24 +48,25 @@ public class GraceBlock extends Block {
             IPlayerDataSaver playerDataSaver = (IPlayerDataSaver) player;
 
             FlasksData.addFlasks(playerDataSaver, 15);
+            serverPlayer.setHealth(serverPlayer.getMaxHealth());
+            serverPlayer.setSpawnPoint(world.getRegistryKey(), pos.north(), serverPlayer.getPitch(), true, true);
 
             GracesData.getGraces().forEach((gracePos, text) -> {
                 if (checkCampfire(pos, gracePos)) {
                     if (!GracesData.getGraces(playerDataSaver).contains(pos.asLong())) {
                         GracesData.addGrace(playerDataSaver, gracePos);
-                        serverPlayer.networkHandler.sendPacket(new TitleS2CPacket(Text.translatable("eldenrpg.title.lostgracediscovered")));
+                        serverPlayer.networkHandler.sendPacket(new TitleS2CPacket(Text.translatable("eldenrpg.title.lostgracediscovered").withColor(Colors.YELLOW)));
                         serverPlayer.networkHandler.sendPacket(new TitleFadeS2CPacket(20, 50, 20));
+                        serverPlayer.playSoundToPlayer(ModSounds.LOST_GRACE_DISCOVERED, SoundCategory.BLOCKS, 0.5F, 1.0F);
+                    } else {
+                        ServerPlayNetworking.send(serverPlayer, new OpenGraceScreenS2CPacket(text));
                     }
                 }
             });
-
-            serverPlayer.setHealth(serverPlayer.getMaxHealth());
-            serverPlayer.setSpawnPoint(world.getRegistryKey(), pos.north(), serverPlayer.getPitch(), true, true);
-        } else {
-            player.playSoundToPlayer(ModSounds.LOST_GRACE_DISCOVERED, SoundCategory.BLOCKS, 0.5F, 1.0F);
+            return ActionResult.SUCCESS;
         }
 
-        return ActionResult.SUCCESS;
+        return super.onUse(state, world, pos, player, hit);
     }
 
     private boolean checkCampfire(BlockPos camp1, BlockPos camp2) {

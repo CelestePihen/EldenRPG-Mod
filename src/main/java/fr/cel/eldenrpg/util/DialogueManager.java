@@ -1,0 +1,53 @@
+package fr.cel.eldenrpg.util;
+
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.text.Text;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
+public class DialogueManager {
+    private static final Queue<DelayedMessage> messageQueue = new LinkedList<>();
+
+    public static void sendMessages(ServerPlayerEntity player, List<MessageWithSound> messages) {
+        long currentTick = player.getServer().getTicks();
+        long accumulatedDelay = 0;
+
+        for (MessageWithSound messageWithSound : messages) {
+            accumulatedDelay += messageWithSound.delayTicks;
+            messageQueue.add(new DelayedMessage(player, messageWithSound, currentTick + accumulatedDelay));
+        }
+    }
+
+    public static void onServerTick(MinecraftServer server) {
+        long currentTick = server.getTicks();
+        while (!messageQueue.isEmpty() && messageQueue.peek().tickToSend <= currentTick) {
+            DelayedMessage dm = messageQueue.poll();
+            if (!dm.player.isDisconnected()) {
+                dm.player.sendMessage(Text.translatable(dm.messageWithSound.message), true);
+                if (dm.messageWithSound.sound != null) {
+                    dm.player.playSoundToPlayer(dm.messageWithSound.sound, SoundCategory.VOICE, 0.5F, 1.0F);
+                }
+            }
+        }
+    }
+
+    public static class MessageWithSound {
+        final String message;
+        final int delayTicks;
+        final SoundEvent sound;
+
+        public MessageWithSound(String message, int delayTicks, SoundEvent sound) {
+            this.message = message;
+            this.delayTicks = delayTicks;
+            this.sound = sound;
+        }
+    }
+
+    private record DelayedMessage(ServerPlayerEntity player, MessageWithSound messageWithSound, long tickToSend) {
+    }
+}
