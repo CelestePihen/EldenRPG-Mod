@@ -18,7 +18,7 @@ import java.util.List;
 
 public class TutorialKey extends Item {
 
-    private final BlockPos[] blocksPos = new BlockPos[] { new BlockPos(154, 30, -89), new BlockPos(154, 31, -89) };
+    private final BlockPos[] blocksPos = new BlockPos[] { new BlockPos(154, 30, -89), new BlockPos(154, 31, -89), new BlockPos(154, 30, -88) };
 
     public TutorialKey() {
         super(new Settings().maxCount(1).rarity(Rarity.RARE));
@@ -27,17 +27,20 @@ public class TutorialKey extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         ItemStack itemStack = player.getStackInHand(hand);
-        HitResult hitResult = raycast(world, player, RaycastContext.FluidHandling.ANY);
 
         if (world.isClient()) return TypedActionResult.pass(itemStack);
 
         if (!world.isClient() && hand == Hand.MAIN_HAND) {
+            HitResult hitResult = raycast(world, player, RaycastContext.FluidHandling.ANY);
             if (hitResult.getType() == HitResult.Type.MISS) {
                 return TypedActionResult.pass(itemStack);
             } else {
                 BlockPos pos = BlockPos.ofFloored(hitResult.getPos());
-                if (pos.equals(blocksPos[0]) | pos.equals(blocksPos[1])) {
-                    ((ServerPlayerEntity) player).networkHandler.requestTeleport(154.5, 30, -88.5, -90, 0);
+                if (pos.equals(blocksPos[0]) || pos.equals(blocksPos[1])) {
+                    ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
+                    serverPlayer.networkHandler.requestTeleport(blocksPos[2].getX() + 0.5, blocksPos[2].getY(), blocksPos[2].getZ() + 0.5, -90, 0);
+                    serverPlayer.setSpawnPoint(world.getRegistryKey(), blocksPos[2], 0, true, true);
+
                     player.getInventory().removeOne(itemStack);
                 }
             }
