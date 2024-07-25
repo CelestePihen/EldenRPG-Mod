@@ -18,7 +18,7 @@ import java.util.List;
 
 public class TutorialKey extends Item {
 
-    private final BlockPos[] blocksPos = new BlockPos[] { new BlockPos(154, 30, -89), new BlockPos(154, 31, -89), new BlockPos(154, 30, -88) };
+    private final BlockPos[] blocksPos = new BlockPos[] { new BlockPos(154, 30, -89), new BlockPos(154, 31, -89), new BlockPos(155, 30, -89) };
 
     public TutorialKey() {
         super(new Settings().maxCount(1).rarity(Rarity.RARE));
@@ -38,7 +38,7 @@ public class TutorialKey extends Item {
                 BlockPos pos = BlockPos.ofFloored(hitResult.getPos());
                 if (pos.equals(blocksPos[0]) || pos.equals(blocksPos[1])) {
                     ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
-                    serverPlayer.networkHandler.requestTeleport(blocksPos[2].getX() + 0.5, blocksPos[2].getY(), blocksPos[2].getZ() + 0.5, -90, 0);
+                    serverPlayer.networkHandler.requestTeleport(155.5, 30, -8.5, -90, 0);
                     serverPlayer.setSpawnPoint(world.getRegistryKey(), blocksPos[2], 0, true, true);
 
                     player.getInventory().removeOne(itemStack);
