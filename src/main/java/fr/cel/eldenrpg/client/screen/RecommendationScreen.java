@@ -1,4 +1,4 @@
-package fr.cel.eldenrpg.client.gui.screen;
+package fr.cel.eldenrpg.client.screen;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;

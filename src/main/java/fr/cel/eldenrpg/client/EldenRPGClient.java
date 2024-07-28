@@ -1,12 +1,12 @@
 package fr.cel.eldenrpg.client;
 
-import fr.cel.eldenrpg.client.gui.overlay.FlasksHudOverlay;
 import fr.cel.eldenrpg.client.model.EldenNPCModel;
+import fr.cel.eldenrpg.client.model.ModModelLayers;
+import fr.cel.eldenrpg.client.overlay.FlasksHudOverlay;
 import fr.cel.eldenrpg.client.renderer.BlacksmithRenderer;
 import fr.cel.eldenrpg.client.renderer.EldenNPCRenderer;
 import fr.cel.eldenrpg.entity.ModEntities;
-import fr.cel.eldenrpg.entity.ModModelLayers;
-import fr.cel.eldenrpg.event.events.KeyInputHandler;
+import fr.cel.eldenrpg.event.events.KeyInputEvent;
 import fr.cel.eldenrpg.networking.ModMessages;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
@@ -18,7 +18,7 @@ public final class EldenRPGClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ModMessages.registerS2CPackets();
-        KeyInputHandler.register();
+        KeyInputEvent.register();
 
         HudRenderCallback.EVENT.register(new FlasksHudOverlay());
 

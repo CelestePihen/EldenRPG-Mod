@@ -9,10 +9,10 @@ public class Quest {
     private Task task;
 
     public Quest(String id, Task task) {
-        this(id, QuestState.ACTIVE, task);
+        this(id, task, QuestState.ACTIVE);
     }
 
-    public Quest(String id, QuestState questState, Task task) {
+    public Quest(String id, Task task, QuestState questState) {
         this.id = id;
         this.questState = questState;
         this.task = task;

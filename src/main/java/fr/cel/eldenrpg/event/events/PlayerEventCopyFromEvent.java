@@ -5,10 +5,10 @@ import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 
-public class ModPlayerEventCopyFrom implements ServerPlayerEvents.CopyFrom {
+public class PlayerEventCopyFromEvent implements ServerPlayerEvents.CopyFrom {
 
     public static void init() {
-        ServerPlayerEvents.COPY_FROM.register(new ModPlayerEventCopyFrom());
+        ServerPlayerEvents.COPY_FROM.register(new PlayerEventCopyFromEvent());
     }
 
     @Override

@@ -31,10 +31,6 @@
   "eldenrpg.map.screen.gracesselection": "Graces",
   "eldenrpg.map.screen.title": "Map",
 
-  "eldenrpg.npc.screen.editName": "NPC's name: ",
-  "eldenrpg.npc.screen.isBaby": "Is baby: ",
-  "eldenrpg.npc.screen.title": "NPC's Editor",
-
   "eldenrpg.recommendation.screen.brightness": "Brightness: Bright",
   "eldenrpg.recommendation.screen.healthindicator": "Health Indicator TXF :",
   "eldenrpg.recommendation.screen.hiDistance": "Distance: 5",
@@ -42,7 +38,7 @@
   "eldenrpg.recommendation.screen.hiYValue": "Y Value: 80",
   "eldenrpg.recommendation.screen.hiScale": "Scale: 1.5",
   "eldenrpg.recommendation.screen.renderdistance": "Render Distance: 8-12",
-  "eldenrpg.recommendation.screen.shader": "Shader: ComplementaryUnbound",
+  "eldenrpg.recommendation.screen.shader": "Shader: ComplementaryUnbound + EuphoriaPatches",
   "eldenrpg.recommendation.screen.shaderlightning": "Enable Advanced Colored Lightning (Performance Settings) : 4 Chunks",
   "eldenrpg.recommendation.screen.simulationdistance": "Simulation Distance: 5-8",
 

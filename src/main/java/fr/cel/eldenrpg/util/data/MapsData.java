@@ -9,7 +9,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapsData {
+public final class MapsData {
 
     public static boolean addMapId(IPlayerDataSaver player, int mapId) {
         List<Integer> mapsId = getMapsId(player);

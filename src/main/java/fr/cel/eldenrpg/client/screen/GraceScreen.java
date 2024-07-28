@@ -1,4 +1,4 @@
-package fr.cel.eldenrpg.client.gui.screen;
+package fr.cel.eldenrpg.client.screen;
 
 import fr.cel.eldenrpg.networking.packets.graces.screen.OpenChestC2SPacket;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -6,7 +6,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.text.Text;
 
 public class GraceScreen extends Screen {
@@ -19,7 +19,7 @@ public class GraceScreen extends Screen {
     protected void init() {
         super.init();
 
-        PlayerEntity player = MinecraftClient.getInstance().player;
+        ClientPlayerEntity player = MinecraftClient.getInstance().player;
         if (player == null) return;
 
         // TODO

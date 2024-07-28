@@ -2,7 +2,6 @@ package fr.cel.eldenrpg.networking.packets.flasks;
 
 import fr.cel.eldenrpg.networking.ModMessages;
 import fr.cel.eldenrpg.util.IPlayerDataSaver;
-import fr.cel.eldenrpg.util.data.FlasksData;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -16,7 +15,7 @@ public record FlasksSyncDataS2CPacket(int flasks) implements CustomPayload {
             PacketCodecs.INTEGER, FlasksSyncDataS2CPacket::flasks, FlasksSyncDataS2CPacket::new);
 
     public static void handle(FlasksSyncDataS2CPacket payload, ClientPlayNetworking.Context context) {
-        context.client().execute(() -> FlasksData.addFlasks((IPlayerDataSaver) context.player(), payload.flasks()));
+        context.client().execute(() -> ((IPlayerDataSaver) context.player()).eldenrpg$getPersistentData().putInt("flasks", payload.flasks()));
     }
 
     @Override

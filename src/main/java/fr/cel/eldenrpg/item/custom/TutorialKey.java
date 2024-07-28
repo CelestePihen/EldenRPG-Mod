@@ -39,7 +39,7 @@ public class TutorialKey extends Item {
                 if (pos.equals(blocksPos[0]) || pos.equals(blocksPos[1])) {
                     ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
                     serverPlayer.networkHandler.requestTeleport(155.5, 30, -88.5, -90, 0);
-                    serverPlayer.setSpawnPoint(world.getRegistryKey(), blocksPos[2], 0, true, true);
+                    serverPlayer.setSpawnPoint(world.getRegistryKey(), blocksPos[2], 0, true, false);
 
                     player.getInventory().removeOne(itemStack);
                 }

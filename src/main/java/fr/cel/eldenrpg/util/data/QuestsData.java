@@ -5,21 +5,11 @@ import fr.cel.eldenrpg.util.IPlayerDataSaver;
 
 import java.util.List;
 
-public class QuestsData {
+public final class QuestsData {
 
     public static void addQuest(IPlayerDataSaver player, Quest quest) {
         if (getQuest(player, quest.getId()) != null) return;
         player.eldenrpg$getQuests().add(quest);
-    }
-
-    public static void removeQuest(IPlayerDataSaver player, String questId) {
-        if (getQuest(player, questId) == null) return;
-
-        for (Quest quest : getQuests(player)) {
-            if (quest.getId().equalsIgnoreCase(questId)) {
-                player.eldenrpg$getQuests().remove(quest);
-            }
-        }
     }
 
     public static List<Quest> getQuests(IPlayerDataSaver player) {

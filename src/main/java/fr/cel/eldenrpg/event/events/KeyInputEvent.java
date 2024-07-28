@@ -1,6 +1,6 @@
 package fr.cel.eldenrpg.event.events;
 
-import fr.cel.eldenrpg.client.gui.screen.MapScreen;
+import fr.cel.eldenrpg.client.screen.MapScreen;
 import fr.cel.eldenrpg.networking.packets.flasks.DrinkFlaskC2SPacket;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -9,7 +9,7 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
-public class KeyInputHandler {
+public class KeyInputEvent {
 
     public static final String KEY_CATEGORY_ELDENRPG = "key.category.eldenrpg.eldenrpg";
 

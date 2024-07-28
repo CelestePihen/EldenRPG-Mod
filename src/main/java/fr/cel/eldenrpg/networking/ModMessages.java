@@ -13,7 +13,7 @@ import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.util.Identifier;
 
-public class ModMessages {
+public final class ModMessages {
 
     public static final Identifier DRINK_FLASK_ID = Identifier.of(EldenRPG.MOD_ID, "drinkflask");
     public static final Identifier SYNC_FLASK_ID = Identifier.of(EldenRPG.MOD_ID, "syncflasks");

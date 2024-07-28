@@ -1,7 +1,7 @@
 package fr.cel.eldenrpg.mixin.client.screen;
 
 import fr.cel.eldenrpg.EldenRPG;
-import fr.cel.eldenrpg.client.gui.screen.RecommendationScreen;
+import fr.cel.eldenrpg.client.screen.RecommendationScreen;
 import fr.cel.eldenrpg.util.IScreen;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;

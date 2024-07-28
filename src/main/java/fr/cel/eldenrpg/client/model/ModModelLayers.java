@@ -1,4 +1,4 @@
-package fr.cel.eldenrpg.entity;
+package fr.cel.eldenrpg.client.model;
 
 import fr.cel.eldenrpg.EldenRPG;
 import net.minecraft.client.render.entity.model.EntityModelLayer;

@@ -32,15 +32,6 @@ public class GraceBlock extends Block {
         super(Settings.create().luminance(value -> 15).mapColor(MapColor.BROWN).dropsNothing());
     }
 
-    /**
-     * Quand un joueur fait clique droit, cela active cette méthode
-     * @param state L'état du bloc
-     * @param world Le monde
-     * @param pos La position du bloc
-     * @param player Le joueur qui a intéragi
-     * @param hit J'arrive pas à comprendre ce que c'est
-     * @return Le résultat de l'action
-     */
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (!world.isClient()) {

@@ -18,10 +18,10 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
-public class ModEntityLoad implements ServerEntityEvents.Load {
+public class EntityLoadEvent implements ServerEntityEvents.Load {
 
     public static void init() {
-        ServerEntityEvents.ENTITY_LOAD.register(new ModEntityLoad());
+        ServerEntityEvents.ENTITY_LOAD.register(new EntityLoadEvent());
     }
 
     @Override

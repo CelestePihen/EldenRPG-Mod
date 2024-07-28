@@ -10,10 +10,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-public class DialogueManager {
+public final class DialogueManager {
     private static final Queue<DelayedMessage> messageQueue = new LinkedList<>();
 
     public static void sendMessages(ServerPlayerEntity player, List<MessageWithSound> messages) {
+        if (player.isDisconnected()) return;
+
         long currentTick = player.getServer().getTicks();
         long accumulatedDelay = 0;
 
@@ -36,16 +38,7 @@ public class DialogueManager {
         }
     }
 
-    public static class MessageWithSound {
-        final String message;
-        final int delayTicks;
-        final SoundEvent sound;
-
-        public MessageWithSound(String message, int delayTicks, SoundEvent sound) {
-            this.message = message;
-            this.delayTicks = delayTicks;
-            this.sound = sound;
-        }
+    public record MessageWithSound(String message, int delayTicks, SoundEvent sound) {
     }
 
     private record DelayedMessage(ServerPlayerEntity player, MessageWithSound messageWithSound, long tickToSend) {

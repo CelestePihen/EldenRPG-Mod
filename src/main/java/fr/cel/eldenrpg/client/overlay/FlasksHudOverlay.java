@@ -1,4 +1,4 @@
-package fr.cel.eldenrpg.client.gui.overlay;
+package fr.cel.eldenrpg.client.overlay;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import fr.cel.eldenrpg.EldenRPG;
@@ -14,7 +14,7 @@ import net.minecraft.util.Identifier;
 
 public class FlasksHudOverlay implements HudRenderCallback {
 
-    private static final Identifier FLASKS = Identifier.of(EldenRPG.MOD_ID, "textures/flasks/flask.png");
+    private static final Identifier FLASKS = Identifier.of(EldenRPG.MOD_ID, "textures/gui/flasks/flask.png");
     private static final Identifier EMPTY_POTION = Identifier.ofVanilla("textures/item/potion.png");
 
     @Override
@@ -25,7 +25,7 @@ public class FlasksHudOverlay implements HudRenderCallback {
         if (player == null) return;
         if (player.getAbilities().invulnerable) return;
 
-        int xPosition = client.getWindow().getScaledWidth() / 2 - 150;
+        int xPosition = client.getWindow().getScaledWidth() / 2 - 153;
         int yPosition = client.getWindow().getScaledHeight() - 34;
 
         int flasks = FlasksData.getFlasks((IPlayerDataSaver) player);

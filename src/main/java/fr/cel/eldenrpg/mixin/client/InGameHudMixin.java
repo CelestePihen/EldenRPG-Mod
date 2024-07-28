@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(InGameHud.class)
-public class InGameHudMixin {
+public abstract class InGameHudMixin {
 
     @Inject(method = "renderHealthBar", at = @At("HEAD"), cancellable = true)
     private void renderHealthBar(DrawContext context, PlayerEntity player, int x, int y, int lines, int regeneratingHeartIndex, float maxHealth, int lastHealth, int health, int absorption, boolean blinking, CallbackInfo ci) {
@@ -25,7 +25,7 @@ public class InGameHudMixin {
         int barWidth = 180;
         int barHeight = 10;
         int barX = (context.getScaledWindowWidth() - barWidth) / 2;
-        int barY = (context.getScaledWindowHeight() - barHeight) - 35;
+        int barY = (context.getScaledWindowHeight() - barHeight) - 62;
 
         int currentHealthWidth = (int) ((double) h / maxHealth * barWidth);
 

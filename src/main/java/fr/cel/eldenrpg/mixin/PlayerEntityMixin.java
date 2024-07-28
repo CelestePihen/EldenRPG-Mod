@@ -1,4 +1,4 @@
-package fr.cel.eldenrpg.mixin.server;
+package fr.cel.eldenrpg.mixin;
 
 import com.mojang.authlib.GameProfile;
 import fr.cel.eldenrpg.quest.Quest;
@@ -23,18 +23,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Mixin(PlayerEntity.class)
-public class PlayerEntityMixin implements IPlayerDataSaver {
+public abstract class PlayerEntityMixin implements IPlayerDataSaver {
 
-    @Unique private NbtCompound persistentData;
     @Unique private List<Quest> quests;
+    @Unique private NbtCompound persistentData;
 
-    @Inject(method = "<init>", at = @At("RETURN"))
-    public void constructor(World world, BlockPos pos, float yaw, GameProfile gameProfile, CallbackInfo ci) {
+    @Inject(method = "<init>", at = @At("TAIL"))
+    private void constructor(World world, BlockPos pos, float yaw, GameProfile gameProfile, CallbackInfo ci) {
         this.quests = new ArrayList<>();
     }
 
     @Inject(method = "writeCustomDataToNbt", at = @At("RETURN"))
-    protected void injectWriteMethod(NbtCompound nbt, CallbackInfo ci) {
+    private void injectWriteMethod(NbtCompound nbt, CallbackInfo ci) {
         if (this.persistentData != null) {
             nbt.put("eldenrpg.data", this.persistentData);
             persistentData.put("quests", Quests.writeNbt(quests));
@@ -42,7 +42,7 @@ public class PlayerEntityMixin implements IPlayerDataSaver {
     }
 
     @Inject(method = "readCustomDataFromNbt", at = @At("RETURN"))
-    protected void injectReadMethod(NbtCompound nbt, CallbackInfo ci) {
+    private void injectReadMethod(NbtCompound nbt, CallbackInfo ci) {
         if (nbt.contains("eldenrpg.data", NbtElement.COMPOUND_TYPE)) {
             this.persistentData = nbt.getCompound("eldenrpg.data");
             this.quests = Quests.loadNbt(this.persistentData);

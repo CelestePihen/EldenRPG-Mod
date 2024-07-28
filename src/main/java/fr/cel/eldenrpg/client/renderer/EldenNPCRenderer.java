@@ -1,7 +1,7 @@
 package fr.cel.eldenrpg.client.renderer;
 
 import fr.cel.eldenrpg.EldenRPG;
-import fr.cel.eldenrpg.entity.ModModelLayers;
+import fr.cel.eldenrpg.client.model.ModModelLayers;
 import fr.cel.eldenrpg.entity.custom.EldenNPC;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;

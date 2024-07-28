@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GracesData {
+public final class GracesData {
 
     public static void addGrace(IPlayerDataSaver player, BlockPos pos) {
         List<Long> blockPosLong = getGraces(player);

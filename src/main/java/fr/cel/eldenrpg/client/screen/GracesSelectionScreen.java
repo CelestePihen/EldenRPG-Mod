@@ -1,4 +1,4 @@
-package fr.cel.eldenrpg.client.gui.screen;
+package fr.cel.eldenrpg.client.screen;
 
 import fr.cel.eldenrpg.networking.packets.graces.MapTeleportationC2SPacket;
 import fr.cel.eldenrpg.util.IPlayerDataSaver;
@@ -16,7 +16,6 @@ import net.minecraft.util.Colors;
 import net.minecraft.util.math.BlockPos;
 
 public class GracesSelectionScreen extends Screen {
-
     private final ThreePartsLayoutWidget layout = new ThreePartsLayoutWidget(this);
     private final Screen parent;
 
@@ -48,7 +47,7 @@ public class GracesSelectionScreen extends Screen {
 
             GracesData.getGraces(((IPlayerDataSaver) minecraftClient.player)).forEach(pos -> {
                 Text text = GracesData.getGraceName(BlockPos.fromLong(pos));
-                GracesSelectionListWidget.GraceEntry entry = new GraceEntry(BlockPos.fromLong(pos), text, minecraftClient);
+                GraceEntry entry = new GraceEntry(BlockPos.fromLong(pos), text, minecraftClient);
                 this.addEntry(entry);
             });
 
@@ -62,7 +61,7 @@ public class GracesSelectionScreen extends Screen {
             return super.getRowWidth() + 50;
         }
 
-        public class GraceEntry extends AlwaysSelectedEntryListWidget.Entry<GraceEntry> {
+        public class GraceEntry extends Entry<GraceEntry> {
             private final BlockPos pos;
             private final Text graceName;
             private final MinecraftClient client;

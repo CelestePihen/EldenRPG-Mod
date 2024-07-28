@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LogoDrawer.class)
-public class LogoDrawerMixin {
+public abstract class LogoDrawerMixin {
 
     @Shadow @Final private boolean ignoreAlpha;
     @Shadow @Final private boolean minceraft;

@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Screen.class)
-public class ScreenMixin implements IScreen {
+public abstract class ScreenMixin implements IScreen {
 
     @Shadow public int width;
     @Shadow public int height;

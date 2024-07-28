@@ -15,10 +15,6 @@ public class Tasks {
 
     private static final Map<String, Task> tasks = new HashMap<>();
 
-    public static Map<String, Task> getTasks() {
-        return tasks;
-    }
-
     public static final ZoneTask LEAVE_TUTORIAL_CAVE = registerZone("leaveTutorialCave");
 
     public static final KillTask KILL_5_SLIMES = registerKill("kill5Slimes", SlimeEntity.class, 5);
@@ -46,6 +42,10 @@ public class Tasks {
         Task task = Tasks.getTasks().get(taskTag.getString("id"));
         task.setProgress(taskTag.getInt("progress"));
         return task;
+    }
+
+    public static Map<String, Task> getTasks() {
+        return tasks;
     }
 
 }

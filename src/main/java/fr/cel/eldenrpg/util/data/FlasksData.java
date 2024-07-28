@@ -3,11 +3,10 @@ package fr.cel.eldenrpg.util.data;
 import fr.cel.eldenrpg.networking.packets.flasks.FlasksSyncDataS2CPacket;
 import fr.cel.eldenrpg.util.IPlayerDataSaver;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 
-public class FlasksData {
+public final class FlasksData {
 
     public static void addFlasks(IPlayerDataSaver player, int amount) {
         NbtCompound nbt = player.eldenrpg$getPersistentData();
@@ -17,7 +16,7 @@ public class FlasksData {
         flasks = Math.min(flasks + amount, maxFlasks);
 
         nbt.putInt("flasks", flasks);
-        syncFlasks(flasks, (PlayerEntity) player);
+        syncFlasks(flasks, (ServerPlayerEntity) player);
     }
 
     public static void removeFlasks(IPlayerDataSaver player, int amount) {
@@ -97,10 +96,8 @@ public class FlasksData {
         nbt.putInt("goldenSeed", goldenSeed);
     }
 
-    public static void syncFlasks(int flasks, PlayerEntity player) {
-        if (player instanceof ServerPlayerEntity serverPlayer) {
-            ServerPlayNetworking.send(serverPlayer, new FlasksSyncDataS2CPacket(flasks));
-        }
+    public static void syncFlasks(int flasks, ServerPlayerEntity player) {
+        ServerPlayNetworking.send(player, new FlasksSyncDataS2CPacket(flasks));
     }
 
 }

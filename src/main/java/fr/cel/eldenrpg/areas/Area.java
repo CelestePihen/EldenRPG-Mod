@@ -27,8 +27,8 @@ public abstract class Area {
     }
 
     public void detectPlayerInArea(ServerPlayerEntity player) {
-        boolean isPlayerIn = aabb.contains(player.getX(), player.getY(), player.getZ());
         playerInside.putIfAbsent(player, false);
+        boolean isPlayerIn = aabb.contains(player.getX(), player.getY(), player.getZ());
 
         // si dans la zone
         if (isPlayerIn && !playerInside.get(player)) {

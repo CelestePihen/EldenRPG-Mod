@@ -8,13 +8,15 @@ import fr.cel.eldenrpg.util.DialogueManager;
 import fr.cel.eldenrpg.util.IPlayerDataSaver;
 import fr.cel.eldenrpg.util.data.QuestsData;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 
-public class ModEndServerTick implements ServerTickEvents.EndTick {
+public class EndServerTickEvent implements ServerTickEvents.EndTick {
 
     public static void init() {
-        ServerTickEvents.END_SERVER_TICK.register(new ModEndServerTick());
+        ServerTickEvents.END_SERVER_TICK.register(new EndServerTickEvent());
         ServerTickEvents.END_SERVER_TICK.register(DialogueManager::onServerTick);
     }
 
@@ -23,6 +25,10 @@ public class ModEndServerTick implements ServerTickEvents.EndTick {
         for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
             if (player.getHungerManager().isNotFull()) {
                 player.getHungerManager().setFoodLevel(20);
+            }
+
+            if (isCraftingInInventory(player)) {
+                cancelCrafting(player);
             }
 
             for (Quest quest : QuestsData.getItemQuests((IPlayerDataSaver) player)) {
@@ -34,6 +40,28 @@ public class ModEndServerTick implements ServerTickEvents.EndTick {
             }
 
         }
+    }
+
+    private boolean isCraftingInInventory(ServerPlayerEntity player) {
+        for (int i = 1; i <= 4; i++) {
+            ItemStack stack = player.playerScreenHandler.getSlot(i).getStack();
+            if (!stack.isEmpty()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void cancelCrafting(ServerPlayerEntity player) {
+        PlayerInventory inventory = player.getInventory();
+        for (int i = 1; i <= 4; i++) {
+            ItemStack stack = player.playerScreenHandler.getSlot(i).getStack();
+            if (!stack.isEmpty()) {
+                inventory.offerOrDrop(stack);
+                player.playerScreenHandler.getSlot(i).setStack(ItemStack.EMPTY);
+            }
+        }
+        player.playerScreenHandler.sendContentUpdates();
     }
 
 }

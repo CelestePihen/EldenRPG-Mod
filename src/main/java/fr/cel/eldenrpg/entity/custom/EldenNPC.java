@@ -1,6 +1,5 @@
 package fr.cel.eldenrpg.entity.custom;
 
-import fr.cel.eldenrpg.quest.Quest;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
@@ -16,8 +15,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
 public class EldenNPC extends MobEntity {
-
-    protected Quest quest;
 
     public EldenNPC(EntityType<? extends MobEntity> entityType, World world) {
         super(entityType, world);

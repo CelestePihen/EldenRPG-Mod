@@ -5,10 +5,7 @@ import fr.cel.eldenrpg.command.GraceCommand;
 import fr.cel.eldenrpg.command.NPCCommand;
 import fr.cel.eldenrpg.command.QuestCommand;
 import fr.cel.eldenrpg.event.custom.EnterAreaEvent;
-import fr.cel.eldenrpg.event.events.ModAfterDeath;
-import fr.cel.eldenrpg.event.events.ModEndServerTick;
-import fr.cel.eldenrpg.event.events.ModEntityLoad;
-import fr.cel.eldenrpg.event.events.ModPlayerEventCopyFrom;
+import fr.cel.eldenrpg.event.events.*;
 import fr.cel.eldenrpg.quest.Quest;
 import fr.cel.eldenrpg.quest.task.type.ZoneTask;
 import fr.cel.eldenrpg.util.IPlayerDataSaver;
@@ -18,10 +15,11 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 public class ServerEvents {
 
     public static void registerEvents() {
-        ModPlayerEventCopyFrom.init();
-        ModEntityLoad.init();
-        ModAfterDeath.init();
-        ModEndServerTick.init();
+        PlayerEventCopyFromEvent.init();
+        EntityLoadEvent.init();
+        DeathEvent.init();
+        EndServerTickEvent.init();
+        UseBlockEvent.init();
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             NPCCommand.register(dispatcher);

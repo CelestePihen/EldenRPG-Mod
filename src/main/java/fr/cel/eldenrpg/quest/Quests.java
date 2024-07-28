@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Quests {
+public final class Quests {
 
     private static final Map<String, Quest> quests = new HashMap<>();
 

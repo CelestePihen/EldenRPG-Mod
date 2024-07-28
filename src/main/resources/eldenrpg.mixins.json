@@ -6,13 +6,15 @@
     "client.InGameHudMixin",
     "client.MinecraftClientMixin",
     "client.screen.AccessibilityOnboardingScreenMixin",
+    "client.screen.GameMenuScreenMixin",
+    "client.screen.InventoryScreenMixin",
     "client.screen.LogoDrawerMixin",
     "client.screen.ScreenMixin",
     "client.screen.TitleScreenMixin"
   ],
   "mixins": [
-    "server.NameTagMixin",
-    "server.PlayerEntityMixin"
+    "NameTagMixin",
+    "PlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -12,10 +12,10 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
 
-public class ModAfterDeath implements ServerLivingEntityEvents.AfterDeath {
+public class DeathEvent implements ServerLivingEntityEvents.AfterDeath {
 
     public static void init() {
-        ServerLivingEntityEvents.AFTER_DEATH.register(new ModAfterDeath());
+        ServerLivingEntityEvents.AFTER_DEATH.register(new DeathEvent());
     }
 
     @Override

@@ -31,10 +31,6 @@
   "eldenrpg.map.screen.gracesselection": "Grâces",
   "eldenrpg.map.screen.title": "Carte",
 
-  "eldenrpg.npc.screen.editName": "Nom du PNJ: ",
-  "eldenrpg.npc.screen.isBaby": "Enfant: ",
-  "eldenrpg.npc.screen.title": "Éditeur de PNJ",
-
   "eldenrpg.recommendation.screen.brightness": "Luminosité : Vive",
   "eldenrpg.recommendation.screen.healthindicator": "Health Indicator TXF :",
   "eldenrpg.recommendation.screen.hiDistance": "Distance: 5",
@@ -42,7 +38,7 @@
   "eldenrpg.recommendation.screen.hiYValue": "Y Value: 80",
   "eldenrpg.recommendation.screen.hiScale": "Scale: 1.5",
   "eldenrpg.recommendation.screen.renderdistance": "Dist. d'affichage : 8-12",
-  "eldenrpg.recommendation.screen.shader": "Shader: ComplementaryUnbound",
+  "eldenrpg.recommendation.screen.shader": "Shader: ComplementaryUnbound + EuphoriaPatches",
   "eldenrpg.recommendation.screen.shaderlightning": "Activer Advanced Colored Lightning (Performance Settings) : 4 Chunks",
   "eldenrpg.recommendation.screen.simulationdistance": "Dist. de simulation: 5-8",
 
