@@ -30,7 +30,7 @@ public class ModModelProvider extends FabricModelProvider {
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
         itemModelGenerator.register(ModItems.SPEED_TALISMAN, Models.GENERATED);
-        itemModelGenerator.register(ModItems.TUTORIAL_KEY, Items.TRIAL_KEY, Models.GENERATED);
+        itemModelGenerator.register(ModItems.KEY, Items.TRIAL_KEY, Models.GENERATED);
     }
 
 }

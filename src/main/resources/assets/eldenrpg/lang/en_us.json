@@ -1,12 +1,16 @@
 {
   "advancement.eldenrpg.grace.title": "Grace",
-  "advancement.eldenrpg.grace.description": "Doing right click on a grace, you can set your spawn, heal and upgrade your stuff.",
-  "advancement.eldenrpg.fakeblock.title": "Fake Blocks",
-  "advancement.eldenrpg.fakeblock.description": "There are many fake blocks where you can pass through. Behind these, some interesting equipment may be hidden...",
+  "advancement.eldenrpg.grace.description": "You can set your spawn, heal, upgrade your flask and can access to your chest.",
+  "advancement.eldenrpg.fakeblock.title": "Ghost Blocks",
+  "advancement.eldenrpg.fakeblock.description": "There are many ghost blocks where you can pass through. Behind these, some interesting equipment may be hidden...",
+  "advancement.eldenrpg.goldenseed.title": "Golden Seeds",
+  "advancement.eldenrpg.goldenseed.description": "The golden seeds are used to increase your flasks' number",
   "advancement.eldenrpg.map.title": "Map",
   "advancement.eldenrpg.map.description": "In the whole map, you can find pillars with parts of the map.",
   "advancement.eldenrpg.root.title": "EldenRPG",
   "advancement.eldenrpg.root.description": "The beginning of the end",
+  "advancement.eldenrpg.sacredtear.title": "Sacred Tears",
+  "advancement.eldenrpg.sacredtear.description": "Sacred Tears are used to increase your flasks' level",
 
   "block.eldenrpg.grace_block": "Site of Grace",
   "block.eldenrpg.gravel_ghost_block": "Gravel Ghost Block",
@@ -16,7 +20,9 @@
   "block.eldenrpg.stone_ghost_block": "Stone Ghost Block",
 
   "eldenrpg.area.graveyard": "GRAVEYARD",
-  "eldenrpg.area.partofmap": "PART OF MAP DISCOVERED",
+  "eldenrpg.area.goldenseed": "GOLDEN SEED FOUND",
+  "eldenrpg.area.sacredtear": "SACRED TEAR FOUND",
+  "eldenrpg.area.partofmap": "PART OF MAP FOUND",
 
   "eldenrpg.command.quest.add": "%s has been added to %s",
   "eldenrpg.command.quest.list": "Quests of %s: ",
@@ -24,6 +30,19 @@
 
   "eldenrpg.command.graces.list": "Graces of %s: ",
 
+  "eldenrpg.flasks.screen.addCharge": "Add charge to flask",
+  "eldenrpg.flasks.screen.cancel": "Cancel",
+  "eldenrpg.flasks.screen.chargeAdded": "Added a charge to Flasks of Crimson Tears",
+  "eldenrpg.flasks.screen.error": "Error... Contact an administrator !",
+  "eldenrpg.flasks.screen.increaseAmount": "Increase amount replenished by flasks",
+  "eldenrpg.flasks.screen.maxFlasks": "You have already reached the maximum number of flasks...",
+  "eldenrpg.flasks.screen.notEnoughGS": "You don't have enough golden seeds...",
+  "eldenrpg.flasks.screen.noGoldenSeed": "You have no golden seeds...",
+  "eldenrpg.flasks.screen.noTear": "You have no Sacred Tears",
+  "eldenrpg.flasks.screen.flaskIncreased": "Increased the amount of HP replenished by your flasks",
+
+  "eldenrpg.graces.screen.flasks": "Flasks",
+  "eldenrpg.graces.screen.increasehealth": "Increase health",
   "eldenrpg.graces.screen.leave": "Leave",
 
   "eldenrpg.gracesselection.screen.title": "Graces",
@@ -52,17 +71,21 @@
   "entity.eldenrpg.blacksmith.dialogue5": "You are my hero ! Here your reward.",
   "entity.eldenrpg.blacksmith.dialogue6": "Thanks again for getting these critters out of my house!",
 
+  "entity.eldenrpg.catacombcarcass": "Catacomb Carcass",
+
   "entity.eldenrpg.npc": "EldenNPC",
 
   "item.eldenrpg.speed_talisman": "Speed Talisman",
-  "item.eldenrpg.tutorial_key": "Skeleton Key",
-  "item.eldenrpg.tutorial_key.desc": "Right click on the iron door.",
+  "item.eldenrpg.key": "Key",
+  "item.eldenrpg.key.desc": "Right click on an iron door to open it.",
 
   "itemGroup.eldenrpg": "EldenRPG",
 
   "key.category.eldenrpg.eldenrpg": "EldenRPG",
   "key.eldenrpg.drink_flask": "Drink Flask of Crimson Tears",
   "key.eldenrpg.open_map": "Open Map",
+  "key.eldenrpg.roll": "Roll",
+  "key.eldenrpg.wave": "Wave",
 
   "menu.recommendation": "Recommendation",
 

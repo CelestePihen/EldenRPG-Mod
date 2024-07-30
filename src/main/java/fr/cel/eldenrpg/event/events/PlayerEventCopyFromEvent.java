@@ -11,6 +11,7 @@ public class PlayerEventCopyFromEvent implements ServerPlayerEvents.CopyFrom {
         ServerPlayerEvents.COPY_FROM.register(new PlayerEventCopyFromEvent());
     }
 
+    // FIXME ça sert à quelque chose ?
     @Override
     public void copyFromPlayer(ServerPlayerEntity oldPlayer, ServerPlayerEntity newPlayer, boolean alive) {
         IPlayerDataSaver original = (IPlayerDataSaver) oldPlayer;
@@ -21,6 +22,11 @@ public class PlayerEventCopyFromEvent implements ServerPlayerEvents.CopyFrom {
 
         newNbt.putInt("flasks", originalNbt.getInt("maxFlasks"));
         newNbt.putInt("maxFlasks", originalNbt.getInt("maxFlasks"));
+
+        newNbt.putInt("levelFlasks", originalNbt.getInt("levelFlasks"));
+
+        newNbt.putInt("goldenSeed", originalNbt.getInt("goldenSeed"));
+        newNbt.putInt("sacredTear", originalNbt.getInt("sacredTear"));
 
         newNbt.putBoolean("firstTime", originalNbt.getBoolean("firstTime"));
 

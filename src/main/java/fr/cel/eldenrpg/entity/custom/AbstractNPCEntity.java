@@ -14,9 +14,9 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-public class EldenNPC extends MobEntity {
+public abstract class AbstractNPCEntity extends MobEntity {
 
-    public EldenNPC(EntityType<? extends MobEntity> entityType, World world) {
+    public AbstractNPCEntity(EntityType<? extends MobEntity> entityType, World world) {
         super(entityType, world);
         this.setInvulnerable(true);
         this.setCustomNameVisible(true);
@@ -45,7 +45,7 @@ public class EldenNPC extends MobEntity {
         return super.interactMob(player, hand);
     }
 
-    protected void playerInteract(ServerPlayerEntity player, Hand hand) {}
+    protected abstract void playerInteract(ServerPlayerEntity player, Hand hand);
 
     @Override
     public boolean isPushable() {

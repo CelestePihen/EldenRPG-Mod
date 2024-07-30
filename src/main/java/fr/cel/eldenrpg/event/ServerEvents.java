@@ -1,16 +1,12 @@
 package fr.cel.eldenrpg.event;
 
 import fr.cel.eldenrpg.areas.type.POIArea;
-import fr.cel.eldenrpg.command.GraceCommand;
-import fr.cel.eldenrpg.command.NPCCommand;
-import fr.cel.eldenrpg.command.QuestCommand;
 import fr.cel.eldenrpg.event.custom.EnterAreaEvent;
 import fr.cel.eldenrpg.event.events.*;
 import fr.cel.eldenrpg.quest.Quest;
 import fr.cel.eldenrpg.quest.task.type.ZoneTask;
 import fr.cel.eldenrpg.util.IPlayerDataSaver;
 import fr.cel.eldenrpg.util.data.QuestsData;
-import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 
 public class ServerEvents {
 
@@ -20,12 +16,7 @@ public class ServerEvents {
         DeathEvent.init();
         EndServerTickEvent.init();
         UseBlockEvent.init();
-
-        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-            NPCCommand.register(dispatcher);
-            QuestCommand.register(dispatcher);
-            GraceCommand.register(dispatcher);
-        });
+        CommandsRegisterEvent.init();
 
         EnterAreaEvent.EVENT.register((player, area, quest) -> {
             if (!(area instanceof POIArea) || quest == null) return;
@@ -35,7 +26,6 @@ public class ServerEvents {
                     ((ZoneTask) zoneQuest.getTask()).interact(quest);
                 }
             }
-
         });
 
     }

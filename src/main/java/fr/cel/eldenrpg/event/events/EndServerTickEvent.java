@@ -8,7 +8,6 @@ import fr.cel.eldenrpg.util.DialogueManager;
 import fr.cel.eldenrpg.util.IPlayerDataSaver;
 import fr.cel.eldenrpg.util.data.QuestsData;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -27,16 +26,16 @@ public class EndServerTickEvent implements ServerTickEvents.EndTick {
                 player.getHungerManager().setFoodLevel(20);
             }
 
+            for (Area<?> area : Areas.getAreas()) {
+                area.detectPlayerInArea(player);
+            }
+
             if (isCraftingInInventory(player)) {
                 cancelCrafting(player);
             }
 
             for (Quest quest : QuestsData.getItemQuests((IPlayerDataSaver) player)) {
                 ((ItemTask) quest.getTask()).checkItems(player, quest);
-            }
-
-            for (Area area : Areas.getAreas().values()) {
-                area.detectPlayerInArea(player);
             }
 
         }
@@ -53,11 +52,10 @@ public class EndServerTickEvent implements ServerTickEvents.EndTick {
     }
 
     private void cancelCrafting(ServerPlayerEntity player) {
-        PlayerInventory inventory = player.getInventory();
         for (int i = 1; i <= 4; i++) {
             ItemStack stack = player.playerScreenHandler.getSlot(i).getStack();
             if (!stack.isEmpty()) {
-                inventory.offerOrDrop(stack);
+                player.getInventory().offerOrDrop(stack);
                 player.playerScreenHandler.getSlot(i).setStack(ItemStack.EMPTY);
             }
         }

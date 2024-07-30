@@ -13,4 +13,7 @@ public interface IPlayerDataSaver {
     List<Quest> eldenrpg$getKillQuests();
     List<Quest> eldenrpg$getItemQuests();
     List<Quest> eldenrpg$getZoneQuests();
+
+    long eldenRPG_Mod$getLastRollTime();
+    void eldenRPG_Mod$setLastRollTime(long time);
 }

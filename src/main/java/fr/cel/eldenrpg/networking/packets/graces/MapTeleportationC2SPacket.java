@@ -1,6 +1,6 @@
 package fr.cel.eldenrpg.networking.packets.graces;
 
-import fr.cel.eldenrpg.networking.ModMessages;
+import fr.cel.eldenrpg.EldenRPG;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -8,12 +8,13 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ChunkTicketType;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 
 public record MapTeleportationC2SPacket(BlockPos pos) implements CustomPayload {
 
-    public static final Id<MapTeleportationC2SPacket> ID = new Id<>(ModMessages.MAP_TELEPORTATION_ID);
+    public static final Id<MapTeleportationC2SPacket> ID = new Id<>(Identifier.of(EldenRPG.MOD_ID, "mapteleportation"));
     public static final PacketCodec<RegistryByteBuf, MapTeleportationC2SPacket> CODEC = PacketCodec.tuple(BlockPos.PACKET_CODEC, MapTeleportationC2SPacket::pos, MapTeleportationC2SPacket::new);
 
     public static void handle(MapTeleportationC2SPacket payload, ServerPlayNetworking.Context context) {

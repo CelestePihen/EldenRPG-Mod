@@ -1,6 +1,6 @@
 package fr.cel.eldenrpg.util.data;
 
-import fr.cel.eldenrpg.networking.packets.maps.MapsSyncDataS2CPacket;
+import fr.cel.eldenrpg.networking.packets.maps.MapsSyncS2CPacket;
 import fr.cel.eldenrpg.util.IPlayerDataSaver;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.player.PlayerEntity;
@@ -31,7 +31,7 @@ public final class MapsData {
 
     public static void syncMap(PlayerEntity player, int mapId) {
         if (player instanceof ServerPlayerEntity serverPlayer) {
-            ServerPlayNetworking.send(serverPlayer, new MapsSyncDataS2CPacket(mapId));
+            ServerPlayNetworking.send(serverPlayer, new MapsSyncS2CPacket(mapId));
         }
     }
 

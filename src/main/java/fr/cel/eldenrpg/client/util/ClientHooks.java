@@ -1,6 +1,6 @@
 package fr.cel.eldenrpg.client.util;
 
-import fr.cel.eldenrpg.client.screen.GraceScreen;
+import fr.cel.eldenrpg.client.screen.grace.GraceScreen;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;

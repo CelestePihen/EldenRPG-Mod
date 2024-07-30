@@ -25,8 +25,10 @@ import java.util.List;
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin implements IPlayerDataSaver {
 
-    @Unique private List<Quest> quests;
     @Unique private NbtCompound persistentData;
+    @Unique private List<Quest> quests;
+
+    @Unique private long lastRollTime = 0;
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void constructor(World world, BlockPos pos, float yaw, GameProfile gameProfile, CallbackInfo ci) {
@@ -54,26 +56,32 @@ public abstract class PlayerEntityMixin implements IPlayerDataSaver {
         if (this.persistentData == null) {
             this.persistentData = new NbtCompound();
 
-            // Flasks
-            this.persistentData.putInt("flasks", 3);
-            this.persistentData.putInt("maxFlasks", 3);
+            // Fioles et nombre maximum de fiolesd
+            this.persistentData.putInt("flasks", 4);
+            this.persistentData.putInt("maxFlasks", 4);
 
+            // Niveau des Fioles
             this.persistentData.putInt("levelFlasks", 1);
 
+            // Nombre de graines dorées et de larmes de vie
             this.persistentData.putInt("goldenSeed", 0);
-            this.persistentData.putInt("tearOfLife", 0);
+            this.persistentData.putInt("sacredTear", 0);
 
-            // First Time
+            // Identifiants des GD et LdV déjà prises
+            this.persistentData.putIntArray("tearId", new int[]{});
+            this.persistentData.putIntArray("gsId", new int[]{});
+
+            // Première fois sur le serveur
             this.persistentData.putBoolean("firstTime", true);
 
-            // Maps Id
+            // Identifiants des maps déjà prises
             this.persistentData.putIntArray("mapsId", new int[]{});
 
-            // Quests
+            // Quêtes
             this.persistentData.put("quests", new NbtList());
             this.quests.add(Quests.BEGINNING);
 
-            // Graces acquired
+            // Emplacements des Grâces déjà prises
             this.persistentData.putLongArray("graces", new long[]{});
         }
 
@@ -110,6 +118,16 @@ public abstract class PlayerEntityMixin implements IPlayerDataSaver {
             if (quest.getTask() instanceof ZoneTask) quests.add(quest);
         }
         return quests;
+    }
+
+    @Override
+    public long eldenRPG_Mod$getLastRollTime() {
+        return lastRollTime;
+    }
+
+    @Override
+    public void eldenRPG_Mod$setLastRollTime(long time) {
+        this.lastRollTime = time;
     }
 
 }

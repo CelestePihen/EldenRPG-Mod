@@ -1,8 +1,10 @@
-package fr.cel.eldenrpg.client.screen;
+package fr.cel.eldenrpg.client.screen.grace;
 
 import fr.cel.eldenrpg.networking.packets.graces.MapTeleportationC2SPacket;
 import fr.cel.eldenrpg.util.IPlayerDataSaver;
 import fr.cel.eldenrpg.util.data.GracesData;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -15,6 +17,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
 import net.minecraft.util.math.BlockPos;
 
+@Environment(EnvType.CLIENT)
 public class GracesSelectionScreen extends Screen {
     private final ThreePartsLayoutWidget layout = new ThreePartsLayoutWidget(this);
     private final Screen parent;

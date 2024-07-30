@@ -2,8 +2,11 @@ package fr.cel.eldenrpg.client.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import fr.cel.eldenrpg.EldenRPG;
+import fr.cel.eldenrpg.client.screen.grace.GracesSelectionScreen;
 import fr.cel.eldenrpg.util.IPlayerDataSaver;
 import fr.cel.eldenrpg.util.data.MapsData;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -11,6 +14,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
+@Environment(EnvType.CLIENT)
 public class MapScreen extends Screen {
 
     // Les textures des cartes

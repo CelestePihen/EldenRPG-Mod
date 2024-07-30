@@ -1,6 +1,6 @@
 package fr.cel.eldenrpg.util.data;
 
-import fr.cel.eldenrpg.networking.packets.graces.GracesSyncDataS2CPacket;
+import fr.cel.eldenrpg.networking.packets.graces.GracesSyncS2CPacket;
 import fr.cel.eldenrpg.util.IPlayerDataSaver;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.player.PlayerEntity;
@@ -51,7 +51,7 @@ public final class GracesData {
 
     public static void syncGraces(PlayerEntity player, BlockPos pos) {
         if (player instanceof ServerPlayerEntity serverPlayer) {
-            ServerPlayNetworking.send(serverPlayer, new GracesSyncDataS2CPacket(pos));
+            ServerPlayNetworking.send(serverPlayer, new GracesSyncS2CPacket(pos));
         }
     }
 

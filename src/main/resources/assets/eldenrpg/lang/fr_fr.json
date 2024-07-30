@@ -1,12 +1,16 @@
 {
-  "advancement.eldenrpg.grace.description": "En faisant clique droit sur un site de grâce, tu peux mettre ton point de réapparition, te soigner et améliorer tes statistiques.",
+  "advancement.eldenrpg.grace.description": "Tu peux mettre ton point de réapparition, te soigner, améliorer ta fiole et avoir accès à ton coffre.",
   "advancement.eldenrpg.grace.title": "Site de grâce",
-  "advancement.eldenrpg.fakeblock.description": "Il y a beaucoup de faux blocs où vous pouvez passer à travers. Derrière ceux-ci, peut se cacher de l'équipement intéressant...",
-  "advancement.eldenrpg.fakeblock.title": "Faux blocs",
+  "advancement.eldenrpg.fakeblock.description": "Il y a beaucoup de blocs fantômes où tu peux passer à travers. Derrière ceux-ci, peut se cacher de l'équipement intéressant...",
+  "advancement.eldenrpg.fakeblock.title": "Blocs fantômes",
+  "advancement.eldenrpg.goldenseed.title": "Graines dorées",
+  "advancement.eldenrpg.goldenseed.description": "Les graines dorées servent à ajouter des charges à votre fiole.",
   "advancement.eldenrpg.map.title": "Carte",
   "advancement.eldenrpg.map.description": "Dans toute la carte, vous pouvez trouver des pilliers avec des parties de carte.",
   "advancement.eldenrpg.root.description": "Le début de la fin",
   "advancement.eldenrpg.root.title": "EldenRPG",
+  "advancement.eldenrpg.sacredtear.title": "Larmes de vie",
+  "advancement.eldenrpg.sacredtear.description": "Les larmes de vie servent à augmenter le niveau de ta fiole.",
 
   "block.eldenrpg.grace_block": "Site de grâce",
   "block.eldenrpg.gravel_ghost_block": "Bloc fantôme de Gravier",
@@ -16,7 +20,9 @@
   "block.eldenrpg.stone_ghost_block": "Bloc fantôme de Roche",
 
   "eldenrpg.area.graveyard": "CIMETIÈRE",
-  "eldenrpg.area.partofmap": "PARTIE DE CARTE DÉCOUVERTE",
+  "eldenrpg.area.goldenseed": "GRAINE DORÉE TROUVÉE",
+  "eldenrpg.area.sacredtear": "LARME DE VIE TROUVÉE",
+  "eldenrpg.area.partofmap": "PARTIE DE CARTE TROUVÉE",
 
   "eldenrpg.command.quest.add": "%s a été ajouté à %s",
   "eldenrpg.command.quest.list": "Quêtes de %s: ",
@@ -24,6 +30,19 @@
 
   "eldenrpg.command.graces.list": "Grâces de %s: ",
 
+  "eldenrpg.flasks.screen.addCharge": "Ajouter une dose",
+  "eldenrpg.flasks.screen.cancel": "Annuler",
+  "eldenrpg.flasks.screen.chargeAdded": "Une dose a été ajoutée dans la fiole de larmes pourpres.",
+  "eldenrpg.flasks.screen.error": "Erreur ! Contacter un administrateur.",
+  "eldenrpg.flasks.screen.increaseAmount": "Améliorer les Fioles sacrées",
+  "eldenrpg.flasks.screen.maxFlasks": "Tu as déjà atteint le nombre maximum de fioles...",
+  "eldenrpg.flasks.screen.notEnoughGS": "Tu n'as pas assez de graines dorées...",
+  "eldenrpg.flasks.screen.noGoldenSeed": "Tu as aucune graine dorée...",
+  "eldenrpg.flasks.screen.noTear": "Tu as aucune Larme de vie",
+  "eldenrpg.flasks.screen.flaskIncreased": "la quantité de PV restaurés par vos Fioles sacrées a été augmentée.",
+
+  "eldenrpg.graces.screen.flasks": "Fioles sacrées",
+  "eldenrpg.graces.screen.increasehealth": "Augmenter sa vie",
   "eldenrpg.graces.screen.leave": "Quitter",
 
   "eldenrpg.gracesselection.screen.title": "Grâces",
@@ -52,17 +71,21 @@
   "entity.eldenrpg.blacksmith.dialogue5": "Vous êtes mon héros ! Voici votre récompense.",
   "entity.eldenrpg.blacksmith.dialogue6": "Encore merci d'avoir dégagé ces bestioles hors de chez moi !",
 
+  "entity.eldenrpg.catacombcarcass": "Carcasse des Catacombes",
+
   "entity.eldenrpg.npc": "EldenNPC",
 
   "item.eldenrpg.speed_talisman": "Talisman de vitesse",
-  "item.eldenrpg.tutorial_key": "Clé du Squelette",
-  "item.eldenrpg.tutorial_key.desc": "Clique droit sur la porte en fer.",
+  "item.eldenrpg.key": "Clé",
+  "item.eldenrpg.key.desc": "Clique droit sur une porte en fer pour la passer.",
 
   "itemGroup.eldenrpg": "EldenRPG",
 
   "key.category.eldenrpg.eldenrpg": "EldenRPG",
   "key.eldenrpg.drink_flask": "Boire une fiole de larmes pourpres",
   "key.eldenrpg.open_map": "Ouvrir la carte",
+  "key.eldenrpg.roll": "Roulade",
+  "key.eldenrpg.wave": "Saluer",
 
   "menu.recommendation": "Recommandation",
 

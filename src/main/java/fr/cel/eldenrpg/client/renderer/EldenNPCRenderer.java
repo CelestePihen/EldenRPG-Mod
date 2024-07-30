@@ -2,14 +2,14 @@ package fr.cel.eldenrpg.client.renderer;
 
 import fr.cel.eldenrpg.EldenRPG;
 import fr.cel.eldenrpg.client.model.ModModelLayers;
-import fr.cel.eldenrpg.entity.custom.EldenNPC;
+import fr.cel.eldenrpg.entity.custom.AbstractNPCEntity;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
-public class EldenNPCRenderer extends MobEntityRenderer<EldenNPC, PlayerEntityModel<EldenNPC>> {
+public class EldenNPCRenderer extends MobEntityRenderer<AbstractNPCEntity, PlayerEntityModel<AbstractNPCEntity>> {
 
     private static final Identifier DEFAULT_SKIN = Identifier.ofVanilla("textures/entity/player/wide/steve.png");
 
@@ -21,7 +21,7 @@ public class EldenNPCRenderer extends MobEntityRenderer<EldenNPC, PlayerEntityMo
     }
 
     @Override
-    public Identifier getTexture(EldenNPC entity) {
+    public Identifier getTexture(AbstractNPCEntity entity) {
         return switch (Formatting.strip(entity.getName().getString())) {
             case "Cel" -> CEL_SKIN;
             case "Deadsky" -> DEADSKY_SKIN;

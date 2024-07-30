@@ -1,9 +1,9 @@
 package fr.cel.eldenrpg.event.events;
 
 import fr.cel.eldenrpg.EldenRPG;
-import fr.cel.eldenrpg.networking.packets.flasks.FlasksSyncDataS2CPacket;
-import fr.cel.eldenrpg.networking.packets.graces.GracesSyncDataS2CPacket;
-import fr.cel.eldenrpg.networking.packets.maps.MapsSyncDataS2CPacket;
+import fr.cel.eldenrpg.networking.packets.flasks.sync.*;
+import fr.cel.eldenrpg.networking.packets.graces.GracesSyncS2CPacket;
+import fr.cel.eldenrpg.networking.packets.maps.MapsSyncS2CPacket;
 import fr.cel.eldenrpg.util.IPlayerDataSaver;
 import fr.cel.eldenrpg.util.data.FlasksData;
 import fr.cel.eldenrpg.util.data.GracesData;
@@ -41,14 +41,18 @@ public class EntityLoadEvent implements ServerEntityEvents.Load {
                 }
             }
 
-            ServerPlayNetworking.send(player, new FlasksSyncDataS2CPacket(FlasksData.getFlasks(playerDataSaver)));
+            ServerPlayNetworking.send(player, new FlasksSyncS2CPacket(FlasksData.getFlasks(playerDataSaver)));
+            ServerPlayNetworking.send(player, new MaxFlasksSyncS2CPacket(FlasksData.getMaxFlasks(playerDataSaver)));
+            ServerPlayNetworking.send(player, new GoldenSeedSyncS2CPacket(FlasksData.getGoldenSeeds(playerDataSaver)));
+            ServerPlayNetworking.send(player, new LevelFlasksSyncS2CPacket(FlasksData.getLevelFlasks(playerDataSaver)));
+            ServerPlayNetworking.send(player, new SacredTearSyncS2CPacket(FlasksData.getSacredTears(playerDataSaver)));
 
             for (Integer i : MapsData.getMapsId(playerDataSaver)) {
-                ServerPlayNetworking.send(player, new MapsSyncDataS2CPacket(i));
+                ServerPlayNetworking.send(player, new MapsSyncS2CPacket(i));
             }
 
             for (long pos : GracesData.getGraces(playerDataSaver)) {
-                ServerPlayNetworking.send(player, new GracesSyncDataS2CPacket(BlockPos.fromLong(pos)));
+                ServerPlayNetworking.send(player, new GracesSyncS2CPacket(BlockPos.fromLong(pos)));
             }
         }
     }

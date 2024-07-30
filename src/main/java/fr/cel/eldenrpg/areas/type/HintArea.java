@@ -7,7 +7,7 @@ import net.minecraft.advancement.PlayerAdvancementTracker;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
-public class HintArea extends Area {
+public class HintArea extends Area<String> {
 
     private final Identifier identifier;
 
@@ -17,7 +17,7 @@ public class HintArea extends Area {
     }
 
     @Override
-    protected void interact(ServerPlayerEntity player, String advancementName) {
+    protected void interact(ServerPlayerEntity player) {
         AdvancementEntry rootAdvancement = player.server.getAdvancementLoader().get(identifier);
         if (rootAdvancement == null) return;
         PlayerAdvancementTracker advancementTracker = player.getAdvancementTracker();

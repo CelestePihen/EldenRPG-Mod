@@ -2,7 +2,7 @@ package fr.cel.eldenrpg.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import fr.cel.eldenrpg.entity.ModEntities;
-import fr.cel.eldenrpg.entity.custom.npcs.BlacksmithNPC;
+import fr.cel.eldenrpg.entity.npcs.BlacksmithEntity;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.world.ServerWorld;
@@ -20,7 +20,7 @@ public class NPCCommand {
         ServerWorld world = source.getWorld();
 
         // Blacksmith
-        world.spawnEntity(new BlacksmithNPC(ModEntities.BLACKSMITH_NPC, world));
+        world.spawnEntity(new BlacksmithEntity(ModEntities.BLACKSMITH_NPC, world));
 
         return 1;
     }

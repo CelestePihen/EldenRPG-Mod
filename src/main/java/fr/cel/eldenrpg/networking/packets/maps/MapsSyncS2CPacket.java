@@ -1,6 +1,6 @@
 package fr.cel.eldenrpg.networking.packets.maps;
 
-import fr.cel.eldenrpg.networking.ModMessages;
+import fr.cel.eldenrpg.EldenRPG;
 import fr.cel.eldenrpg.util.IPlayerDataSaver;
 import fr.cel.eldenrpg.util.data.MapsData;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -8,13 +8,14 @@ import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.network.packet.CustomPayload;
+import net.minecraft.util.Identifier;
 
-public record MapsSyncDataS2CPacket(int mapId) implements CustomPayload {
+public record MapsSyncS2CPacket(int mapId) implements CustomPayload {
 
-    public static final Id<MapsSyncDataS2CPacket> ID = new Id<>(ModMessages.SYNC_MAP_ID);
-    public static final PacketCodec<RegistryByteBuf, MapsSyncDataS2CPacket> CODEC = PacketCodec.tuple(PacketCodecs.INTEGER, MapsSyncDataS2CPacket::mapId, MapsSyncDataS2CPacket::new);
+    public static final Id<MapsSyncS2CPacket> ID = new Id<>(Identifier.of(EldenRPG.MOD_ID, "syncmaps"));
+    public static final PacketCodec<RegistryByteBuf, MapsSyncS2CPacket> CODEC = PacketCodec.tuple(PacketCodecs.INTEGER, MapsSyncS2CPacket::mapId, MapsSyncS2CPacket::new);
 
-    public static void handle(MapsSyncDataS2CPacket payload, ClientPlayNetworking.Context context) {
+    public static void handle(MapsSyncS2CPacket payload, ClientPlayNetworking.Context context) {
         context.client().execute(() -> {
             IPlayerDataSaver player = (IPlayerDataSaver) context.player();
             MapsData.addMapId(player, payload.mapId());

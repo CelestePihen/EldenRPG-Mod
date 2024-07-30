@@ -10,17 +10,17 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public class MapArea extends Area {
+public class MapArea extends Area<Integer> {
 
-//    private final String mapName;
-
-    public MapArea(String mapId, double x1, double y1, double z1, double x2, double y2, double z2) {
+    public MapArea(int mapId, double x1, double y1, double z1, double x2, double y2, double z2) {
         super(mapId, x1, y1, z1, x2, y2, z2);
-//        this.mapName = mapName;
     }
 
     @Override
-    protected void interact(ServerPlayerEntity player, String mapId) {
+    protected void interact(ServerPlayerEntity player) {
+        String pos = player.getX() + " " + player.getY() + " " + player.getZ();
+        player.sendMessage(Text.literal(pos));
+
         IPlayerDataSaver playerData = (IPlayerDataSaver) player;
 
         if (MapsData.getMapsId(playerData).isEmpty()) {
@@ -33,9 +33,8 @@ public class MapArea extends Area {
             }
         }
 
-        if (MapsData.addMapId(playerData, Integer.parseInt(mapId))) {
+        if (MapsData.addMapId(playerData, getObject())) {
             player.sendMessage(Text.translatable("eldenrpg.area.partofmap"), true);
         }
     }
-
 }

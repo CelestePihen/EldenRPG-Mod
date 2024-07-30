@@ -2,13 +2,13 @@ package fr.cel.eldenrpg.client.renderer;
 
 import fr.cel.eldenrpg.EldenRPG;
 import fr.cel.eldenrpg.client.model.ModModelLayers;
-import fr.cel.eldenrpg.entity.custom.EldenNPC;
+import fr.cel.eldenrpg.entity.custom.AbstractNPCEntity;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.util.Identifier;
 
-public class BlacksmithRenderer extends MobEntityRenderer<EldenNPC, PlayerEntityModel<EldenNPC>> {
+public class BlacksmithRenderer extends MobEntityRenderer<AbstractNPCEntity, PlayerEntityModel<AbstractNPCEntity>> {
 
     private static final Identifier BLACKSMITH_SKIN = Identifier.of(EldenRPG.MOD_ID, "textures/entity/npc/blacksmith.png");
 
@@ -17,7 +17,7 @@ public class BlacksmithRenderer extends MobEntityRenderer<EldenNPC, PlayerEntity
     }
 
     @Override
-    public Identifier getTexture(EldenNPC entity) {
+    public Identifier getTexture(AbstractNPCEntity entity) {
         return BLACKSMITH_SKIN;
     }
 }

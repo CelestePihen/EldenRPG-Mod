@@ -38,6 +38,9 @@ public class GraceBlock extends Block {
             ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
             IPlayerDataSaver playerDataSaver = (IPlayerDataSaver) player;
 
+            // TODO animation assis
+//            PlayerAnimAPI.playPlayerAnim(serverPlayer.getServerWorld(), serverPlayer, Identifier.of(EldenRPG.MOD_ID, "campfire_sit1"));
+
             FlasksData.addFlasks(playerDataSaver, 15);
             serverPlayer.setHealth(serverPlayer.getMaxHealth());
             serverPlayer.setSpawnPoint(world.getRegistryKey(), pos.north(), serverPlayer.getPitch(), true, true);

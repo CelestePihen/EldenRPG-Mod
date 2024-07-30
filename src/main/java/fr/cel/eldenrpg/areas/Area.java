@@ -8,20 +8,20 @@ import net.minecraft.util.math.Box;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class Area {
+public abstract class Area<T> {
 
-    private final String string;
     private final Box aabb;
+    private final T object;
     protected final Quest quest;
 
     private final Map<ServerPlayerEntity, Boolean> playerInside = new HashMap<>();
 
-    public Area(String string, double x1, double y1, double z1, double x2, double y2, double z2) {
-        this(string, x1, y1, z1, x2, y2, z2, null);
+    public Area(T object, double x1, double y1, double z1, double x2, double y2, double z2) {
+        this(object, x1, y1, z1, x2, y2, z2, null);
     }
 
-    public Area(String string, double x1, double y1, double z1, double x2, double y2, double z2, Quest quest) {
-        this.string = string;
+    public Area(T object, double x1, double y1, double z1, double x2, double y2, double z2, Quest quest) {
+        this.object = object;
         this.aabb = new Box(x1, y1, z1, x2, y2, z2);
         this.quest = quest;
     }
@@ -32,7 +32,7 @@ public abstract class Area {
 
         // si dans la zone
         if (isPlayerIn && !playerInside.get(player)) {
-            interact(player, string);
+            interact(player);
             playerInside.put(player, true);
             EnterAreaEvent.EVENT.invoker().onEnterArea(player, this, quest);
         }
@@ -44,10 +44,18 @@ public abstract class Area {
 
     }
 
-    protected abstract void interact(ServerPlayerEntity player, String string);
+    /**
+     * Permet de faire une interaction dès qu'un joueur entre dans la zone
+     * @param player Le joueur qui est entré
+     */
+    protected abstract void interact(ServerPlayerEntity player);
 
-    public String getString() {
-        return string;
+    protected T getObject() {
+        return object;
+    }
+
+    protected Box getBox() {
+        return aabb;
     }
 
 }

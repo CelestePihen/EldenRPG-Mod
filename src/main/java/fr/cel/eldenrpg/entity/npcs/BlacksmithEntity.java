@@ -1,6 +1,6 @@
-package fr.cel.eldenrpg.entity.custom.npcs;
+package fr.cel.eldenrpg.entity.npcs;
 
-import fr.cel.eldenrpg.entity.custom.EldenNPC;
+import fr.cel.eldenrpg.entity.custom.AbstractNPCEntity;
 import fr.cel.eldenrpg.quest.Quest;
 import fr.cel.eldenrpg.quest.Quest.QuestState;
 import fr.cel.eldenrpg.quest.Quests;
@@ -24,9 +24,9 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public class BlacksmithNPC extends EldenNPC {
+public class BlacksmithEntity extends AbstractNPCEntity {
 
-    public BlacksmithNPC(EntityType<? extends MobEntity> entityType, World world) {
+    public BlacksmithEntity(EntityType<? extends MobEntity> entityType, World world) {
         super(entityType, world);
         this.setPos(206.5, 65, -63.5);
         this.setCustomName(Text.translatable("entity.eldenrpg.blacksmith"));

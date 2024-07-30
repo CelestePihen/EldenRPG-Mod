@@ -1,6 +1,6 @@
 package fr.cel.eldenrpg.mixin;
 
-import fr.cel.eldenrpg.entity.custom.EldenNPC;
+import fr.cel.eldenrpg.entity.custom.AbstractNPCEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -17,7 +17,7 @@ public abstract class NameTagMixin {
 
     @Inject(method = "useOnEntity", at= @At("HEAD"), cancellable = true)
     private void useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
-        if (entity instanceof EldenNPC) {
+        if (entity instanceof AbstractNPCEntity) {
             cir.setReturnValue(ActionResult.FAIL);
         }
     }
