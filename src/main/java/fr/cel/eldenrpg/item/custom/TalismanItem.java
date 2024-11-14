@@ -26,4 +26,5 @@ public class TalismanItem extends Item {
         if (!player.getInventory().contains(stack)) return;
         player.addStatusEffect(new StatusEffectInstance(effect, 20, 0, false, false, true));
     }
+
 }

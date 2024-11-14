@@ -18,9 +18,6 @@ public class GoldenSeedArea extends Area<Integer> {
 
     @Override
     protected void interact(ServerPlayerEntity player) {
-        String pos = player.getX() + " " + player.getY() + " " + player.getZ();
-        player.sendMessage(Text.literal(pos));
-
         IPlayerDataSaver playerData = (IPlayerDataSaver) player;
 
         if (FlasksData.getGSId(playerData).isEmpty()) {
@@ -31,12 +28,13 @@ public class GoldenSeedArea extends Area<Integer> {
             for (String criteria : advancementTracker.getProgress(rootAdvancement).getUnobtainedCriteria()) {
                 advancementTracker.grantCriterion(rootAdvancement, criteria);
             }
+
+            player.sendMessage(Text.translatable("advancement.eldenrpg.goldenseed.description"));
         }
 
         if (FlasksData.addGSId(playerData, getObject())) {
             FlasksData.addGoldenSeed(playerData);
             player.sendMessage(Text.translatable("eldenrpg.area.goldenseed"), true);
-
         }
     }
 

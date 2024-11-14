@@ -11,7 +11,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
-public class ModBlocks {
+public final class ModBlocks {
 
     public static final Block STONE_GHOST_BLOCK = registerBlock("stone_ghost_block", new GhostBlock(Blocks.STONE));
     public static final Block GRAVEL_GHOST_BLOCK = registerBlock("gravel_ghost_block", new GhostBlock(Blocks.GRAVEL));
@@ -46,7 +46,7 @@ public class ModBlocks {
      * Permet d'enregistrer tous les blocs de la classe
      */
     public static void registerModBlocks() {
-        EldenRPG.LOGGER.info("Enregistrement des Blocs pour " + EldenRPG.MOD_ID);
+        EldenRPG.LOGGER.info("Register Blocks for " + EldenRPG.MOD_ID);
     }
 
 }

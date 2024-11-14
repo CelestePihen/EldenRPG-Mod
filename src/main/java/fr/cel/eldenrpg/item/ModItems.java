@@ -9,7 +9,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
-public class ModItems {
+public final class ModItems {
 
     public static final Item SPEED_TALISMAN = registerItem("speed_talisman", new TalismanItem(StatusEffects.SPEED));
 
@@ -29,7 +29,7 @@ public class ModItems {
      * Permet d'enregistrer tous les items de la classe
      */
     public static void registerModItems() {
-        EldenRPG.LOGGER.info("Enregistrement des Items pour " + EldenRPG.MOD_ID);
+        EldenRPG.LOGGER.info("Register Items for " + EldenRPG.MOD_ID);
     }
 
 }

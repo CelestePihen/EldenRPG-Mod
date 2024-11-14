@@ -22,28 +22,29 @@ public record RollC2SPacket() implements CustomPayload {
 
     public static void handle(RollC2SPacket payload, ServerPlayNetworking.Context context) {
         ServerPlayerEntity player = context.player();
-        if (player.isInFluid() || player.isSpectator() || !player.isOnGround() || player.isClimbing() || player.isOnGround()) return;
+        if (player.isInFluid() || player.isSpectator() || !player.isOnGround() || player.isClimbing()) return;
 
         IPlayerDataSaver playerData = (IPlayerDataSaver) player;
 
         long currentTime = System.currentTimeMillis();
-        long lastRollTime = playerData.eldenRPG_Mod$getLastRollTime();
-        int cooldownMillis = 400; // 2 secondes
 
-        if (currentTime - lastRollTime < cooldownMillis) return;
+        // 0.4 seconde de délai
+        if (currentTime - playerData.eldenRPG_Mod$getLastRollTime() < 400) return;
 
         playerData.eldenRPG_Mod$setLastRollTime(currentTime);
         player.setSprinting(false);
 
-        // TODO animation roulade
+        // TODO animation
         PlayerAnimAPI.playPlayerAnim(player.getServerWorld(), player, Identifier.of(EldenRPG.MOD_ID, "roll"));
 
-        Vec3d lookDirection = player.getRotationVec(1.0F);
-        Vec3d rollVector = lookDirection.multiply(0.4);
+        playerData.eldenRPG_Mod$setInvulnerableTicks(16);
+
+        // le joueur ira là où il regarde
+        Vec3d rollVector = player.getRotationVec(1.0F).multiply(0.8);
         player.addVelocity(rollVector.x, 0, rollVector.z);
         player.velocityModified = true;
 
-        player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 13, 255, false, false, true));
+        player.setSprinting(false);
     }
 
     @Override

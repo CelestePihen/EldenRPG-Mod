@@ -18,7 +18,7 @@ public record WaveC2SPacket() implements CustomPayload {
 
     public static void handle(WaveC2SPacket payload, ServerPlayNetworking.Context context) {
         ServerPlayerEntity player = context.player();
-        if (player.isSwimming() || player.isSpectator()) return;
+        if (player.isSwimming() || player.isSpectator() || !player.isOnGround() || player.isClimbing()) return;
 
         PlayerAnimAPI.playPlayerAnim(player.getServerWorld(), player, Identifier.of(EldenRPG.MOD_ID, "wave"));
     }

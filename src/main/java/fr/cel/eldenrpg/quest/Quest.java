@@ -39,9 +39,7 @@ public class Quest {
     }
 
     public enum QuestState {
-        ACTIVE(),
-        FINISHED(),
-        COMPLETED();
+        ACTIVE, FINISHED, COMPLETED
     }
 
 }

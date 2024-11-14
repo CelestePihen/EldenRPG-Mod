@@ -16,10 +16,7 @@ public record MapsSyncS2CPacket(int mapId) implements CustomPayload {
     public static final PacketCodec<RegistryByteBuf, MapsSyncS2CPacket> CODEC = PacketCodec.tuple(PacketCodecs.INTEGER, MapsSyncS2CPacket::mapId, MapsSyncS2CPacket::new);
 
     public static void handle(MapsSyncS2CPacket payload, ClientPlayNetworking.Context context) {
-        context.client().execute(() -> {
-            IPlayerDataSaver player = (IPlayerDataSaver) context.player();
-            MapsData.addMapId(player, payload.mapId());
-        });
+        context.client().execute(() -> MapsData.addMapId((IPlayerDataSaver) context.player(), payload.mapId()));
     }
 
     @Override

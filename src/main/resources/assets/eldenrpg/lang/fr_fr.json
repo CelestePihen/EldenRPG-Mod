@@ -24,9 +24,16 @@
   "eldenrpg.area.sacredtear": "LARME DE VIE TROUVÉE",
   "eldenrpg.area.partofmap": "PARTIE DE CARTE TROUVÉE",
 
+  "eldenrpg.command.flask.level": "Niveau de la Fiole de %s: %s",
+  "eldenrpg.command.flask.current": "Fioles de %s: %s",
+  "eldenrpg.command.flask.getMax": "Fioles maximum de %s: %s",
+
   "eldenrpg.command.quest.add": "%s a été ajouté à %s",
   "eldenrpg.command.quest.list": "Quêtes de %s: ",
   "eldenrpg.command.quest.remove": "%s a été retiré à %s",
+
+  "eldenrpg.command.sacredtear.current": "Larmes de vie de %s: %s",
+  "eldenrpg.command.goldenseed.current": "Graines dorées de %s: %s",
 
   "eldenrpg.command.graces.list": "Grâces de %s: ",
 

@@ -6,10 +6,7 @@ import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.CrossbowPosing;
 import net.minecraft.client.render.entity.model.EntityModelPartNames;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.util.Arm;
-import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 
 public class CatacombCarcassModel extends BipedEntityModel<CatacombCarcassEntity> {
@@ -54,13 +51,8 @@ public class CatacombCarcassModel extends BipedEntityModel<CatacombCarcassEntity
     public void animateModel(CatacombCarcassEntity mobEntity, float f, float g, float h) {
         this.rightArmPose = BipedEntityModel.ArmPose.EMPTY;
         this.leftArmPose = BipedEntityModel.ArmPose.EMPTY;
-        ItemStack itemStack = mobEntity.getStackInHand(Hand.MAIN_HAND);
-        if (itemStack.isOf(Items.BOW) && mobEntity.isAttacking()) {
-            if (mobEntity.getMainArm() == Arm.RIGHT) {
-                this.rightArmPose = BipedEntityModel.ArmPose.BOW_AND_ARROW;
-            } else {
-                this.leftArmPose = BipedEntityModel.ArmPose.BOW_AND_ARROW;
-            }
+        if (mobEntity.isAttacking()) {
+            this.rightArmPose = BipedEntityModel.ArmPose.BOW_AND_ARROW;
         }
 
         super.animateModel(mobEntity, f, g, h);
@@ -68,8 +60,7 @@ public class CatacombCarcassModel extends BipedEntityModel<CatacombCarcassEntity
 
     public void setAngles(CatacombCarcassEntity mobEntity, float f, float g, float h, float i, float j) {
         super.setAngles(mobEntity, f, g, h, i, j);
-        ItemStack itemStack = mobEntity.getMainHandStack();
-        if (mobEntity.isAttacking() && (itemStack.isEmpty() || !itemStack.isOf(Items.BOW))) {
+        if (mobEntity.isAttacking()) {
             float k = MathHelper.sin(this.handSwingProgress * (float) Math.PI);
             float l = MathHelper.sin((1.0F - (1.0F - this.handSwingProgress) * (1.0F - this.handSwingProgress)) * (float) Math.PI);
             this.rightArm.roll = 0.0F;

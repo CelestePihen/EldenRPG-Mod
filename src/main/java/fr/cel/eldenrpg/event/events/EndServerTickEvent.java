@@ -26,12 +26,10 @@ public class EndServerTickEvent implements ServerTickEvents.EndTick {
                 player.getHungerManager().setFoodLevel(20);
             }
 
+            cancelCraftingInventory(player);
+
             for (Area<?> area : Areas.getAreas()) {
                 area.detectPlayerInArea(player);
-            }
-
-            if (isCraftingInInventory(player)) {
-                cancelCrafting(player);
             }
 
             for (Quest quest : QuestsData.getItemQuests((IPlayerDataSaver) player)) {
@@ -41,25 +39,21 @@ public class EndServerTickEvent implements ServerTickEvents.EndTick {
         }
     }
 
-    private boolean isCraftingInInventory(ServerPlayerEntity player) {
-        for (int i = 1; i <= 4; i++) {
-            ItemStack stack = player.playerScreenHandler.getSlot(i).getStack();
-            if (!stack.isEmpty()) {
-                return true;
-            }
-        }
-        return false;
-    }
+    private void cancelCraftingInventory(ServerPlayerEntity player) {
+        boolean isCrafting = false;
 
-    private void cancelCrafting(ServerPlayerEntity player) {
         for (int i = 1; i <= 4; i++) {
             ItemStack stack = player.playerScreenHandler.getSlot(i).getStack();
             if (!stack.isEmpty()) {
+                isCrafting = true;
                 player.getInventory().offerOrDrop(stack);
                 player.playerScreenHandler.getSlot(i).setStack(ItemStack.EMPTY);
             }
         }
-        player.playerScreenHandler.sendContentUpdates();
+
+        if (isCrafting) {
+            player.playerScreenHandler.sendContentUpdates();
+        }
     }
 
 }

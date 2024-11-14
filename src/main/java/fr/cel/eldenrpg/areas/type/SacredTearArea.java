@@ -18,9 +18,6 @@ public class SacredTearArea extends Area<Integer> {
 
     @Override
     protected void interact(ServerPlayerEntity player) {
-        String pos = player.getX() + " " + player.getY() + " " + player.getZ();
-        player.sendMessage(Text.literal(pos));
-
         IPlayerDataSaver playerData = (IPlayerDataSaver) player;
 
         if (FlasksData.getTearId(playerData).isEmpty()) {
@@ -31,6 +28,8 @@ public class SacredTearArea extends Area<Integer> {
             for (String criteria : advancementTracker.getProgress(rootAdvancement).getUnobtainedCriteria()) {
                 advancementTracker.grantCriterion(rootAdvancement, criteria);
             }
+
+            player.sendMessage(Text.translatable("advancement.eldenrpg.sacredtear.description"));
         }
 
         if (FlasksData.addTearId(playerData, getObject())) {

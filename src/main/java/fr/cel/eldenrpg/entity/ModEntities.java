@@ -13,11 +13,11 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
-public class ModEntities {
+public final class ModEntities {
 
     public static final EntityType<BlacksmithEntity> BLACKSMITH_NPC = registerEntity("blacksmith_npc",
-            Builder.create(BlacksmithEntity::new, SpawnGroup.CREATURE).dimensions(0.6F, 1.8F)
-                    .disableSummon().makeFireImmune().maxTrackingRange(32).trackingTickInterval(2));
+            Builder.create(BlacksmithEntity::new, SpawnGroup.AMBIENT).dimensions(0.6F, 1.8F).disableSummon().makeFireImmune()
+                    .maxTrackingRange(32).trackingTickInterval(2));
 
     public static final EntityType<CatacombCarcassEntity> CATACOMB_CARCASS = registerEntity("catacomb_carcass",
             Builder.create(CatacombCarcassEntity::new, SpawnGroup.CREATURE).dimensions(0.6F, 1.99F).eyeHeight(1.74F).maxTrackingRange(8));
@@ -27,7 +27,7 @@ public class ModEntities {
     }
 
     public static void registerModEntities() {
-        EldenRPG.LOGGER.info("Enregistrement des Entites pour " + EldenRPG.MOD_ID);
+        EldenRPG.LOGGER.info("Register Entities for " + EldenRPG.MOD_ID);
     }
 
     public static void registerAttributes() {

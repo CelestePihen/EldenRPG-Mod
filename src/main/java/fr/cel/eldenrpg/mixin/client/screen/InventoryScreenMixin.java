@@ -48,8 +48,8 @@ public abstract class InventoryScreenMixin extends AbstractInventoryScreen<Playe
         super.render(context, mouseX, mouseY, delta);
 
         this.drawMouseoverTooltip(context, mouseX, mouseY);
-        this.mouseX = (float)mouseX;
-        this.mouseY = (float)mouseY;
+        this.mouseX = (float) mouseX;
+        this.mouseY = (float) mouseY;
     }
 
 }

@@ -39,7 +39,8 @@ dependencies {
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    include modImplementation("dev.kosmx.player-anim:player-animation-lib-fabric:${project.player_anim}")
+    modImplementation("dev.kosmx.player-anim:player-animation-lib-fabric:${project.player_anim}")
+    include "dev.kosmx.player-anim:player-animation-lib-fabric:${project.player_anim}"
 
     modImplementation ("com.zigythebird.playeranimatorapi:playeranimatorapi-fabric-$project.minecraft_version:$project.playeranimatorapi_version", {
         exclude group: "software.bernie.geckolib"

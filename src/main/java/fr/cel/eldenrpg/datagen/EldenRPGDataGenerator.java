@@ -3,7 +3,7 @@ package fr.cel.eldenrpg.datagen;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 
-public class EldenRPGDataGenerator implements DataGeneratorEntrypoint {
+public final class EldenRPGDataGenerator implements DataGeneratorEntrypoint {
 
 	@Override
 	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {

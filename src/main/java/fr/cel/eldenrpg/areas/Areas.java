@@ -40,7 +40,7 @@ public final class Areas {
         registerSacredTear(1, 185, 66, -84, 183, 71, -86);
 
         // Boss Area
-        registerBoss(ModEntities.CATACOMB_CARCASS, new BlockPos(146, 20, -82), 158, 20, -79, 144, 32, -89);
+        registerBoss(ModEntities.CATACOMB_CARCASS, new BlockPos(146, 20, -82), 159, 19, -78, 144, 32, -89);
     }
 
     private static void registerPOI(String arenaName, double x1, double y1, double z1, double x2, double y2, double z2, Quest quest) {

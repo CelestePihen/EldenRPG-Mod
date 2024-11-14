@@ -24,9 +24,16 @@
   "eldenrpg.area.sacredtear": "SACRED TEAR FOUND",
   "eldenrpg.area.partofmap": "PART OF MAP FOUND",
 
+  "eldenrpg.command.flask.level": "Level of Flask of %s: %s",
+  "eldenrpg.command.flask.current": "Flasks of %s: %s",
+  "eldenrpg.command.flask.getMax": "Max Flasks of %s: %s",
+
   "eldenrpg.command.quest.add": "%s has been added to %s",
   "eldenrpg.command.quest.list": "Quests of %s: ",
   "eldenrpg.command.quest.remove": "%s has been removed to %s",
+
+  "eldenrpg.command.sacredtear.current": "Sacred Tears of %s: %s",
+  "eldenrpg.command.goldenseed.current": "Golden Seeds of %s: %s",
 
   "eldenrpg.command.graces.list": "Graces of %s: ",
 

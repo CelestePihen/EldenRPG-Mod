@@ -30,14 +30,14 @@ public abstract class Area<T> {
         playerInside.putIfAbsent(player, false);
         boolean isPlayerIn = aabb.contains(player.getX(), player.getY(), player.getZ());
 
-        // si dans la zone
+        // si il est dans la zone
         if (isPlayerIn && !playerInside.get(player)) {
             interact(player);
             playerInside.put(player, true);
             EnterAreaEvent.EVENT.invoker().onEnterArea(player, this, quest);
         }
 
-        // si plus dans la zone
+        // si il n'est plus dans la zone
         else if (!isPlayerIn && playerInside.get(player)) {
             playerInside.put(player, false);
         }

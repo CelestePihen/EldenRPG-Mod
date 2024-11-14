@@ -26,7 +26,7 @@ public class ModItemGroups {
     }
 
     public static void registerItemGroups() {
-        EldenRPG.LOGGER.info("Enregistrement de l'ItemGroup pour " + EldenRPG.MOD_ID);
+        EldenRPG.LOGGER.info("Register ItemGroups for " + EldenRPG.MOD_ID);
     }
 
 }

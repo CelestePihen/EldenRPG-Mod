@@ -6,10 +6,12 @@ import net.minecraft.registry.Registry;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 
-public class ModSounds {
+public final class ModSounds {
 
     public static final SoundEvent LOST_GRACE_DISCOVERED = registerSoundEvent("lost_grace_discovered");
     public static final SoundEvent DEATH = registerSoundEvent("death");
+    public static final SoundEvent DRINK_FLASK = registerSoundEvent("drink_flask");
+    public static final SoundEvent MAP_FOUND = registerSoundEvent("map_found");
 
     public static final SoundEvent BLACKSMITH_1 = registerSoundEvent("blacksmith_1");
     public static final SoundEvent BLACKSMITH_2 = registerSoundEvent("blacksmith_2");
@@ -27,7 +29,7 @@ public class ModSounds {
      * Permet d'enregistrer tous les sons de la classe
      */
     public static void registerModSounds() {
-        EldenRPG.LOGGER.info("Enregistrement des Sons pour " + EldenRPG.MOD_ID);
+        EldenRPG.LOGGER.info("Register Sounds for " + EldenRPG.MOD_ID);
     }
 
 }

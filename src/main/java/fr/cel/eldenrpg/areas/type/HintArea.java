@@ -5,6 +5,7 @@ import fr.cel.eldenrpg.areas.Area;
 import net.minecraft.advancement.AdvancementEntry;
 import net.minecraft.advancement.PlayerAdvancementTracker;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class HintArea extends Area<String> {
@@ -20,10 +21,14 @@ public class HintArea extends Area<String> {
     protected void interact(ServerPlayerEntity player) {
         AdvancementEntry rootAdvancement = player.server.getAdvancementLoader().get(identifier);
         if (rootAdvancement == null) return;
+
         PlayerAdvancementTracker advancementTracker = player.getAdvancementTracker();
         for (String criteria : advancementTracker.getProgress(rootAdvancement).getUnobtainedCriteria()) {
             advancementTracker.grantCriterion(rootAdvancement, criteria);
         }
+
+        String nameWithoutHint = getObject().substring(4);
+        player.sendMessage(Text.translatable("advancement.eldenrpg." + nameWithoutHint + ".description"));
     }
 
 }

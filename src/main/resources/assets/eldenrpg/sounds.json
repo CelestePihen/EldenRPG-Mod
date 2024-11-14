@@ -1,34 +1,42 @@
 {
   "lost_grace_discovered": {
-    "subtitles": "sounds.eldenrpg.lost_grace_discovered",
-    "sounds": ["eldenrpg:lost_grace_discovered"]
+    "sounds": ["eldenrpg:lost_grace_discovered"],
+    "subtitles": "sounds.eldenrpg.lost_grace_discovered"
   },
   "death": {
-    "subtitles": "sounds.eldenrpg.death",
-    "sounds": ["eldenrpg:death"]
+    "sounds": ["eldenrpg:death"],
+    "subtitles": "sounds.eldenrpg.death"
   },
   "blacksmith_1": {
-    "subtitles": "sounds.eldenrpg.dialogue.blacksmith_1",
-    "sounds": ["eldenrpg:dialogue/blacksmith/blacksmith_1"]
+    "sounds": ["eldenrpg:dialogue/blacksmith/blacksmith_1"],
+    "subtitles": "sounds.eldenrpg.dialogue.blacksmith_1"
   },
   "blacksmith_2": {
-    "subtitles": "sounds.eldenrpg.dialogue.blacksmith_2",
-    "sounds": ["eldenrpg:dialogue/blacksmith/blacksmith_2"]
+    "sounds": ["eldenrpg:dialogue/blacksmith/blacksmith_2"],
+    "subtitles": "sounds.eldenrpg.dialogue.blacksmith_2"
   },
   "blacksmith_3": {
-    "subtitles": "sounds.eldenrpg.dialogue.blacksmith_3",
-    "sounds": ["eldenrpg:dialogue/blacksmith/blacksmith_3"]
+    "sounds": ["eldenrpg:dialogue/blacksmith/blacksmith_3"],
+    "subtitles": "sounds.eldenrpg.dialogue.blacksmith_3"
   },
   "blacksmith_4": {
-    "subtitles": "sounds.eldenrpg.dialogue.blacksmith_4",
-    "sounds": ["eldenrpg:dialogue/blacksmith/blacksmith_4"]
+    "sounds": ["eldenrpg:dialogue/blacksmith/blacksmith_4"],
+    "subtitles": "sounds.eldenrpg.dialogue.blacksmith_4"
   },
   "blacksmith_5": {
-    "subtitles": "sounds.eldenrpg.dialogue.blacksmith_5",
-    "sounds": ["eldenrpg:dialogue/blacksmith/blacksmith_5"]
+    "sounds": ["eldenrpg:dialogue/blacksmith/blacksmith_5"],
+    "subtitles": "sounds.eldenrpg.dialogue.blacksmith_5"
   },
   "blacksmith_6": {
-    "subtitles": "sounds.eldenrpg.dialogue.blacksmith_6",
-    "sounds": ["eldenrpg:dialogue/blacksmith/blacksmith_6"]
+    "sounds": ["eldenrpg:dialogue/blacksmith/blacksmith_6"],
+    "subtitles": "sounds.eldenrpg.dialogue.blacksmith_6"
+  },
+  "drink_flask": {
+    "sounds": ["eldenrpg:drink_flask"],
+    "subtitles": "sounds.eldenrpg.drink_flask"
+  },
+  "map_found": {
+    "sounds": ["eldenrpg:map_found"],
+    "subtitles": "sounds.eldenrpg.map_found"
   }
 }

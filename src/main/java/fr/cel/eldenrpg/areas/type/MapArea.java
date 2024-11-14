@@ -2,11 +2,13 @@ package fr.cel.eldenrpg.areas.type;
 
 import fr.cel.eldenrpg.EldenRPG;
 import fr.cel.eldenrpg.areas.Area;
+import fr.cel.eldenrpg.sound.ModSounds;
 import fr.cel.eldenrpg.util.IPlayerDataSaver;
 import fr.cel.eldenrpg.util.data.MapsData;
 import net.minecraft.advancement.AdvancementEntry;
 import net.minecraft.advancement.PlayerAdvancementTracker;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -18,9 +20,6 @@ public class MapArea extends Area<Integer> {
 
     @Override
     protected void interact(ServerPlayerEntity player) {
-        String pos = player.getX() + " " + player.getY() + " " + player.getZ();
-        player.sendMessage(Text.literal(pos));
-
         IPlayerDataSaver playerData = (IPlayerDataSaver) player;
 
         if (MapsData.getMapsId(playerData).isEmpty()) {
@@ -35,6 +34,7 @@ public class MapArea extends Area<Integer> {
 
         if (MapsData.addMapId(playerData, getObject())) {
             player.sendMessage(Text.translatable("eldenrpg.area.partofmap"), true);
+            player.playSoundToPlayer(ModSounds.MAP_FOUND, SoundCategory.AMBIENT, 0.5F, 1.0F);
         }
     }
 }

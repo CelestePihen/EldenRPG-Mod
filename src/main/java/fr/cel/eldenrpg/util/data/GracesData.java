@@ -43,10 +43,10 @@ public final class GracesData {
     }
 
     static {
-        // TODO mettre TOUS les feux de camps quand map fini... trop hâte... + mettre traduction des lieux
-        // TODO translatable
-        GRACES.put(new BlockPos(146, -19, -92), Text.translatable("Campfire 1"));
-        GRACES.put(new BlockPos(150, 0, -87), Text.translatable("Campfire 2"));
+        // TODO mettre TOUS les feux de camps quand map fini + translatable
+        GRACES.put(new BlockPos(146, -19, -92), Text.translatable("Tuto 1"));
+        GRACES.put(new BlockPos(150, 0, -87), Text.translatable("Tuto 2"));
+        GRACES.put(new BlockPos(163, 67, -97), Text.translatable("Cimetière"));
     }
 
     public static void syncGraces(PlayerEntity player, BlockPos pos) {

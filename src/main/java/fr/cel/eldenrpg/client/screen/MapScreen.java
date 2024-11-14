@@ -17,14 +17,12 @@ import net.minecraft.util.math.MathHelper;
 @Environment(EnvType.CLIENT)
 public class MapScreen extends Screen {
 
-    // Les textures des cartes
     private static final Identifier CARTE = Identifier.of(EldenRPG.MOD_ID, "textures/gui/map/map.png");
-    private static final Identifier CARTE_DEV = Identifier.of(EldenRPG.MOD_ID, "textures/gui/map/gray_map.png");
+    private static final Identifier GRAY_MAP = Identifier.of(EldenRPG.MOD_ID, "textures/gui/map/gray_map.png");
 
     private final int imageWidth = 240, imageHeight = 240;
     private int leftPos, topPos;
 
-    // Boutons
     private ButtonWidget gracesButton;
     private ButtonWidget plusButton;
     private ButtonWidget minusButton;
@@ -93,7 +91,7 @@ public class MapScreen extends Screen {
         if (MapsData.getMapsId(playerData).contains(part)) {
             context.drawTexture(CARTE, x, y, x, y, width, height, imageWidth, imageHeight);
         } else {
-            context.drawTexture(CARTE_DEV, x, y, x, y, width, height, imageWidth, imageHeight);
+            context.drawTexture(GRAY_MAP, x, y, x, y, width, height, imageWidth, imageHeight);
         }
     }
 

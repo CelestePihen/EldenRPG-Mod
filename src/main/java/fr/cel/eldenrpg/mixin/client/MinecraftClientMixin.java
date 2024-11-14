@@ -14,8 +14,9 @@ public abstract class MinecraftClientMixin {
 	private void changeWindowTitle(CallbackInfoReturnable<String> cir) {
 		if (EldenRPG.isIDE) {
 			cir.setReturnValue("MC Dev 1.21 - EldenRPG 0.1");
+		} else {
+			cir.setReturnValue("Minecraft 1.21 - EldenRPG 0.1");
 		}
-		cir.setReturnValue("Minecraft 1.21 - EldenRPG 0.1");
 	}
 
 }

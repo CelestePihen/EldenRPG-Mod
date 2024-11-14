@@ -24,10 +24,8 @@ public class CatacombCarcassRenderer extends BipedEntityRenderer<CatacombCarcass
     public CatacombCarcassRenderer(EntityRendererFactory.Context context, EntityModelLayer entityModelLayer,
                                    EntityModelLayer entityModelLayer2, CatacombCarcassModel skeletonEntityModel) {
         super(context, skeletonEntityModel, 0.5F);
-        this.addFeature(new ArmorFeatureRenderer<>(
-                this, new CatacombCarcassModel(context.getPart(entityModelLayer)),
-                new CatacombCarcassModel(context.getPart(entityModelLayer2)),
-                context.getModelManager())
+        this.addFeature(new ArmorFeatureRenderer<>(this, new CatacombCarcassModel(context.getPart(entityModelLayer)),
+                new CatacombCarcassModel(context.getPart(entityModelLayer2)), context.getModelManager())
         );
     }
 
