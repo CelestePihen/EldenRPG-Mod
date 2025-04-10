@@ -11,7 +11,6 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.text.Text;
 
-@Environment(EnvType.CLIENT)
 public class GraceScreen extends Screen {
 
     public GraceScreen(Text text) {

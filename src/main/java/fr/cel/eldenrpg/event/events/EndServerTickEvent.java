@@ -4,7 +4,7 @@ import fr.cel.eldenrpg.areas.Area;
 import fr.cel.eldenrpg.areas.Areas;
 import fr.cel.eldenrpg.quest.Quest;
 import fr.cel.eldenrpg.quest.task.type.ItemTask;
-import fr.cel.eldenrpg.util.DialogueManager;
+import fr.cel.eldenrpg.sound.DialogueManager;
 import fr.cel.eldenrpg.util.IPlayerDataSaver;
 import fr.cel.eldenrpg.util.data.QuestsData;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;

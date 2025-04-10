@@ -18,7 +18,8 @@ public class UseBlockEvent implements UseBlockCallback {
     @Override
     public ActionResult interact(PlayerEntity player, World world, Hand hand, BlockHitResult hitResult) {
         Block block = world.getBlockState(hitResult.getBlockPos()).getBlock();
-        if (block == Blocks.CRAFTING_TABLE || block == Blocks.FURNACE || block == Blocks.BLAST_FURNACE || block == Blocks.SMOKER || block == Blocks.BARREL) {
+        if (block == Blocks.CRAFTING_TABLE || block == Blocks.FURNACE || block == Blocks.BLAST_FURNACE ||
+                block == Blocks.SMOKER || block == Blocks.BARREL || block == Blocks.CARTOGRAPHY_TABLE) {
             return ActionResult.FAIL;
         }
         return ActionResult.PASS;

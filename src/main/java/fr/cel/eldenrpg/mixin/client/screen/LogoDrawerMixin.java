@@ -24,14 +24,14 @@ public abstract class LogoDrawerMixin {
 
     @Inject(method = "draw(Lnet/minecraft/client/gui/DrawContext;IFI)V", at = @At("HEAD"), cancellable = true)
     private void drawLogo(DrawContext context, int screenWidth, float alpha, int y, CallbackInfo ci) {
-        ci.cancel();
-
         context.setShaderColor(1.0F, 1.0F, 1.0F, this.ignoreAlpha ? 1.0F : alpha);
         RenderSystem.enableBlend();
         int i = screenWidth / 2 - 128;
         context.drawTexture(this.minceraft ? ELDERNPG : LOGO, i, y, 0.0F, 0.0F, 256, 44, 256, 64);
         context.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.disableBlend();
+
+        ci.cancel();
     }
 
 }

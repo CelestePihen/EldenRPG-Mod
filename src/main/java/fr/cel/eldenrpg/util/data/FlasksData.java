@@ -14,7 +14,7 @@ import java.util.List;
 
 public final class FlasksData {
 
-    // ----------------------------- Flasks -----------------------------
+    /* ----------------------------- Flasks ----------------------------- */
 
     public static void addFlasks(IPlayerDataSaver player, int amount) {
         NbtCompound nbt = player.eldenrpg$getPersistentData();
@@ -41,7 +41,7 @@ public final class FlasksData {
         return player.eldenrpg$getPersistentData().getInt("flasks");
     }
 
-    // ------------------------- Max Flasks -------------------------
+    /* ------------------------- MAX FLASKS ------------------------- */
 
     public static void addMaxFlasks(IPlayerDataSaver player) {
         NbtCompound nbt = player.eldenrpg$getPersistentData();
@@ -56,7 +56,7 @@ public final class FlasksData {
         return player.eldenrpg$getPersistentData().getInt("maxFlasks");
     }
 
-    // ----------------------- Level of Flasks -----------------------
+    /* ----------------------- LEVEL OF FLASKS ----------------------- */
 
     public static void addLevelFlasks(IPlayerDataSaver player) {
         NbtCompound nbt = player.eldenrpg$getPersistentData();
@@ -72,7 +72,7 @@ public final class FlasksData {
         return player.eldenrpg$getPersistentData().getInt("levelFlasks");
     }
 
-    // ------------------------ Golden Seed ------------------------
+    /* ------------------------ GOLDEN SEED ------------------------ */
 
     public static void addGoldenSeed(IPlayerDataSaver player) {
         NbtCompound nbt = player.eldenrpg$getPersistentData();
@@ -99,7 +99,7 @@ public final class FlasksData {
         return player.eldenrpg$getPersistentData().getInt("goldenSeed");
     }
 
-    // ------------------------- Tear of Life -------------------------
+    /* ------------------------ TEAR OF LIFE ------------------------ */
 
     public static void addSacredTear(IPlayerDataSaver player) {
         NbtCompound nbt = player.eldenrpg$getPersistentData();
@@ -126,7 +126,7 @@ public final class FlasksData {
         return player.eldenrpg$getPersistentData().getInt("sacredTear");
     }
 
-    // ---------------------------- Areas ----------------------------
+    /* --------------------------- AREAS --------------------------- */
 
     public static boolean addTearId(IPlayerDataSaver player, int mapId) {
         List<Integer> tearId = getTearId(player);
@@ -172,8 +172,7 @@ public final class FlasksData {
         return gsId;
     }
 
-    // ---------------------------- CONVERT ----------------------------
-
+    /* ---------------------------- CONVERT ---------------------------- */
 
     public static boolean convertSeedToFlask(IPlayerDataSaver player) {
         int goldenSeeds = getGoldenSeeds(player);
@@ -217,7 +216,7 @@ public final class FlasksData {
         return true;
     }
 
-    // ----------------------------- SYNC -----------------------------
+    /* ----------------------------- SYNC ----------------------------- */
 
     public static void syncFlasks(int flasks, ServerPlayerEntity player) {
         ServerPlayNetworking.send(player, new FlasksSyncS2CPacket(flasks));

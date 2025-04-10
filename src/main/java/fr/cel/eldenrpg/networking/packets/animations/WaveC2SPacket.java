@@ -1,12 +1,12 @@
 package fr.cel.eldenrpg.networking.packets.animations;
 
-import com.zigythebird.playeranimatorapi.API.PlayerAnimAPI;
 import fr.cel.eldenrpg.EldenRPG;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public record WaveC2SPacket() implements CustomPayload {
@@ -20,7 +20,8 @@ public record WaveC2SPacket() implements CustomPayload {
         ServerPlayerEntity player = context.player();
         if (player.isSwimming() || player.isSpectator() || !player.isOnGround() || player.isClimbing()) return;
 
-        PlayerAnimAPI.playPlayerAnim(player.getServerWorld(), player, Identifier.of(EldenRPG.MOD_ID, "wave"));
+        player.sendMessage(Text.of("à rajouter"));
+//        PlayerAnimAPI.playPlayerAnim(player.getServerWorld(), player, Identifier.of(EldenRPG.MOD_ID, "wave"));
     }
 
     @Override

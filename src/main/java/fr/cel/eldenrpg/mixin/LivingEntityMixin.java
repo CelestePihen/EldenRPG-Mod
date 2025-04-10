@@ -9,6 +9,7 @@ import fr.cel.eldenrpg.util.IPlayerDataSaver;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
@@ -31,7 +32,9 @@ public abstract class LivingEntityMixin implements IPlayerDataSaver {
 
     @Unique private long lastRollTime = 0;
     @Unique private long lastFlaskDrunk = 0;
-    @Unique private int invulnerableTicks;
+    @Unique private int invulnerableTicks = 0;
+
+    /* Méthodes du jeu */
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void constructor(EntityType<?> type, World world, CallbackInfo ci) {
@@ -56,7 +59,7 @@ public abstract class LivingEntityMixin implements IPlayerDataSaver {
 
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
     private void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
-        if (invulnerableTicks > 0) {
+        if (invulnerableTicks > 0 && isCombatDamage(source)) {
             cir.setReturnValue(false);
         }
     }
@@ -73,12 +76,25 @@ public abstract class LivingEntityMixin implements IPlayerDataSaver {
         eldenRPG_Mod$decrementInvulnerableTicks();
     }
 
+    @Unique
+    private boolean isCombatDamage(DamageSource source) {
+        return source.isOf(DamageTypes.GENERIC) ||
+                source.isOf(DamageTypes.PLAYER_ATTACK) ||
+                source.isOf(DamageTypes.MOB_ATTACK) ||
+                source.isOf(DamageTypes.EXPLOSION) ||
+                source.isOf(DamageTypes.THROWN);
+    }
+
+    /* Méthodes customs */
+
     @Override
     public NbtCompound eldenrpg$getPersistentData() {
         if (this.persistentData == null) {
             this.persistentData = new NbtCompound();
 
-            // Fioles et nombre maximum de fiolesd
+            /* Ce que le joueur peut voir */
+
+            // Fioles et nombre maximum de fioles
             this.persistentData.putInt("flasks", 4);
             this.persistentData.putInt("maxFlasks", 4);
 
@@ -89,15 +105,17 @@ public abstract class LivingEntityMixin implements IPlayerDataSaver {
             this.persistentData.putInt("goldenSeed", 0);
             this.persistentData.putInt("sacredTear", 0);
 
-            // Identifiants des GD et LdV déjà prises
-            this.persistentData.putIntArray("tearId", new int[]{});
-            this.persistentData.putIntArray("gsId", new int[]{});
+            // Identifiants des maps déjà prises
+            this.persistentData.putIntArray("mapsId", new int[]{});
 
             // Première fois sur le serveur
             this.persistentData.putBoolean("firstTime", true);
 
-            // Identifiants des maps déjà prises
-            this.persistentData.putIntArray("mapsId", new int[]{});
+            /* Ce que le joueur ne peut pas voir */
+
+            // Identifiants des Graines dorées et Larmes de Vie déjà prises
+            this.persistentData.putIntArray("gsId", new int[]{});
+            this.persistentData.putIntArray("tearId", new int[]{});
 
             // Quêtes
             this.persistentData.put("quests", new NbtList());
@@ -144,7 +162,7 @@ public abstract class LivingEntityMixin implements IPlayerDataSaver {
 
     @Override
     public long eldenRPG_Mod$getLastRollTime() {
-        return lastRollTime;
+        return this.lastRollTime;
     }
 
     @Override
@@ -154,7 +172,7 @@ public abstract class LivingEntityMixin implements IPlayerDataSaver {
 
     @Override
     public long eldenRPG_Mod$getLastFlaskDrunk() {
-        return lastFlaskDrunk;
+        return this.lastFlaskDrunk;
     }
 
     @Override
@@ -164,13 +182,13 @@ public abstract class LivingEntityMixin implements IPlayerDataSaver {
 
     @Override
     public void eldenRPG_Mod$setInvulnerableTicks(int ticks) {
-        invulnerableTicks = ticks;
+        this.invulnerableTicks = ticks;
     }
 
     @Override
     public void eldenRPG_Mod$decrementInvulnerableTicks() {
-        if (invulnerableTicks > 0) {
-            invulnerableTicks--;
+        if (this.invulnerableTicks > 0) {
+            this.invulnerableTicks--;
         }
     }
 

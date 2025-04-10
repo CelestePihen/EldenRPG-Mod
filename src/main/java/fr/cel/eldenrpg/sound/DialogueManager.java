@@ -1,4 +1,4 @@
-package fr.cel.eldenrpg.util;
+package fr.cel.eldenrpg.sound;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -38,9 +38,7 @@ public final class DialogueManager {
         }
     }
 
-    public record MessageWithSound(String message, int delayTicks, SoundEvent sound) {
-    }
+    public record MessageWithSound(String message, int delayTicks, SoundEvent sound) { }
 
-    private record DelayedMessage(ServerPlayerEntity player, MessageWithSound messageWithSound, long tickToSend) {
-    }
+    private record DelayedMessage(ServerPlayerEntity player, MessageWithSound messageWithSound, long tickToSend) { }
 }

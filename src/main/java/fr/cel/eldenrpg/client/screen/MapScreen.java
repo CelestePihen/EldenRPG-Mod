@@ -14,7 +14,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
-@Environment(EnvType.CLIENT)
 public class MapScreen extends Screen {
 
     private static final Identifier CARTE = Identifier.of(EldenRPG.MOD_ID, "textures/gui/map/map.png");
@@ -28,9 +27,10 @@ public class MapScreen extends Screen {
     private ButtonWidget minusButton;
 
     // Gérer le zoom et le déplacement
-    private float zoom = 1.0F;
-    private float offsetX = 0;
-    private float offsetY = 0;
+    private float zoom = 1.0F, targetZoom = 1.0F;
+    private float offsetX = 0, offsetY = 0;
+    private float targetOffsetX = 0, targetOffsetY = 0;
+
     private boolean isDragging = false;
 
     public MapScreen() {
@@ -41,15 +41,18 @@ public class MapScreen extends Screen {
     public void init() {
         super.init();
 
+        if (this.client == null) return;
+
         this.leftPos = (this.width - this.imageWidth) / 2;
         this.topPos = (this.height - this.imageHeight) / 2;
 
-        this.gracesButton = this.addSelectableChild(ButtonWidget.builder(Text.translatable("eldenrpg.map.screen.gracesselection"), button -> client.setScreen(new GracesSelectionScreen(this)))
+        this.gracesButton = this.addSelectableChild(ButtonWidget.builder(Text.translatable("eldenrpg.map.screen.gracesselection"),
+                button -> this.client.setScreen(new GracesSelectionScreen(this)))
                 .dimensions(leftPos - 87, topPos + 5, 80, 20).build());
 
-        this.plusButton = this.addSelectableChild(ButtonWidget.builder(Text.of("+"), button -> zoomIn())
+        this.plusButton = this.addSelectableChild(ButtonWidget.builder(Text.of("+"), button -> zoomIn(false))
                 .dimensions(leftPos + imageWidth + 5, topPos + 5, 20, 20).build());
-        this.minusButton = this.addSelectableChild(ButtonWidget.builder(Text.of("-"), button -> zoomOut())
+        this.minusButton = this.addSelectableChild(ButtonWidget.builder(Text.of("-"), button -> zoomOut(false))
                 .dimensions(leftPos + imageWidth + 5, topPos + 30, 20, 20).build());
     }
 
@@ -57,8 +60,13 @@ public class MapScreen extends Screen {
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         super.render(context, mouseX, mouseY, delta);
 
-        IPlayerDataSaver playerData = (IPlayerDataSaver) client.player;
-        if (playerData == null) return;
+        if (this.client == null) return;
+        IPlayerDataSaver playerData = (IPlayerDataSaver) this.client.player;
+
+        // interpolation
+        zoom = MathHelper.lerp(0.15f, zoom, targetZoom);
+        offsetX = MathHelper.lerp(0.15f, offsetX, targetOffsetX);
+        offsetY = MathHelper.lerp(0.15f, offsetY, targetOffsetY);
 
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
@@ -81,7 +89,7 @@ public class MapScreen extends Screen {
 
         context.getMatrices().pop();
 
-        // On met les Boutons par dessus la carte
+        // On met les boutons par dessus la carte
         gracesButton.render(context, mouseX, mouseY, delta);
         plusButton.render(context, mouseX, mouseY, delta);
         minusButton.render(context, mouseX, mouseY, delta);
@@ -100,15 +108,18 @@ public class MapScreen extends Screen {
         return false;
     }
 
-    /** Systèmes de zoom et de déplacement **/
+    /* Systèmes de zoom et de déplacement */
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (button == 0 && isMouseOverMap(mouseX, mouseY)) {
+        boolean handled = super.mouseClicked(mouseX, mouseY, button);
+
+        if (button == 0 && !handled) {
             isDragging = true;
             return true;
         }
-        return super.mouseClicked(mouseX, mouseY, button);
+
+        return handled;
     }
 
     @Override
@@ -123,48 +134,54 @@ public class MapScreen extends Screen {
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
         if (isDragging) {
-            offsetX += (float) (deltaX / zoom);
-            offsetY += (float) (deltaY / zoom);
+            targetOffsetX += (float) (deltaX / zoom);
+            targetOffsetY += (float) (deltaY / zoom);
             clampOffsets();
             return true;
         }
         return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
     }
 
-
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
-        if (isMouseOverMap(mouseX, mouseY)) {
+        if (verticalAmount != 0) {
+            float oldZoom = targetZoom;
+
             if (verticalAmount > 0) {
-                zoomIn();
+                zoomIn(true);
             } else if (verticalAmount < 0) {
-                zoomOut();
+                zoomOut(true);
             }
+
+            float zoomFactor = targetZoom / oldZoom;
+            float mapCenterX = (float) (mouseX - leftPos - imageWidth / 2.0);
+            float mapCenterY = (float) (mouseY - topPos - imageHeight / 2.0);
+
+            targetOffsetX -= mapCenterX * (1 - 1 / zoomFactor);
+            targetOffsetY -= mapCenterY * (1 - 1 / zoomFactor);
+
             clampOffsets();
             return true;
         }
         return super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount);
     }
 
-    private void zoomIn() {
-        zoom = Math.min(zoom * 1.2f, 4.0f);
+    private void zoomIn(boolean isMouse) {
+        targetZoom = Math.min(targetZoom * 1.2f, 4.0f);
+        if (!isMouse) clampOffsets();
     }
 
-    private void zoomOut() {
-        zoom = Math.max(zoom / 1.2f, 0.5f);
+    private void zoomOut(boolean isMouse) {
+        targetZoom = Math.max(targetZoom / 1.2f, 0.5f);
+        if (!isMouse) clampOffsets();
     }
-
-    private boolean isMouseOverMap(double mouseX, double mouseY) {
-        return mouseX >= leftPos && mouseX < leftPos + imageWidth && mouseY >= topPos && mouseY < topPos + imageHeight;
-    }
-
 
     private void clampOffsets() {
-        float maxOffsetX = Math.max((imageWidth * zoom - this.width) / (2 * zoom), 0);
-        float maxOffsetY = Math.max((imageHeight * zoom - this.height) / (2 * zoom), 0);
+        float maxOffsetX = Math.max((imageWidth * targetZoom - this.width) / (2 * targetZoom), 0);
+        float maxOffsetY = Math.max((imageHeight * targetZoom - this.height) / (2 * targetZoom), 0);
 
-        offsetX = MathHelper.clamp(offsetX, -maxOffsetX, maxOffsetX);
-        offsetY = MathHelper.clamp(offsetY, -maxOffsetY, maxOffsetY);
+        targetOffsetX = MathHelper.clamp(targetOffsetX, -maxOffsetX, maxOffsetX);
+        targetOffsetY = MathHelper.clamp(targetOffsetY, -maxOffsetY, maxOffsetY);
     }
 
 }

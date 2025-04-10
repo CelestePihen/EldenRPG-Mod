@@ -11,7 +11,6 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
 
-@Environment(EnvType.CLIENT)
 public class FlasksScreen extends Screen {
 
     private final Screen parent;

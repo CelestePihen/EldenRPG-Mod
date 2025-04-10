@@ -23,6 +23,9 @@ public class HintArea extends Area<String> {
         if (rootAdvancement == null) return;
 
         PlayerAdvancementTracker advancementTracker = player.getAdvancementTracker();
+        // si le joueur a déjà eu l'indice
+        if (advancementTracker.getProgress(rootAdvancement).isDone()) return;
+
         for (String criteria : advancementTracker.getProgress(rootAdvancement).getUnobtainedCriteria()) {
             advancementTracker.grantCriterion(rootAdvancement, criteria);
         }

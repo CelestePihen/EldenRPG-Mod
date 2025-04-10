@@ -17,7 +17,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
 import net.minecraft.util.math.BlockPos;
 
-@Environment(EnvType.CLIENT)
 public class GracesSelectionScreen extends Screen {
     private final ThreePartsLayoutWidget layout = new ThreePartsLayoutWidget(this);
     private final Screen parent;

@@ -36,7 +36,12 @@ public class KeyInputEvent {
             }
 
             if (ROLL.wasPressed()) {
-                ClientPlayNetworking.send(new RollC2SPacket());
+                if (client.player != null) {
+                    float forward = client.player.input.movementForward;
+                    float sideways = client.player.input.movementSideways;
+
+                    ClientPlayNetworking.send(new RollC2SPacket(forward, sideways));
+                }
             }
 
             if (WAVE.wasPressed()) {
