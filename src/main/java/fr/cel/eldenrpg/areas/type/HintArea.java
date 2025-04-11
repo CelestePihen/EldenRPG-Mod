@@ -14,20 +14,20 @@ public class HintArea extends Area<String> {
 
     public HintArea(String advancementName, double x1, double y1, double z1, double x2, double y2, double z2) {
         super(advancementName, x1, y1, z1, x2, y2, z2);
-        identifier = Identifier.of(EldenRPG.MOD_ID, advancementName);
+        this.identifier = Identifier.of(EldenRPG.MOD_ID, advancementName);
     }
 
     @Override
     protected void interact(ServerPlayerEntity player) {
-        AdvancementEntry rootAdvancement = player.server.getAdvancementLoader().get(identifier);
-        if (rootAdvancement == null) return;
+        AdvancementEntry advancement = player.server.getAdvancementLoader().get(identifier);
+        if (advancement == null) return;
 
         PlayerAdvancementTracker advancementTracker = player.getAdvancementTracker();
         // si le joueur a déjà eu l'indice
-        if (advancementTracker.getProgress(rootAdvancement).isDone()) return;
+        if (advancementTracker.getProgress(advancement).isDone()) return;
 
-        for (String criteria : advancementTracker.getProgress(rootAdvancement).getUnobtainedCriteria()) {
-            advancementTracker.grantCriterion(rootAdvancement, criteria);
+        for (String criteria : advancementTracker.getProgress(advancement).getUnobtainedCriteria()) {
+            advancementTracker.grantCriterion(advancement, criteria);
         }
 
         String nameWithoutHint = getObject().substring(4);

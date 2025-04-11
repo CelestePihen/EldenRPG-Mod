@@ -2,7 +2,7 @@ package fr.cel.eldenrpg.event.events;
 
 import fr.cel.eldenrpg.EldenRPG;
 import fr.cel.eldenrpg.networking.packets.flasks.sync.*;
-import fr.cel.eldenrpg.networking.packets.graces.GracesSyncS2CPacket;
+import fr.cel.eldenrpg.networking.packets.graces.AddGraceS2CPacket;
 import fr.cel.eldenrpg.networking.packets.maps.MapsSyncS2CPacket;
 import fr.cel.eldenrpg.util.IPlayerDataSaver;
 import fr.cel.eldenrpg.util.data.FlasksData;
@@ -51,8 +51,8 @@ public class EntityLoadEvent implements ServerEntityEvents.Load {
                 ServerPlayNetworking.send(player, new MapsSyncS2CPacket(i));
             }
 
-            for (long pos : GracesData.getGraces(playerDataSaver)) {
-                ServerPlayNetworking.send(player, new GracesSyncS2CPacket(BlockPos.fromLong(pos)));
+            for (long pos : GracesData.getPlayerGraces(playerDataSaver)) {
+                ServerPlayNetworking.send(player, new AddGraceS2CPacket(BlockPos.fromLong(pos)));
             }
         }
     }

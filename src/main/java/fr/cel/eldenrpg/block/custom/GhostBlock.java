@@ -1,6 +1,7 @@
 package fr.cel.eldenrpg.block.custom;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 
 public class GhostBlock extends Block {
 
@@ -11,7 +12,7 @@ public class GhostBlock extends Block {
      * @param block Le {@link net.minecraft.block.Block} à copier
      */
     public GhostBlock(Block block) {
-        super(Settings.copy(block).noCollision().nonOpaque().dropsNothing());
+        super(Settings.copy(block).noCollision().dropsNothing().allowsSpawning(Blocks::never).solidBlock(Blocks::never).suffocates(Blocks::never).blockVision(Blocks::never));
     }
 
 }

@@ -20,6 +20,7 @@ public class CommandsRegisterEvent implements CommandRegistrationCallback {
     public void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, CommandManager.RegistrationEnvironment environment) {
         NPCCommand.register(dispatcher);
         QuestCommand.register(dispatcher);
+
         GraceCommand.register(dispatcher);
 
         FlaskCommand.registerFlask(dispatcher);

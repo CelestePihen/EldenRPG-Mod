@@ -20,16 +20,43 @@ public class GraceCommand {
                 // Permet d'avoir la liste de grâces d'un joueur
                 .then(CommandManager.literal("list").then(CommandManager.argument("player", EntityArgumentType.player())
                         .executes(source -> getQuestList(EntityArgumentType.getPlayer(source, "player")))))
+
+                // Donne toutes les grâces au joueur
+                .then(CommandManager.literal("giveall").executes(source -> giveGraces(source.getSource().getPlayerOrThrow())))
+
+                // Donne toutes les grâces à un joueur
+                .then(CommandManager.literal("giveall").then(CommandManager.argument("player", EntityArgumentType.player())
+                        .executes(source -> giveGraces(EntityArgumentType.getPlayer(source, "player")))))
+
+                // Retire toutes les grâces au joueur
+                .then(CommandManager.literal("removeall").executes(source -> removeGraces(source.getSource().getPlayerOrThrow())))
+
+                // Retire toutes les grâces à un joueur
+                .then(CommandManager.literal("removeall").then(CommandManager.argument("player", EntityArgumentType.player())
+                        .executes(source -> removeGraces(EntityArgumentType.getPlayer(source, "player")))))
         );
     }
 
-    private static int getQuestList(ServerPlayerEntity player) {
-        player.sendMessage(Text.translatable("eldenrpg.command.graces.list", player.getName()));
 
-        for (long l : GracesData.getGraces((IPlayerDataSaver) player)) {
-            player.sendMessage(GracesData.getGraceName(BlockPos.fromLong(l)));
+
+    private static int getQuestList(ServerPlayerEntity player) {
+        for (long gracePos : GracesData.getPlayerGraces((IPlayerDataSaver) player)) {
+            player.sendMessage(GracesData.getGraceName(BlockPos.fromLong(gracePos)));
         }
 
+        player.sendMessage(Text.translatable("eldenrpg.command.graces.list", player.getName()));
+        return 1;
+    }
+
+    private static int giveGraces(ServerPlayerEntity player) {
+        GracesData.addGraces((IPlayerDataSaver) player);
+        player.sendMessage(Text.translatable("eldenrpg.command.graces.giveall", player.getName()));
+        return 1;
+    }
+
+    private static int removeGraces(ServerPlayerEntity player) {
+        GracesData.removeGraces((IPlayerDataSaver) player);
+        player.sendMessage(Text.translatable("eldenrpg.command.graces.removeall", player.getName()));
         return 1;
     }
 

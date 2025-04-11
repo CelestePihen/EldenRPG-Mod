@@ -10,13 +10,14 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
-public record GracesSyncS2CPacket(BlockPos pos) implements CustomPayload {
+public record AddGraceS2CPacket(BlockPos pos) implements CustomPayload {
 
-    public static final Id<GracesSyncS2CPacket> ID = new Id<>(Identifier.of(EldenRPG.MOD_ID, "syncgraces"));
-    public static final PacketCodec<RegistryByteBuf, GracesSyncS2CPacket> CODEC = PacketCodec.tuple(
-            BlockPos.PACKET_CODEC, GracesSyncS2CPacket::pos, GracesSyncS2CPacket::new);
+    public static final Id<AddGraceS2CPacket> ID = new Id<>(Identifier.of(EldenRPG.MOD_ID, "addgrace"));
 
-    public static void handle(GracesSyncS2CPacket payload, ClientPlayNetworking.Context context) {
+    public static final PacketCodec<RegistryByteBuf, AddGraceS2CPacket> CODEC = PacketCodec.tuple(
+            BlockPos.PACKET_CODEC, AddGraceS2CPacket::pos, AddGraceS2CPacket::new);
+
+    public static void handle(AddGraceS2CPacket payload, ClientPlayNetworking.Context context) {
         context.client().execute(() -> GracesData.addGrace((IPlayerDataSaver) context.player(), payload.pos()));
     }
 

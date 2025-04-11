@@ -40,7 +40,7 @@ public class CatacombCarcassEntity extends HostileEntity implements RangedAttack
         super(entityType, world);
         this.setHealth(50.0F);
         this.setCustomNameVisible(true);
-        this.setCustomName(Text.translatable("entity.eldenrpg.catacombcarcass"));
+        this.setCustomName(Text.translatable("entity.eldenrpg.catacomb_carcass"));
 
         updateAttackType();
     }

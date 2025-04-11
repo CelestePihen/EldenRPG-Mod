@@ -33,6 +33,7 @@ public final class ModEntities {
     public static void registerAttributes() {
         FabricDefaultAttributeRegistry.register(ModEntities.BLACKSMITH_NPC, AbstractNPCEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(ModEntities.CATACOMB_CARCASS, CatacombCarcassEntity.createCatacombCarcassAttributes());
+        EldenRPG.LOGGER.info("Register Entity Attributes for " + EldenRPG.MOD_ID);
     }
 
 }

@@ -6,8 +6,9 @@ import fr.cel.eldenrpg.networking.packets.flasks.AddChargeC2SPacket;
 import fr.cel.eldenrpg.networking.packets.flasks.DrinkFlaskC2SPacket;
 import fr.cel.eldenrpg.networking.packets.flasks.IncreaseFlaskC2SPacket;
 import fr.cel.eldenrpg.networking.packets.flasks.sync.*;
-import fr.cel.eldenrpg.networking.packets.graces.GracesSyncS2CPacket;
+import fr.cel.eldenrpg.networking.packets.graces.AddGraceS2CPacket;
 import fr.cel.eldenrpg.networking.packets.graces.MapTeleportationC2SPacket;
+import fr.cel.eldenrpg.networking.packets.graces.RemoveGraceS2CPacket;
 import fr.cel.eldenrpg.networking.packets.graces.screen.OpenChestC2SPacket;
 import fr.cel.eldenrpg.networking.packets.graces.screen.OpenGraceScreenS2CPacket;
 import fr.cel.eldenrpg.networking.packets.maps.MapsSyncS2CPacket;
@@ -38,7 +39,8 @@ public final class ModMessages {
         ClientPlayNetworking.registerGlobalReceiver(SacredTearSyncS2CPacket.ID, SacredTearSyncS2CPacket::handle);
 
         ClientPlayNetworking.registerGlobalReceiver(MapsSyncS2CPacket.ID, MapsSyncS2CPacket::handle);
-        ClientPlayNetworking.registerGlobalReceiver(GracesSyncS2CPacket.ID, GracesSyncS2CPacket::handle);
+        ClientPlayNetworking.registerGlobalReceiver(AddGraceS2CPacket.ID, AddGraceS2CPacket::handle);
+        ClientPlayNetworking.registerGlobalReceiver(RemoveGraceS2CPacket.ID, RemoveGraceS2CPacket::handle);
 
         ClientPlayNetworking.registerGlobalReceiver(OpenGraceScreenS2CPacket.ID, OpenGraceScreenS2CPacket::handle);
     }
@@ -57,7 +59,8 @@ public final class ModMessages {
         PayloadTypeRegistry.playS2C().register(MapsSyncS2CPacket.ID, MapsSyncS2CPacket.CODEC);
 
         PayloadTypeRegistry.playC2S().register(MapTeleportationC2SPacket.ID, MapTeleportationC2SPacket.CODEC);
-        PayloadTypeRegistry.playS2C().register(GracesSyncS2CPacket.ID, GracesSyncS2CPacket.CODEC);
+        PayloadTypeRegistry.playS2C().register(AddGraceS2CPacket.ID, AddGraceS2CPacket.CODEC);
+        PayloadTypeRegistry.playS2C().register(RemoveGraceS2CPacket.ID, RemoveGraceS2CPacket.CODEC);
 
         PayloadTypeRegistry.playC2S().register(OpenChestC2SPacket.ID, OpenChestC2SPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(OpenGraceScreenS2CPacket.ID, OpenGraceScreenS2CPacket.CODEC);

@@ -35,6 +35,8 @@
   "eldenrpg.command.sacredtear.current": "Larmes de vie de %s: %s",
   "eldenrpg.command.goldenseed.current": "Graines dorées de %s: %s",
 
+  "eldenrpg.command.graces.giveall": "Toutes les grâces ont été données à %s",
+  "eldenrpg.command.graces.removeall": "Toutes les grâces ont été retirées à %s",
   "eldenrpg.command.graces.list": "Grâces de %s: ",
 
   "eldenrpg.flasks.screen.addCharge": "Ajouter une dose",
@@ -70,7 +72,7 @@
 
   "eldenrpg.title.lostgracediscovered": "GRÂCE ÉVANOUIE DÉCOUVERTE",
 
-  "entity.eldenrpg.blacksmith": "Forgeron",
+  "entity.eldenrpg.blacksmith_npc": "Forgeron",
   "entity.eldenrpg.blacksmith.dialogue1": "Bonjour aventurier...",
   "entity.eldenrpg.blacksmith.dialogue2": "Pourriez-vous tuer ces 5 créatures vertes et gluantes dans ma maison ?",
   "entity.eldenrpg.blacksmith.dialogue3": "Vous aurez une belle récompense si vous le faites !",
@@ -78,7 +80,7 @@
   "entity.eldenrpg.blacksmith.dialogue5": "Vous êtes mon héros ! Voici votre récompense.",
   "entity.eldenrpg.blacksmith.dialogue6": "Encore merci d'avoir dégagé ces bestioles hors de chez moi !",
 
-  "entity.eldenrpg.catacombcarcass": "Carcasse des Catacombes",
+  "entity.eldenrpg.catacomb_carcass": "Carcasse des Catacombes",
 
   "entity.eldenrpg.npc": "EldenNPC",
 

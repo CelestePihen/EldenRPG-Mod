@@ -1,6 +1,6 @@
 package fr.cel.eldenrpg.event.events;
 
-import fr.cel.eldenrpg.client.screen.MapScreen;
+import fr.cel.eldenrpg.client.screen.map.MapScreen;
 import fr.cel.eldenrpg.networking.packets.animations.RollC2SPacket;
 import fr.cel.eldenrpg.networking.packets.animations.WaveC2SPacket;
 import fr.cel.eldenrpg.networking.packets.flasks.DrinkFlaskC2SPacket;

@@ -3,8 +3,6 @@ package fr.cel.eldenrpg.client.screen.grace;
 import fr.cel.eldenrpg.networking.packets.flasks.AddChargeC2SPacket;
 import fr.cel.eldenrpg.networking.packets.flasks.IncreaseFlaskC2SPacket;
 import fr.cel.eldenrpg.util.IPlayerDataSaver;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;

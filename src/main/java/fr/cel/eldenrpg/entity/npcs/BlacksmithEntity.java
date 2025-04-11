@@ -1,6 +1,7 @@
 package fr.cel.eldenrpg.entity.npcs;
 
 import fr.cel.eldenrpg.entity.custom.AbstractNPCEntity;
+import fr.cel.eldenrpg.item.ModItems;
 import fr.cel.eldenrpg.quest.Quest;
 import fr.cel.eldenrpg.quest.Quest.QuestState;
 import fr.cel.eldenrpg.quest.Quests;
@@ -13,7 +14,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.SlimeEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.StopSoundS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -22,14 +22,12 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-import java.util.List;
-
 public class BlacksmithEntity extends AbstractNPCEntity {
 
     public BlacksmithEntity(EntityType<? extends MobEntity> entityType, World world) {
         super(entityType, world);
-        this.setPos(206.5, 65, -63.5);
-        this.setCustomName(Text.translatable("entity.eldenrpg.blacksmith"));
+        this.setPosition(206.5, 65, -63.5);
+        this.setCustomName(Text.translatable("entity.eldenrpg.blacksmith_npc"));
     }
 
     @Override
@@ -39,12 +37,14 @@ public class BlacksmithEntity extends AbstractNPCEntity {
 
         if (q == null) {
             QuestsData.addQuest(playerDataSaver, Quests.BLACKSMITH);
-            List<MessageWithSound> messages = List.of(
+            DialogueManager.sendMessages(player,
                     new MessageWithSound("entity.eldenrpg.blacksmith.dialogue1", 0, ModSounds.BLACKSMITH_1),
-                    new MessageWithSound("entity.eldenrpg.blacksmith.dialogue2", 30, ModSounds.BLACKSMITH_2), // comme le 1er message dure 1.5 seconde alors on met le 2ème dialogue au bout de 1.5 seconde
-                    new MessageWithSound("entity.eldenrpg.blacksmith.dialogue3", 80, ModSounds.BLACKSMITH_3) // 1.5 secondes + 2.5 secondes du 2ème dialogue
+                    /* comme le 1er message dure 1.5 seconde alors on met le 2ème dialogue au bout de 1.5 seconde */
+                    new MessageWithSound("entity.eldenrpg.blacksmith.dialogue2", 30, ModSounds.BLACKSMITH_2),
+
+                    /* 1.5 secondes + 2.5 secondes du 2ème dialogue */
+                    new MessageWithSound("entity.eldenrpg.blacksmith.dialogue3", 80, ModSounds.BLACKSMITH_3)
             );
-            DialogueManager.sendMessages(player, messages);
 
             for (int i = 0; i < 5; i++) {
                 SlimeEntity slime = new SlimeEntity(EntityType.SLIME, getWorld());
@@ -64,16 +64,14 @@ public class BlacksmithEntity extends AbstractNPCEntity {
         if (q.getQuestState() == QuestState.ACTIVE) {
             player.networkHandler.sendPacket(new StopSoundS2CPacket(ModSounds.BLACKSMITH_4.getId(), SoundCategory.VOICE));
 
-            DialogueManager.sendMessages(player, List.of(
-                    new MessageWithSound("entity.eldenrpg.blacksmith.dialogue4", 0, ModSounds.BLACKSMITH_4)));
+            DialogueManager.sendMessages(player, new MessageWithSound("entity.eldenrpg.blacksmith.dialogue4", 0, ModSounds.BLACKSMITH_4));
             return;
         }
 
         if (q.getQuestState() == QuestState.FINISHED) {
-            DialogueManager.sendMessages(player, List.of(
-                    new MessageWithSound("entity.eldenrpg.blacksmith.dialogue5", 0, ModSounds.BLACKSMITH_5)));
+            DialogueManager.sendMessages(player, new MessageWithSound("entity.eldenrpg.blacksmith.dialogue5", 0, ModSounds.BLACKSMITH_5));
 
-            player.giveItemStack(new ItemStack(Items.LEVER));
+            player.giveItemStack(new ItemStack(ModItems.KEY));
             q.setQuestState(QuestState.COMPLETED);
             return;
         }
@@ -82,8 +80,7 @@ public class BlacksmithEntity extends AbstractNPCEntity {
             player.networkHandler.sendPacket(new StopSoundS2CPacket(ModSounds.BLACKSMITH_5.getId(), SoundCategory.VOICE));
             player.networkHandler.sendPacket(new StopSoundS2CPacket(ModSounds.BLACKSMITH_6.getId(), SoundCategory.VOICE));
 
-            DialogueManager.sendMessages(player, List.of(
-                    new MessageWithSound("entity.eldenrpg.blacksmith.dialogue6", 0, ModSounds.BLACKSMITH_6)));
+            DialogueManager.sendMessages(player, new MessageWithSound("entity.eldenrpg.blacksmith.dialogue6", 0, ModSounds.BLACKSMITH_6));
         }
     }
 

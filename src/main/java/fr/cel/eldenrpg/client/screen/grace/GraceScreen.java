@@ -1,8 +1,6 @@
 package fr.cel.eldenrpg.client.screen.grace;
 
 import fr.cel.eldenrpg.networking.packets.graces.screen.OpenChestC2SPacket;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;

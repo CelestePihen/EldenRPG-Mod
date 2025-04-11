@@ -12,7 +12,7 @@ public class MessageScreen extends Screen {
 
     private final Screen parent;
 
-    /* TODO: ?? */
+    /* TODO: choix "oui ou non" avec affichage de la question / message */
     public MessageScreen(Text title, Screen parent) {
         super(title);
         this.parent = parent;

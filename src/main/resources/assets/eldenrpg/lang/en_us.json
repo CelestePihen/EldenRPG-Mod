@@ -35,6 +35,8 @@
   "eldenrpg.command.sacredtear.current": "Sacred Tears of %s: %s",
   "eldenrpg.command.goldenseed.current": "Golden Seeds of %s: %s",
 
+  "eldenrpg.command.graces.giveall": "All graces have been given to %s",
+  "eldenrpg.command.graces.removeall": "All graces have been removed to %s",
   "eldenrpg.command.graces.list": "Graces of %s: ",
 
   "eldenrpg.flasks.screen.addCharge": "Add charge to flask",
@@ -70,7 +72,7 @@
 
   "eldenrpg.title.lostgracediscovered": "LOST GRACE DISCOVERED",
 
-  "entity.eldenrpg.blacksmith": "Blacksmith",
+  "entity.eldenrpg.blacksmith_npc": "Blacksmith",
   "entity.eldenrpg.blacksmith.dialogue1": "Hello adventurer...",
   "entity.eldenrpg.blacksmith.dialogue2": "Can you kill these 5 green and slimy creatures in my house?",
   "entity.eldenrpg.blacksmith.dialogue3": "You will have a good reward if you do it!",
@@ -78,7 +80,7 @@
   "entity.eldenrpg.blacksmith.dialogue5": "You are my hero ! Here your reward.",
   "entity.eldenrpg.blacksmith.dialogue6": "Thanks again for getting these critters out of my house!",
 
-  "entity.eldenrpg.catacombcarcass": "Catacomb Carcass",
+  "entity.eldenrpg.catacomb_carcass": "Catacomb Carcass",
 
   "entity.eldenrpg.npc": "EldenNPC",
 

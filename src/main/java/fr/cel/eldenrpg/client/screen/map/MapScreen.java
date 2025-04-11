@@ -1,12 +1,9 @@
-package fr.cel.eldenrpg.client.screen;
+package fr.cel.eldenrpg.client.screen.map;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import fr.cel.eldenrpg.EldenRPG;
-import fr.cel.eldenrpg.client.screen.grace.GracesSelectionScreen;
 import fr.cel.eldenrpg.util.IPlayerDataSaver;
 import fr.cel.eldenrpg.util.data.MapsData;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -16,6 +13,7 @@ import net.minecraft.util.math.MathHelper;
 
 public class MapScreen extends Screen {
 
+    // Les textures de la Carte
     private static final Identifier CARTE = Identifier.of(EldenRPG.MOD_ID, "textures/gui/map/map.png");
     private static final Identifier GRAY_MAP = Identifier.of(EldenRPG.MOD_ID, "textures/gui/map/gray_map.png");
 
@@ -26,11 +24,10 @@ public class MapScreen extends Screen {
     private ButtonWidget plusButton;
     private ButtonWidget minusButton;
 
-    // Gérer le zoom et le déplacement
+    // gérer le zoom / déplacement
     private float zoom = 1.0F, targetZoom = 1.0F;
     private float offsetX = 0, offsetY = 0;
     private float targetOffsetX = 0, targetOffsetY = 0;
-
     private boolean isDragging = false;
 
     public MapScreen() {
@@ -64,19 +61,19 @@ public class MapScreen extends Screen {
         IPlayerDataSaver playerData = (IPlayerDataSaver) this.client.player;
 
         // interpolation
-        zoom = MathHelper.lerp(0.15f, zoom, targetZoom);
-        offsetX = MathHelper.lerp(0.15f, offsetX, targetOffsetX);
-        offsetY = MathHelper.lerp(0.15f, offsetY, targetOffsetY);
+        this.zoom = MathHelper.lerp(0.15f, this.zoom, this.targetZoom);
+        this.offsetX = MathHelper.lerp(0.15f, this.offsetX, this.targetOffsetX);
+        this.offsetY = MathHelper.lerp(0.15f, this.offsetY, this.targetOffsetY);
 
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
-        // Appliquer le zoom et le déplacement
+        // appliquer le zoom et le déplacement
         context.getMatrices().push();
-        context.getMatrices().translate(leftPos + imageWidth / 2f, topPos + imageHeight / 2f, 0);
-        context.getMatrices().scale(zoom, zoom, 1);
-        context.getMatrices().translate(-imageWidth / 2f + offsetX, -imageHeight / 2f + offsetY, 0);
+        context.getMatrices().translate(this.leftPos + this.imageWidth / 2f, this.topPos + this.imageHeight / 2f, 0);
+        context.getMatrices().scale(this.zoom, this.zoom, 1);
+        context.getMatrices().translate(-this.imageWidth / 2f + this.offsetX, -this.imageHeight / 2f + this.offsetY, 0);
 
-        // Parties de maps
+        // parties de maps
         renderPartMap(1, playerData, context, 84, 113, 93, 63);
         renderPartMap(2, playerData, context, 84, 0, 75, 113);
         renderPartMap(3, playerData, context, 159, 0, 81, 113);
@@ -97,9 +94,9 @@ public class MapScreen extends Screen {
 
     private void renderPartMap(int part, IPlayerDataSaver playerData, DrawContext context, int x, int y, int width, int height) {
         if (MapsData.getMapsId(playerData).contains(part)) {
-            context.drawTexture(CARTE, x, y, x, y, width, height, imageWidth, imageHeight);
+            context.drawTexture(CARTE, x, y, x, y, width, height, this.imageWidth, this.imageHeight);
         } else {
-            context.drawTexture(GRAY_MAP, x, y, x, y, width, height, imageWidth, imageHeight);
+            context.drawTexture(GRAY_MAP, x, y, x, y, width, height, this.imageWidth, this.imageHeight);
         }
     }
 
@@ -115,7 +112,7 @@ public class MapScreen extends Screen {
         boolean handled = super.mouseClicked(mouseX, mouseY, button);
 
         if (button == 0 && !handled) {
-            isDragging = true;
+            this.isDragging = true;
             return true;
         }
 
@@ -125,7 +122,7 @@ public class MapScreen extends Screen {
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         if (button == 0) {
-            isDragging = false;
+            this.isDragging = false;
             return true;
         }
         return super.mouseReleased(mouseX, mouseY, button);
@@ -133,9 +130,9 @@ public class MapScreen extends Screen {
 
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-        if (isDragging) {
-            targetOffsetX += (float) (deltaX / zoom);
-            targetOffsetY += (float) (deltaY / zoom);
+        if (this.isDragging) {
+            this.targetOffsetX += (float) (deltaX / this.zoom);
+            this.targetOffsetY += (float) (deltaY / this.zoom);
             clampOffsets();
             return true;
         }
@@ -145,7 +142,7 @@ public class MapScreen extends Screen {
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
         if (verticalAmount != 0) {
-            float oldZoom = targetZoom;
+            float oldZoom = this.targetZoom;
 
             if (verticalAmount > 0) {
                 zoomIn(true);
@@ -153,12 +150,12 @@ public class MapScreen extends Screen {
                 zoomOut(true);
             }
 
-            float zoomFactor = targetZoom / oldZoom;
-            float mapCenterX = (float) (mouseX - leftPos - imageWidth / 2.0);
-            float mapCenterY = (float) (mouseY - topPos - imageHeight / 2.0);
+            float zoomFactor = this.targetZoom / oldZoom;
+            float mapCenterX = (float) (mouseX - this.leftPos - this.imageWidth / 2.0);
+            float mapCenterY = (float) (mouseY - this.topPos - this.imageHeight / 2.0);
 
-            targetOffsetX -= mapCenterX * (1 - 1 / zoomFactor);
-            targetOffsetY -= mapCenterY * (1 - 1 / zoomFactor);
+            this.targetOffsetX -= mapCenterX * (1 - 1 / zoomFactor);
+            this.targetOffsetY -= mapCenterY * (1 - 1 / zoomFactor);
 
             clampOffsets();
             return true;
@@ -167,21 +164,21 @@ public class MapScreen extends Screen {
     }
 
     private void zoomIn(boolean isMouse) {
-        targetZoom = Math.min(targetZoom * 1.2f, 4.0f);
+        this.targetZoom = Math.min(this.targetZoom * 1.2f, 4.0f);
         if (!isMouse) clampOffsets();
     }
 
     private void zoomOut(boolean isMouse) {
-        targetZoom = Math.max(targetZoom / 1.2f, 0.5f);
+        this.targetZoom = Math.max(this.targetZoom / 1.2f, 0.5f);
         if (!isMouse) clampOffsets();
     }
 
     private void clampOffsets() {
-        float maxOffsetX = Math.max((imageWidth * targetZoom - this.width) / (2 * targetZoom), 0);
-        float maxOffsetY = Math.max((imageHeight * targetZoom - this.height) / (2 * targetZoom), 0);
+        float maxOffsetX = Math.max((this.imageWidth * this.targetZoom - this.width) / (2 * this.targetZoom), 0);
+        float maxOffsetY = Math.max((this.imageHeight * this.targetZoom - this.height) / (2 * this.targetZoom), 0);
 
-        targetOffsetX = MathHelper.clamp(targetOffsetX, -maxOffsetX, maxOffsetX);
-        targetOffsetY = MathHelper.clamp(targetOffsetY, -maxOffsetY, maxOffsetY);
+        this.targetOffsetX = MathHelper.clamp(this.targetOffsetX, -maxOffsetX, maxOffsetX);
+        this.targetOffsetY = MathHelper.clamp(this.targetOffsetY, -maxOffsetY, maxOffsetY);
     }
 
 }

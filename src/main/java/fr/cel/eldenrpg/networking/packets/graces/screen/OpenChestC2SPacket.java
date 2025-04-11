@@ -21,7 +21,6 @@ public record OpenChestC2SPacket() implements CustomPayload {
 
     public static void handle(OpenChestC2SPacket payload, ServerPlayNetworking.Context context) {
         ServerPlayerEntity player = context.player();
-
         EnderChestInventory enderChestInventory = player.getEnderChestInventory();
 
         player.openHandledScreen(new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) ->

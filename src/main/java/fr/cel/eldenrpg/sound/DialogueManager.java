@@ -7,13 +7,12 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 
 public final class DialogueManager {
     private static final Queue<DelayedMessage> messageQueue = new LinkedList<>();
 
-    public static void sendMessages(ServerPlayerEntity player, List<MessageWithSound> messages) {
+    public static void sendMessages(ServerPlayerEntity player, MessageWithSound... messages) {
         if (player.isDisconnected()) return;
 
         long currentTick = player.getServer().getTicks();

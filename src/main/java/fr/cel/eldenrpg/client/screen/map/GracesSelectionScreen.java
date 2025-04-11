@@ -1,11 +1,7 @@
-package fr.cel.eldenrpg.client.screen.grace;
+package fr.cel.eldenrpg.client.screen.map;
 
-import fr.cel.eldenrpg.networking.packets.graces.MapTeleportationC2SPacket;
 import fr.cel.eldenrpg.util.IPlayerDataSaver;
 import fr.cel.eldenrpg.util.data.GracesData;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -31,6 +27,8 @@ public class GracesSelectionScreen extends Screen {
     protected void init() {
         super.init();
 
+        if (client == null) return;
+
         this.layout.addHeader(this.title, this.textRenderer);
         GracesSelectionListWidget gracesSelectionList = this.layout.addBody(new GracesSelectionListWidget(this.client));
         this.layout.addFooter(ButtonWidget.builder(ScreenTexts.DONE, button -> client.setScreen(parent)).width(200).build());
@@ -41,13 +39,13 @@ public class GracesSelectionScreen extends Screen {
         gracesSelectionList.position(this.width, this.layout);
     }
 
-    class GracesSelectionListWidget extends AlwaysSelectedEntryListWidget<GracesSelectionListWidget.GraceEntry> {
+    private class GracesSelectionListWidget extends AlwaysSelectedEntryListWidget<GracesSelectionListWidget.GraceEntry> {
         public GracesSelectionListWidget(final MinecraftClient minecraftClient) {
             super(minecraftClient, GracesSelectionScreen.this.width, GracesSelectionScreen.this.height  - 33 - 53, 33, 18);
 
             if (minecraftClient.player == null) return;
 
-            GracesData.getGraces(((IPlayerDataSaver) minecraftClient.player)).forEach(pos -> {
+            GracesData.getPlayerGraces(((IPlayerDataSaver) minecraftClient.player)).forEach(pos -> {
                 Text text = GracesData.getGraceName(BlockPos.fromLong(pos));
                 GraceEntry entry = new GraceEntry(BlockPos.fromLong(pos), text, minecraftClient);
                 this.addEntry(entry);
@@ -81,8 +79,7 @@ public class GracesSelectionScreen extends Screen {
 
             @Override
             public boolean mouseClicked(double mouseX, double mouseY, int button) {
-                ClientPlayNetworking.send(new MapTeleportationC2SPacket(pos.north()));
-                client.setScreen(null);
+                client.setScreen(new LoadingScreen(pos.north()));
                 return true;
             }
 

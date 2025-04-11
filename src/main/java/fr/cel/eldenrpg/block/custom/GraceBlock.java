@@ -25,8 +25,7 @@ import net.minecraft.world.World;
 public class GraceBlock extends Block {
 
     /**
-     * Le bloc qui fait office de Site de Grace.
-     * Ici, on fait en sorte qu'il émette une luminosité au max, que sa couleur sur les maps soit marron et qu'il drop rien
+     * Le bloc qui fait office de Site de Grace <br>
      */
     public GraceBlock() {
         super(Settings.create().luminance(value -> 15).mapColor(MapColor.BROWN).dropsNothing());
@@ -36,7 +35,7 @@ public class GraceBlock extends Block {
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (!world.isClient()) {
             ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
-            IPlayerDataSaver playerDataSaver = (IPlayerDataSaver) player;
+            IPlayerDataSaver playerDataSaver = (IPlayerDataSaver) serverPlayer;
 
             // TODO animation assis
 //            PlayerAnimAPI.playPlayerAnim(serverPlayer.getServerWorld(), serverPlayer, Identifier.of(EldenRPG.MOD_ID, "grace_sit"));
@@ -47,7 +46,7 @@ public class GraceBlock extends Block {
 
             GracesData.getGraces().forEach((gracePos, text) -> {
                 if (checkCampfire(pos, gracePos)) {
-                    if (!GracesData.getGraces(playerDataSaver).contains(pos.asLong())) {
+                    if (!GracesData.getPlayerGraces(playerDataSaver).contains(pos.asLong())) {
                         GracesData.addGrace(playerDataSaver, gracePos);
                         serverPlayer.networkHandler.sendPacket(new TitleS2CPacket(Text.translatable("eldenrpg.title.lostgracediscovered").withColor(Colors.YELLOW)));
                         serverPlayer.networkHandler.sendPacket(new TitleFadeS2CPacket(20, 50, 20));
@@ -60,7 +59,7 @@ public class GraceBlock extends Block {
             return ActionResult.SUCCESS;
         }
 
-        return super.onUse(state, world, pos, player, hit);
+        return ActionResult.PASS;
     }
 
     private boolean checkCampfire(BlockPos camp1, BlockPos camp2) {
