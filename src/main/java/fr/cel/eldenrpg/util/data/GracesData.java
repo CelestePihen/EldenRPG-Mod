@@ -79,6 +79,7 @@ public final class GracesData {
         GRACES.put(new BlockPos(150, 0, -87), Text.translatable("Tuto 2"));      // le laisser à la fin du tuto ?
         GRACES.put(new BlockPos(163, 67, -97), Text.translatable("Cimetière"));
         GRACES.put(new BlockPos(203, 73, -179), Text.translatable("Donjon Squelettes"));
+        GRACES.put(new BlockPos(142, 61, -151), Text.translatable("Donjon proche du Chalet"));
         GRACES.put(new BlockPos(173, 73, -235), Text.translatable("Tour de guet"));
         GRACES.put(new BlockPos(177, 64, -226), Text.translatable("Donjon Tour de guet"));
         GRACES.put(new BlockPos(161, 63, -342), Text.translatable("Donjon proche Bordure"));
@@ -92,8 +93,9 @@ public final class GracesData {
 
         /* Neige */
         GRACES.put(new BlockPos(341, 69, 134), Text.translatable("Dans la neige"));
-        GRACES.put(new BlockPos(377, 55, 66), Text.translatable("Gros Donjon neige"));
         GRACES.put(new BlockPos(373, 58, 36), Text.translatable("Petit Donjon neige"));
+        GRACES.put(new BlockPos(377, 55, 66), Text.translatable("Gros Donjon neige"));
+        GRACES.put(new BlockPos(145, 73, 86), Text.translatable("Donjon aléatoire neige"));
     }
 
 }

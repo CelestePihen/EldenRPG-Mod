@@ -1,20 +1,26 @@
 package fr.cel.eldenrpg.mixin;
 
+import com.mojang.authlib.GameProfile;
+import fr.cel.eldenrpg.networking.packets.roll.EndRollS2CPacket;
 import fr.cel.eldenrpg.quest.Quest;
 import fr.cel.eldenrpg.quest.Quests;
 import fr.cel.eldenrpg.quest.task.type.ItemTask;
 import fr.cel.eldenrpg.quest.task.type.KillTask;
 import fr.cel.eldenrpg.quest.task.type.ZoneTask;
 import fr.cel.eldenrpg.util.IPlayerDataSaver;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageTypes;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -23,36 +29,40 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-@Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin implements IPlayerDataSaver {
+@Mixin(PlayerEntity.class)
+public abstract class PlayerEntityMixin extends LivingEntity implements IPlayerDataSaver {
+
+    @Shadow public abstract GameProfile getGameProfile();
 
     @Unique private NbtCompound persistentData;
-    @Unique private List<Quest> quests;
+    @Unique private List<Quest> quests = new ArrayList<>();
 
-    @Unique private long lastRollTime = 0;
     @Unique private long lastFlaskDrunk = 0;
+
+    @Unique private boolean rolling = false;
+    @Unique private long lastRollTime = 0;
     @Unique private int invulnerableTicks = 0;
 
-    /* Méthodes du jeu */
-
-    @Inject(method = "<init>", at = @At("TAIL"))
-    private void constructor(EntityType<?> type, World world, CallbackInfo ci) {
-        this.quests = new ArrayList<>();
+    protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
+        super(entityType, world);
     }
+
+    /* Méthodes du jeu */
 
     @Inject(method = "writeCustomDataToNbt", at = @At("HEAD"))
     private void injectWriteMethod(NbtCompound nbt, CallbackInfo ci) {
         if (this.persistentData != null) {
-            nbt.put("eldenrpg.data", this.persistentData);
+            nbt.put("eldenrpg", this.persistentData);
             persistentData.put("quests", Quests.writeNbt(quests));
         }
     }
 
     @Inject(method = "readCustomDataFromNbt", at = @At("HEAD"))
     private void injectReadMethod(NbtCompound nbt, CallbackInfo ci) {
-        if (nbt.contains("eldenrpg.data", NbtElement.COMPOUND_TYPE)) {
-            this.persistentData = nbt.getCompound("eldenrpg.data");
+        if (nbt.contains("eldenrpg", NbtElement.COMPOUND_TYPE)) {
+            this.persistentData = nbt.getCompound("eldenrpg");
             this.quests = Quests.loadNbt(this.persistentData);
         }
     }
@@ -64,17 +74,12 @@ public abstract class LivingEntityMixin implements IPlayerDataSaver {
         }
     }
 
-    @Inject(method = "setSprinting", at = @At("HEAD"), cancellable = true)
-    private void sprint(boolean sprinting, CallbackInfo ci) {
-        if (invulnerableTicks > 0) {
-            ci.cancel();
-        }
-    }
-
     @Inject(method = "tick", at = @At("TAIL"))
     private void tick(CallbackInfo ci) {
-        eldenRPG_Mod$decrementInvulnerableTicks();
+        eldenrpg$decrementInvulnerableTicks();
     }
+
+    /* Méthodes customs */
 
     @Unique
     private boolean isCombatDamage(DamageSource source) {
@@ -84,8 +89,6 @@ public abstract class LivingEntityMixin implements IPlayerDataSaver {
                 source.isOf(DamageTypes.EXPLOSION) ||
                 source.isOf(DamageTypes.THROWN);
     }
-
-    /* Méthodes customs */
 
     @Override
     public NbtCompound eldenrpg$getPersistentData() {
@@ -111,6 +114,9 @@ public abstract class LivingEntityMixin implements IPlayerDataSaver {
             // Première fois sur le serveur
             this.persistentData.putBoolean("firstTime", true);
 
+            // Emplacements des Grâces déjà prises
+            this.persistentData.putLongArray("graces", new long[]{});
+
             /* Ce que le joueur ne peut pas voir */
 
             // Identifiants des Graines dorées et Larmes de Vie déjà prises
@@ -120,9 +126,6 @@ public abstract class LivingEntityMixin implements IPlayerDataSaver {
             // Quêtes
             this.persistentData.put("quests", new NbtList());
             this.quests.add(Quests.BEGINNING);
-
-            // Emplacements des Grâces déjà prises
-            this.persistentData.putLongArray("graces", new long[]{});
         }
 
         return persistentData;
@@ -161,35 +164,50 @@ public abstract class LivingEntityMixin implements IPlayerDataSaver {
     }
 
     @Override
-    public long eldenRPG_Mod$getLastRollTime() {
-        return this.lastRollTime;
-    }
-
-    @Override
-    public void eldenRPG_Mod$setLastRollTime(long time) {
-        this.lastRollTime = time;
-    }
-
-    @Override
-    public long eldenRPG_Mod$getLastFlaskDrunk() {
+    public long eldenrpg$getLastFlaskDrunk() {
         return this.lastFlaskDrunk;
     }
 
     @Override
-    public void eldenRPG_Mod$setLastFlaskDrunk(long time) {
+    public void eldenrpg$setLastFlaskDrunk(long time) {
         this.lastFlaskDrunk = time;
     }
 
     @Override
-    public void eldenRPG_Mod$setInvulnerableTicks(int ticks) {
+    public long eldenrpg$getLastRollTime() {
+        return this.lastRollTime;
+    }
+
+    @Override
+    public void eldenrpg$setLastRollTime(long time) {
+        this.lastRollTime = time;
+    }
+
+    @Override
+    public void eldenrpg$setInvulnerableTicks(int ticks) {
         this.invulnerableTicks = ticks;
     }
 
     @Override
-    public void eldenRPG_Mod$decrementInvulnerableTicks() {
-        if (this.invulnerableTicks > 0) {
-            this.invulnerableTicks--;
+    public void eldenrpg$decrementInvulnerableTicks() {
+        if (this.rolling) {
+            if (this.invulnerableTicks > 0) {
+                this.invulnerableTicks--;
+            } else {
+                this.rolling = false;
+                if (!this.getWorld().isClient()) ServerPlayNetworking.send((ServerPlayerEntity) (Objects.requireNonNull(this.getWorld().getPlayerByUuid(this.getGameProfile().getId()))), new EndRollS2CPacket());
+            }
         }
+    }
+
+    @Override
+    public boolean eldenrpg$isRolling() {
+        return this.rolling;
+    }
+
+    @Override
+    public void eldenrpg$setRolling(boolean rolling) {
+        this.rolling = rolling;
     }
 
 }

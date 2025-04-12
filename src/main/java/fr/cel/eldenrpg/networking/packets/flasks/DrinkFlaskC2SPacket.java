@@ -31,12 +31,12 @@ public record DrinkFlaskC2SPacket() implements CustomPayload {
         if (FlasksData.getFlasks(playerData) > 0) {
             // délai entre les fioles
             long currentTime = System.currentTimeMillis();
-            long lastFlaskDrunk = playerData.eldenRPG_Mod$getLastFlaskDrunk();
+            long lastFlaskDrunk = playerData.eldenrpg$getLastFlaskDrunk();
             int cooldownMillis = 1000; // 1 seconde
 
             if (currentTime - lastFlaskDrunk < cooldownMillis) return;
 
-            playerData.eldenRPG_Mod$setLastFlaskDrunk(currentTime);
+            playerData.eldenrpg$setLastFlaskDrunk(currentTime);
             player.setSprinting(false);
 
             // TODO animation

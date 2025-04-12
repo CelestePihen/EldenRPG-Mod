@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_21",
   "client": [
     "client.InGameHudMixin",
+    "client.KeyboardInputMixin",
     "client.MinecraftClientMixin",
     "client.screen.GameMenuScreenMixin",
     "client.screen.InventoryScreenMixin",
@@ -11,7 +12,7 @@
     "client.screen.TitleScreenMixin"
   ],
   "mixins": [
-    "LivingEntityMixin",
+    "PlayerEntityMixin",
     "NameTagMixin"
   ],
   "injectors": {

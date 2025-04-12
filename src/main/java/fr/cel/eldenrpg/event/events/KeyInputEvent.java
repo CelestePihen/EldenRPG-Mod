@@ -1,9 +1,10 @@
 package fr.cel.eldenrpg.event.events;
 
 import fr.cel.eldenrpg.client.screen.map.MapScreen;
-import fr.cel.eldenrpg.networking.packets.animations.RollC2SPacket;
 import fr.cel.eldenrpg.networking.packets.animations.WaveC2SPacket;
 import fr.cel.eldenrpg.networking.packets.flasks.DrinkFlaskC2SPacket;
+import fr.cel.eldenrpg.networking.packets.roll.RollC2SPacket;
+import fr.cel.eldenrpg.util.IKeyboard;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -37,9 +38,12 @@ public class KeyInputEvent {
 
             if (ROLL.wasPressed()) {
                 if (client.player != null) {
+                    if (client.player.isInFluid() || client.player.isSpectator() || !client.player.isOnGround() || client.player.isClimbing()) return;
+                    IKeyboard keyboard = (IKeyboard) client.player.input;
+                    keyboard.eldenrpg$setBlocked(true);
+
                     float forward = client.player.input.movementForward;
                     float sideways = client.player.input.movementSideways;
-
                     ClientPlayNetworking.send(new RollC2SPacket(forward, sideways));
                 }
             }
