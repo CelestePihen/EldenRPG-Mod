@@ -46,7 +46,8 @@ public abstract class TitleScreenMixin extends Screen {
                             ConnectScreen.connect(this, this.client, ServerAddress.parse("localhost"),
                                     new ServerInfo("EldenRPG", "localhost", ServerInfo.ServerType.OTHER), false, null))
                     .dimensions(this.width / 2 - 100, y + spacingY, 200, 20).tooltip(tooltip).build()).active = bl;
-        } else {
+        }
+        else {
             this.addDrawableChild(ButtonWidget.builder(Text.literal("EldenRPG"), (button) ->
                             ConnectScreen.connect(this, this.client, ServerAddress.parse("95.111.253.89:25501"),
                                     new ServerInfo("EldenRPG", "95.111.253.89:25501", ServerInfo.ServerType.OTHER), false, null))

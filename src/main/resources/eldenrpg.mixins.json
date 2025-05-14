@@ -9,11 +9,12 @@
     "client.screen.GameMenuScreenMixin",
     "client.screen.InventoryScreenMixin",
     "client.screen.LogoDrawerMixin",
-    "client.screen.TitleScreenMixin"
+    "client.screen.TitleScreenMixin",
+    "client.test.PlayerPoseMixin"
   ],
   "mixins": [
-    "PlayerEntityMixin",
-    "NameTagMixin"
+    "NameTagMixin",
+    "PlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

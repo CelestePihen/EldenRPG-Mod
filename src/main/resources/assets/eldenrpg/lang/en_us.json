@@ -66,7 +66,7 @@
   "eldenrpg.recommendation.screen.hiYValue": "Y Value: 80",
   "eldenrpg.recommendation.screen.hiScale": "Scale: 1.5",
   "eldenrpg.recommendation.screen.renderdistance": "Render Distance: 8-12",
-  "eldenrpg.recommendation.screen.shader": "Shader: ComplementaryUnbound + EuphoriaPatches",
+  "eldenrpg.recommendation.screen.shader": "Shader: ComplementaryShaders or ComplementaryUnbound",
   "eldenrpg.recommendation.screen.shaderlightning": "Enable Advanced Colored Lightning (Performance Settings) : 4 Chunks",
   "eldenrpg.recommendation.screen.simulationdistance": "Simulation Distance: 5-8",
 
@@ -81,8 +81,6 @@
   "entity.eldenrpg.blacksmith.dialogue6": "Thanks again for getting these critters out of my house!",
 
   "entity.eldenrpg.catacomb_carcass": "Catacomb Carcass",
-
-  "entity.eldenrpg.npc": "EldenNPC",
 
   "item.eldenrpg.speed_talisman": "Speed Talisman",
   "item.eldenrpg.key": "Key",

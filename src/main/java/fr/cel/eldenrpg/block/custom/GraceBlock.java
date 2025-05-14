@@ -28,7 +28,7 @@ public class GraceBlock extends Block {
      * Le bloc qui fait office de Site de Grace <br>
      */
     public GraceBlock() {
-        super(Settings.create().luminance(value -> 15).mapColor(MapColor.BROWN).dropsNothing());
+        super(Settings.create().noCollision().nonOpaque().luminance(value -> 15).mapColor(MapColor.BROWN).dropsNothing());
     }
 
     @Override

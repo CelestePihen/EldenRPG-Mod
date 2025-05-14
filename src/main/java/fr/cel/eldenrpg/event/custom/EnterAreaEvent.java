@@ -7,13 +7,12 @@ import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 public interface EnterAreaEvent {
-    Event<fr.cel.eldenrpg.event.custom.EnterAreaEvent> EVENT = EventFactory.createArrayBacked(EnterAreaEvent.class,
+
+    Event<EnterAreaEvent> EVENT = EventFactory.createArrayBacked(EnterAreaEvent.class,
             (listeners) -> (player, area, quest) -> {
-                for (fr.cel.eldenrpg.event.custom.EnterAreaEvent listener : listeners) {
-                    listener.onEnterArea(player, area, quest);
-                }
+                for (EnterAreaEvent listener : listeners) listener.onEnterArea(player, area, quest);
             });
 
-    void onEnterArea(ServerPlayerEntity player, Area area, Quest quest);
+    void onEnterArea(ServerPlayerEntity player, Area<?> area, Quest quest);
 
 }

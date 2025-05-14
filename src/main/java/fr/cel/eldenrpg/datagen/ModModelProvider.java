@@ -18,8 +18,6 @@ public final class ModModelProvider extends FabricModelProvider {
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
-        blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.GRACE_BLOCK);
-
         blockStateModelGenerator.registerParented(Blocks.STONE, ModBlocks.STONE_GHOST_BLOCK);
         blockStateModelGenerator.registerParented(Blocks.GRAVEL, ModBlocks.GRAVEL_GHOST_BLOCK);
         blockStateModelGenerator.registerParented(Blocks.STONE_BRICKS, ModBlocks.STONE_BRICKS_GHOST_BLOCK);

@@ -43,8 +43,8 @@ public final class Areas {
         registerBoss(ModEntities.CATACOMB_CARCASS, new BlockPos(146, 20, -82), 159, 19, -78, 144, 32, -89);
     }
 
-    private static void registerPOI(String arenaName, double x1, double y1, double z1, double x2, double y2, double z2, Quest quest) {
-        areas.add(new POIArea(arenaName, x1, y1, z1, x2, y2, z2, quest));
+    private static void registerPOI(String poiName, double x1, double y1, double z1, double x2, double y2, double z2, Quest quest) {
+        areas.add(new POIArea(poiName, x1, y1, z1, x2, y2, z2, quest));
     }
 
     private static void registerHint(String advancementName, double x1, double y1, double z1, double x2, double y2, double z2) {
@@ -55,16 +55,16 @@ public final class Areas {
         areas.add(new MapArea(mapId, x1, y1, z1, x2, y2, z2));
     }
 
-    private static void registerBoss(EntityType<?> entityType, BlockPos spawn, double x1, double y1, double z1, double x2, double y2, double z2) {
-        areas.add(new BossArea(entityType, spawn, x1, y1, z1, x2, y2, z2));
-    }
-
     private static void registerGoldenSeed(int gsId, double x1, double y1, double z1, double x2, double y2, double z2) {
         areas.add(new GoldenSeedArea(gsId, x1, y1, z1, x2, y2, z2));
     }
 
     private static void registerSacredTear(int stId, double x1, double y1, double z1, double x2, double y2, double z2) {
         areas.add(new SacredTearArea(stId, x1, y1, z1, x2, y2, z2));
+    }
+
+    private static void registerBoss(EntityType<?> entityType, BlockPos spawn, double x1, double y1, double z1, double x2, double y2, double z2) {
+        areas.add(new BossArea(entityType, spawn, x1, y1, z1, x2, y2, z2));
     }
 
     public static List<Area<?>> getAreas() {

@@ -44,6 +44,8 @@ public class LoadingScreen extends Screen {
             int textWidth = textRenderer.getWidth(loadingText);
             context.drawText(textRenderer, loadingText, (width - textWidth) / 2, height / 2, 0xFFFFFF, false);
         }
+
+        // TODO ajouter conseils
     }
 
     @Override

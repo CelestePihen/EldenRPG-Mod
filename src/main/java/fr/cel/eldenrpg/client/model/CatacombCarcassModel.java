@@ -49,10 +49,10 @@ public class CatacombCarcassModel extends BipedEntityModel<CatacombCarcassEntity
     }
 
     public void animateModel(CatacombCarcassEntity mobEntity, float f, float g, float h) {
-        this.rightArmPose = BipedEntityModel.ArmPose.EMPTY;
-        this.leftArmPose = BipedEntityModel.ArmPose.EMPTY;
+        this.rightArmPose = ArmPose.ITEM;
+        this.leftArmPose = ArmPose.EMPTY;
         if (mobEntity.isAttacking()) {
-            this.rightArmPose = BipedEntityModel.ArmPose.BOW_AND_ARROW;
+            this.rightArmPose = ArmPose.BOW_AND_ARROW;
         }
 
         super.animateModel(mobEntity, f, g, h);

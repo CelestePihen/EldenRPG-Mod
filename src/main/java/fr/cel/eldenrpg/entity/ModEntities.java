@@ -28,9 +28,10 @@ public final class ModEntities {
 
     public static void registerModEntities() {
         EldenRPG.LOGGER.info("Register Entities for " + EldenRPG.MOD_ID);
+        registerAttributes();
     }
 
-    public static void registerAttributes() {
+    private static void registerAttributes() {
         FabricDefaultAttributeRegistry.register(ModEntities.BLACKSMITH_NPC, AbstractNPCEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(ModEntities.CATACOMB_CARCASS, CatacombCarcassEntity.createCatacombCarcassAttributes());
         EldenRPG.LOGGER.info("Register Entity Attributes for " + EldenRPG.MOD_ID);

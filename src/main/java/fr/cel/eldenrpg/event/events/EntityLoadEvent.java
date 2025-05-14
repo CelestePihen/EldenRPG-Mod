@@ -11,6 +11,7 @@ import fr.cel.eldenrpg.util.data.MapsData;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.advancement.AdvancementEntry;
+import net.minecraft.advancement.PlayerAdvancementTracker;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -35,8 +36,9 @@ public class EntityLoadEvent implements ServerEntityEvents.Load {
 
                 AdvancementEntry rootAdvancement = player.server.getAdvancementLoader().get(Identifier.of(EldenRPG.MOD_ID, "root"));
                 if (rootAdvancement != null) {
-                    for (String criteria : player.getAdvancementTracker().getProgress(rootAdvancement).getUnobtainedCriteria()) {
-                        player.getAdvancementTracker().grantCriterion(rootAdvancement, criteria);
+                    PlayerAdvancementTracker advancementTracker = player.getAdvancementTracker();
+                    for (String criteria : advancementTracker.getProgress(rootAdvancement).getUnobtainedCriteria()) {
+                        advancementTracker.grantCriterion(rootAdvancement, criteria);
                     }
                 }
             }
