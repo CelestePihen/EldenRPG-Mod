@@ -4,6 +4,8 @@ import fr.cel.eldenrpg.util.IKeyboard;
 import net.minecraft.client.input.Input;
 import net.minecraft.client.input.KeyboardInput;
 import net.minecraft.client.option.GameOptions;
+import net.minecraft.util.PlayerInput;
+import net.minecraft.util.math.Vec2f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -19,32 +21,26 @@ public abstract class KeyboardInputMixin extends Input implements IKeyboard {
     @Unique private boolean blocked = false;
 
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
-    private void tick(boolean slowDown, float slowDownFactor, CallbackInfo ci) {
+    private void tick(CallbackInfo ci) {
         ci.cancel();
         if (eldenrpg$isBlocked()) {
-            this.pressingForward = false;
-            this.pressingBack = false;
-            this.pressingLeft = false;
-            this.pressingRight = false;
-            this.movementForward = 0;
-            this.movementSideways = 0;
-            this.jumping = false;
-            this.sneaking = false;
+            this.playerInput = new PlayerInput(false, false, false, false, false, false, false);
+            this.movementVector = new Vec2f(0, 0).normalize();
             return;
         }
 
-        this.pressingForward = this.settings.forwardKey.isPressed();
-        this.pressingBack = this.settings.backKey.isPressed();
-        this.pressingLeft = this.settings.leftKey.isPressed();
-        this.pressingRight = this.settings.rightKey.isPressed();
-        this.movementForward = getMovementMultiplier(this.pressingForward, this.pressingBack);
-        this.movementSideways = getMovementMultiplier(this.pressingLeft, this.pressingRight);
-        this.jumping = this.settings.jumpKey.isPressed();
-        this.sneaking = this.settings.sneakKey.isPressed();
-        if (slowDown) {
-            this.movementSideways *= slowDownFactor;
-            this.movementForward *= slowDownFactor;
-        }
+        this.playerInput = new PlayerInput(
+                this.settings.forwardKey.isPressed(),
+                this.settings.backKey.isPressed(),
+                this.settings.leftKey.isPressed(),
+                this.settings.rightKey.isPressed(),
+                this.settings.jumpKey.isPressed(),
+                this.settings.sneakKey.isPressed(),
+                this.settings.sprintKey.isPressed()
+        );
+        float f = getMovementMultiplier(this.playerInput.forward(), this.playerInput.backward());
+        float g = getMovementMultiplier(this.playerInput.left(), this.playerInput.right());
+        this.movementVector = new Vec2f(g, f).normalize();
     }
 
     @Shadow

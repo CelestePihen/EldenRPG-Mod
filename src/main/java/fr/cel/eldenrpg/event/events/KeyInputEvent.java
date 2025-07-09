@@ -42,8 +42,8 @@ public class KeyInputEvent {
                     IKeyboard keyboard = (IKeyboard) client.player.input;
                     keyboard.eldenrpg$setBlocked(true);
 
-                    float forward = client.player.input.movementForward;
-                    float sideways = client.player.input.movementSideways;
+                    float forward = client.player.input.getMovementInput().y;
+                    float sideways = client.player.input.getMovementInput().x;
                     ClientPlayNetworking.send(new RollC2SPacket(forward, sideways));
                 }
             }

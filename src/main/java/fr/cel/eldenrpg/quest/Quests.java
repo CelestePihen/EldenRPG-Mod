@@ -47,15 +47,15 @@ public final class Quests {
     public static List<Quest> loadNbt(NbtCompound persistentData) {
         List<Quest> quests = new ArrayList<>();
 
-        NbtList list = persistentData.getList("quests", NbtCompound.COMPOUND_TYPE);
+        NbtList list = persistentData.getList("quests").get();
 
         for (int i = 0; i < list.size(); i++) {
-            NbtCompound questTag = list.getCompound(i);
+            NbtCompound questTag = list.getCompound(i).get();
 
-            Quest quest = Quests.getQuest(questTag.getString("id"));
+            Quest quest = Quests.getQuest(questTag.getString("id").get());
 
             if (quest != null) {
-                quest.setQuestState(QuestState.valueOf(questTag.getString("questState")));
+                quest.setQuestState(QuestState.valueOf(questTag.getString("questState").get()));
                 quest.setTask(Tasks.loadNbt(questTag));
                 quests.add(quest);
             }

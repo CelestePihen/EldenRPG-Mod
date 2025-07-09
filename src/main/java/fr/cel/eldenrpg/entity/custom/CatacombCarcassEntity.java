@@ -15,9 +15,10 @@ import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.RangedWeaponItem;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.storage.ReadView;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
@@ -47,8 +48,8 @@ public class CatacombCarcassEntity extends HostileEntity implements RangedAttack
 
     public static DefaultAttributeContainer.Builder createCatacombCarcassAttributes() {
         return HostileEntity.createHostileAttributes()
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25)
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 50.0);
+                .add(EntityAttributes.MOVEMENT_SPEED, 0.25)
+                .add(EntityAttributes.MAX_HEALTH, 50.0);
     }
 
     public void updateAttackType() {
@@ -60,11 +61,11 @@ public class CatacombCarcassEntity extends HostileEntity implements RangedAttack
     }
 
     @Override
-    public boolean damage(DamageSource source, float amount) {
+    public boolean damage(ServerWorld world, DamageSource source, float amount) {
         if (source.getAttacker() instanceof PlayerEntity player) {
             playersWhoHit.add(player.getUuid());
         }
-        return super.damage(source, amount);
+        return super.damage(world, source, amount);
     }
 
     @Override
@@ -98,8 +99,8 @@ public class CatacombCarcassEntity extends HostileEntity implements RangedAttack
 
         this.setCanPickUpLoot(false);
 
-        this.handDropChances[EquipmentSlot.MAINHAND.getEntitySlotId()] = 0.0F;
-        this.handDropChances[EquipmentSlot.OFFHAND.getEntitySlotId()] = 0.0F;
+        this.setEquipmentDropChance(EquipmentSlot.MAINHAND, 0.0F);
+        this.setEquipmentDropChance(EquipmentSlot.OFFHAND, 0.0F);
 
         return entityData;
     }
@@ -154,8 +155,8 @@ public class CatacombCarcassEntity extends HostileEntity implements RangedAttack
     }
 
     @Override
-    public void readCustomDataFromNbt(NbtCompound nbt) {
-        super.readCustomDataFromNbt(nbt);
+    protected void readCustomData(ReadView view) {
+        super.readCustomData(view);
         updateAttackType();
     }
 

@@ -22,8 +22,8 @@ public class MapArea extends Area<Integer> {
     protected void interact(ServerPlayerEntity player) {
         IPlayerDataSaver playerData = (IPlayerDataSaver) player;
 
-        if (MapsData.getMapsId(playerData).isEmpty()) {
-            AdvancementEntry rootAdvancement = player.server.getAdvancementLoader().get(Identifier.of(EldenRPG.MOD_ID, "hintmap"));
+        if (MapsData.getMapsId(playerData).length == 0) {
+            AdvancementEntry rootAdvancement = player.getServer().getAdvancementLoader().get(Identifier.of(EldenRPG.MOD_ID, "hintmap"));
             if (rootAdvancement == null) return;
 
             PlayerAdvancementTracker advancementTracker = player.getAdvancementTracker();

@@ -8,12 +8,12 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
 
 @Environment(EnvType.CLIENT)
-public class MessageScreen extends Screen {
+public class PromptScreen extends Screen {
 
     private final Screen parent;
 
     /* TODO: choix "oui ou non" avec affichage de la question / message */
-    public MessageScreen(Text title, Screen parent) {
+    public PromptScreen(Text title, Screen parent) {
         super(title);
         this.parent = parent;
     }
@@ -30,11 +30,6 @@ public class MessageScreen extends Screen {
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         super.render(context, mouseX, mouseY, delta);
         context.drawCenteredTextWithShadow(textRenderer, this.title, this.width / 2, this.height / 2 - 30, 16777215);
-    }
-
-    @Override
-    public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
-
     }
 
     @Override

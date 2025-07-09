@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
 
 public final class ModItems {
 
-    public static final Item SPEED_TALISMAN = registerItem("speed_talisman", new TalismanItem(StatusEffects.SPEED));
+    public static final Item SPEED_TALISMAN = registerItem("speed_talisman", new TalismanItem("speed_talisman", StatusEffects.SPEED));
 
     public static final Item KEY = registerItem("key", new KeyItem());
 

@@ -21,7 +21,7 @@ public final class ModItemGroups {
                         entries.add(ModBlocks.GRAVEL_GHOST_BLOCK);
                         entries.add(ModBlocks.STONE_BRICKS_GHOST_BLOCK);
                         entries.add(ModBlocks.SNOW_GHOST_BLOCK);
-                        entries.add(ModBlocks.SANDSTONE_BLOCK);
+                        entries.add(ModBlocks.SANDSTONE_GHOST_BLOCK);
 
                         entries.add(ModItems.SPEED_TALISMAN);
                         entries.add(ModItems.KEY);

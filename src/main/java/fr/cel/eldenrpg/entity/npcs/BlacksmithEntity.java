@@ -14,20 +14,25 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.SlimeEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.item.Items;
 import net.minecraft.network.packet.s2c.play.StopSoundS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 public class BlacksmithEntity extends AbstractNPCEntity {
 
     public BlacksmithEntity(EntityType<? extends MobEntity> entityType, World world) {
         super(entityType, world);
         this.setPosition(206.5, 65, -63.5);
-        this.setCustomName(Text.translatable("entity.eldenrpg.blacksmith_npc"));
+    }
+
+    @Override
+    public void setCustomName(@Nullable Text name) {
+        super.setCustomName(Text.translatable("entity.eldenrpg.blacksmith_npc"));
     }
 
     @Override
@@ -51,9 +56,7 @@ public class BlacksmithEntity extends AbstractNPCEntity {
                 slime.setPos(207.5, 69, -49.5);
                 slime.setSize(1, true);
 
-                NbtCompound nbt = new NbtCompound();
-                nbt.putString("DeathLootTable", "minecraft:empty");
-                slime.readCustomDataFromNbt(nbt);
+                // TODO DeathLootTable -> minecraft:empty
 
                 getWorld().spawnEntity(slime);
             }
@@ -62,8 +65,7 @@ public class BlacksmithEntity extends AbstractNPCEntity {
         }
 
         if (q.getQuestState() == QuestState.ACTIVE) {
-            player.networkHandler.sendPacket(new StopSoundS2CPacket(ModSounds.BLACKSMITH_4.getId(), SoundCategory.VOICE));
-
+            player.networkHandler.sendPacket(new StopSoundS2CPacket(ModSounds.BLACKSMITH_4.id(), SoundCategory.VOICE));
             DialogueManager.sendMessages(player, new MessageWithSound("entity.eldenrpg.blacksmith.dialogue4", 0, ModSounds.BLACKSMITH_4));
             return;
         }
@@ -71,14 +73,15 @@ public class BlacksmithEntity extends AbstractNPCEntity {
         if (q.getQuestState() == QuestState.FINISHED) {
             DialogueManager.sendMessages(player, new MessageWithSound("entity.eldenrpg.blacksmith.dialogue5", 0, ModSounds.BLACKSMITH_5));
 
+            player.getInventory().remove(itemStack -> itemStack.isOf(Items.SLIME_BALL), 5, player.playerScreenHandler.getCraftingInput());
             player.giveItemStack(new ItemStack(ModItems.KEY));
             q.setQuestState(QuestState.COMPLETED);
             return;
         }
 
         if (q.getQuestState() == QuestState.COMPLETED) {
-            player.networkHandler.sendPacket(new StopSoundS2CPacket(ModSounds.BLACKSMITH_5.getId(), SoundCategory.VOICE));
-            player.networkHandler.sendPacket(new StopSoundS2CPacket(ModSounds.BLACKSMITH_6.getId(), SoundCategory.VOICE));
+            player.networkHandler.sendPacket(new StopSoundS2CPacket(ModSounds.BLACKSMITH_5.id(), SoundCategory.VOICE));
+            player.networkHandler.sendPacket(new StopSoundS2CPacket(ModSounds.BLACKSMITH_6.id(), SoundCategory.VOICE));
 
             DialogueManager.sendMessages(player, new MessageWithSound("entity.eldenrpg.blacksmith.dialogue6", 0, ModSounds.BLACKSMITH_6));
         }

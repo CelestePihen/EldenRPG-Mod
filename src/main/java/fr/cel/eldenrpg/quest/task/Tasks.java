@@ -38,9 +38,9 @@ public class Tasks {
     }
 
     public static Task loadNbt(NbtCompound nbt) {
-        NbtCompound taskTag = nbt.getCompound("task");
-        Task task = Tasks.getTasks().get(taskTag.getString("id"));
-        task.setProgress(taskTag.getInt("progress"));
+        NbtCompound taskTag = nbt.getCompound("task").get();
+        Task task = Tasks.getTasks().get(taskTag.getString("id").get());
+        task.setProgress(taskTag.getInt("progress").get());
         return task;
     }
 

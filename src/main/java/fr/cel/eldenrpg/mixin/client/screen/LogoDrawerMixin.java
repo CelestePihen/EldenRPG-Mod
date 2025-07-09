@@ -1,10 +1,11 @@
 package fr.cel.eldenrpg.mixin.client.screen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import fr.cel.eldenrpg.EldenRPG;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.LogoDrawer;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.ColorHelper;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -24,12 +25,10 @@ public abstract class LogoDrawerMixin {
 
     @Inject(method = "draw(Lnet/minecraft/client/gui/DrawContext;IFI)V", at = @At("HEAD"), cancellable = true)
     private void drawLogo(DrawContext context, int screenWidth, float alpha, int y, CallbackInfo ci) {
-        context.setShaderColor(1.0F, 1.0F, 1.0F, this.ignoreAlpha ? 1.0F : alpha);
-        RenderSystem.enableBlend();
         int i = screenWidth / 2 - 128;
-        context.drawTexture(this.minceraft ? ELDERNPG : LOGO, i, y, 0.0F, 0.0F, 256, 44, 256, 64);
-        context.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.disableBlend();
+        float f = this.ignoreAlpha ? 1.0F : alpha;
+        int j = ColorHelper.getWhite(f);
+        context.drawTexture(RenderPipelines.GUI_TEXTURED, this.minceraft ? ELDERNPG : LOGO, i, y, 0.0F, 0.0F, 256, 44, 256, 64, j);
 
         ci.cancel();
     }

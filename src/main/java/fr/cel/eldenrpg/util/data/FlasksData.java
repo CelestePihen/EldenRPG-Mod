@@ -9,17 +9,14 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public final class FlasksData {
 
     /* ----------------------------- Flasks ----------------------------- */
 
     public static void addFlasks(IPlayerDataSaver player, int amount) {
         NbtCompound nbt = player.eldenrpg$getPersistentData();
-        int flasks = nbt.getInt("flasks");
-        int maxFlasks = nbt.getInt("maxFlasks");
+        int flasks = nbt.getInt("flasks").get();
+        int maxFlasks = nbt.getInt("maxFlasks").get();
 
         flasks = Math.min(flasks + amount, maxFlasks);
 
@@ -29,7 +26,7 @@ public final class FlasksData {
 
     public static void removeFlasks(IPlayerDataSaver player, int amount) {
         NbtCompound nbt = player.eldenrpg$getPersistentData();
-        int flasks = nbt.getInt("flasks");
+        int flasks = nbt.getInt("flasks").get();
 
         flasks = Math.max(flasks - amount, 0);
 
@@ -38,14 +35,14 @@ public final class FlasksData {
     }
 
     public static int getFlasks(IPlayerDataSaver player) {
-        return player.eldenrpg$getPersistentData().getInt("flasks");
+        return player.eldenrpg$getPersistentData().getInt("flasks").get();
     }
 
     /* ------------------------- MAX FLASKS ------------------------- */
 
     public static void addMaxFlasks(IPlayerDataSaver player) {
         NbtCompound nbt = player.eldenrpg$getPersistentData();
-        int maxFlasks = nbt.getInt("maxFlasks");
+        int maxFlasks = nbt.getInt("maxFlasks").get();
 
         maxFlasks = Math.min(maxFlasks + 1, 14);
 
@@ -53,14 +50,14 @@ public final class FlasksData {
     }
 
     public static int getMaxFlasks(IPlayerDataSaver player) {
-        return player.eldenrpg$getPersistentData().getInt("maxFlasks");
+        return player.eldenrpg$getPersistentData().getInt("maxFlasks").get();
     }
 
     /* ----------------------- LEVEL OF FLASKS ----------------------- */
 
     public static void addLevelFlasks(IPlayerDataSaver player) {
         NbtCompound nbt = player.eldenrpg$getPersistentData();
-        int levelFlasks = nbt.getInt("levelFlasks");
+        int levelFlasks = nbt.getInt("levelFlasks").get();
 
         levelFlasks = Math.min(levelFlasks + 1, 12);
 
@@ -69,14 +66,14 @@ public final class FlasksData {
     }
 
     public static int getLevelFlasks(IPlayerDataSaver player) {
-        return player.eldenrpg$getPersistentData().getInt("levelFlasks");
+        return player.eldenrpg$getPersistentData().getInt("levelFlasks").get();
     }
 
     /* ------------------------ GOLDEN SEED ------------------------ */
 
     public static void addGoldenSeed(IPlayerDataSaver player) {
         NbtCompound nbt = player.eldenrpg$getPersistentData();
-        int goldenSeed = nbt.getInt("goldenSeed");
+        int goldenSeed = nbt.getInt("goldenSeed").get();
 
         // TODO voir le max
         goldenSeed = Math.min(goldenSeed + 1, 30);
@@ -87,7 +84,7 @@ public final class FlasksData {
 
     public static void removeGoldenSeed(IPlayerDataSaver player, int amount) {
         NbtCompound nbt = player.eldenrpg$getPersistentData();
-        int goldenSeed = nbt.getInt("goldenSeed");
+        int goldenSeed = nbt.getInt("goldenSeed").get();
 
         goldenSeed = Math.max(goldenSeed - amount, 0);
 
@@ -96,14 +93,14 @@ public final class FlasksData {
     }
 
     public static int getGoldenSeeds(IPlayerDataSaver player) {
-        return player.eldenrpg$getPersistentData().getInt("goldenSeed");
+        return player.eldenrpg$getPersistentData().getInt("goldenSeed").get();
     }
 
     /* ------------------------ TEAR OF LIFE ------------------------ */
 
     public static void addSacredTear(IPlayerDataSaver player) {
         NbtCompound nbt = player.eldenrpg$getPersistentData();
-        int sacredTear = nbt.getInt("sacredTear");
+        int sacredTear = nbt.getInt("sacredTear").get();
 
         // TODO voir le max
         sacredTear = Math.min(sacredTear + 1, 12);
@@ -114,7 +111,7 @@ public final class FlasksData {
 
     public static void removeSacredTear(IPlayerDataSaver player) {
         NbtCompound nbt = player.eldenrpg$getPersistentData();
-        int sacredTear = nbt.getInt("sacredTear");
+        int sacredTear = nbt.getInt("sacredTear").get();
 
         sacredTear = Math.max(sacredTear - 1, 0);
 
@@ -123,53 +120,55 @@ public final class FlasksData {
     }
 
     public static int getSacredTears(IPlayerDataSaver player) {
-        return player.eldenrpg$getPersistentData().getInt("sacredTear");
+        return player.eldenrpg$getPersistentData().getInt("sacredTear").get();
     }
 
     /* --------------------------- AREAS --------------------------- */
 
     public static boolean addTearId(IPlayerDataSaver player, int mapId) {
-        List<Integer> tearId = getTearId(player);
+        int[] tearIdArray = player.eldenrpg$getPersistentData().getIntArray("tearId").get();
 
-        if (tearId.contains(mapId)) return false;
-        tearId.add(mapId);
+        for (int id : tearIdArray) {
+            if (id == mapId) return false;
+        }
 
-        player.eldenrpg$getPersistentData().putIntArray("tearId", tearId);
+        int[] newTearIdArray = new int[tearIdArray.length + 1];
+        System.arraycopy(tearIdArray, 0, newTearIdArray, 0, tearIdArray.length);
+        newTearIdArray[tearIdArray.length] = mapId;
+
+        player.eldenrpg$getPersistentData().putIntArray("tearId", newTearIdArray);
         return true;
     }
 
     public static void removeAllAreasST(IPlayerDataSaver player) {
-        player.eldenrpg$getPersistentData().putIntArray("tearId", new ArrayList<>());
+        player.eldenrpg$getPersistentData().putIntArray("tearId", new int[]{});
     }
 
-    public static List<Integer> getTearId(IPlayerDataSaver player) {
-        List<Integer> tearId = new ArrayList<>();
-        for (int i : player.eldenrpg$getPersistentData().getIntArray("tearId")) {
-            tearId.add(i);
-        }
-        return tearId;
+    public static int[] getTearId(IPlayerDataSaver player) {
+        return player.eldenrpg$getPersistentData().getIntArray("tearId").get();
     }
 
     public static boolean addGSId(IPlayerDataSaver player, int mapId) {
-        List<Integer> gsId = getGSId(player);
+        int[] gsIdArray = player.eldenrpg$getPersistentData().getIntArray("gsId").get();
 
-        if (gsId.contains(mapId)) return false;
-        gsId.add(mapId);
+        for (int id : gsIdArray) {
+            if (id == mapId) return false;
+        }
 
-        player.eldenrpg$getPersistentData().putIntArray("gsId", gsId);
+        int[] newGsIdArray = new int[gsIdArray.length + 1];
+        System.arraycopy(gsIdArray, 0, newGsIdArray, 0, gsIdArray.length);
+        newGsIdArray[gsIdArray.length] = mapId;
+
+        player.eldenrpg$getPersistentData().putIntArray("gsId", newGsIdArray);
         return true;
     }
 
     public static void removeAllAreasGS(IPlayerDataSaver player) {
-        player.eldenrpg$getPersistentData().putIntArray("gsId", new ArrayList<>());
+        player.eldenrpg$getPersistentData().putIntArray("gsId", new int[]{});
     }
 
-    public static List<Integer> getGSId(IPlayerDataSaver player) {
-        List<Integer> gsId = new ArrayList<>();
-        for (int i : player.eldenrpg$getPersistentData().getIntArray("gsId")) {
-            gsId.add(i);
-        }
-        return gsId;
+    public static int[] getGSId(IPlayerDataSaver player) {
+        return player.eldenrpg$getPersistentData().getIntArray("gsId").get();
     }
 
     /* ---------------------------- CONVERT ---------------------------- */

@@ -45,11 +45,11 @@ public class GracesSelectionScreen extends Screen {
 
             if (minecraftClient.player == null) return;
 
-            GracesData.getPlayerGraces(((IPlayerDataSaver) minecraftClient.player)).forEach(pos -> {
+            for (long pos : GracesData.getPlayerGraces(((IPlayerDataSaver) minecraftClient.player))) {
                 Text text = GracesData.getGraceName(BlockPos.fromLong(pos));
                 GraceEntry entry = new GraceEntry(BlockPos.fromLong(pos), text, minecraftClient);
                 this.addEntry(entry);
-            });
+            }
 
             if (this.getSelectedOrNull() != null) {
                 this.centerScrollOn(this.getSelectedOrNull());

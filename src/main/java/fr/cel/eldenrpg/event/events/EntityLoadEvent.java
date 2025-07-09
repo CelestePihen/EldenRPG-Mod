@@ -19,6 +19,8 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
+import java.util.Optional;
+
 public class EntityLoadEvent implements ServerEntityEvents.Load {
 
     public static void init() {
@@ -30,11 +32,12 @@ public class EntityLoadEvent implements ServerEntityEvents.Load {
         if (entity instanceof ServerPlayerEntity player) {
             IPlayerDataSaver playerDataSaver = (IPlayerDataSaver) player;
 
-            if (playerDataSaver.eldenrpg$getPersistentData().getBoolean("firstTime")) {
-                player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(10.0D);
+            Optional<Boolean> firstTime = playerDataSaver.eldenrpg$getPersistentData().getBoolean("firstTime");
+            if (firstTime.isPresent() && firstTime.get()) {
+                player.getAttributeInstance(EntityAttributes.MAX_HEALTH).setBaseValue(10.0D);
                 playerDataSaver.eldenrpg$getPersistentData().putBoolean("firstTime", false);
 
-                AdvancementEntry rootAdvancement = player.server.getAdvancementLoader().get(Identifier.of(EldenRPG.MOD_ID, "root"));
+                AdvancementEntry rootAdvancement = player.getServer().getAdvancementLoader().get(Identifier.of(EldenRPG.MOD_ID, "root"));
                 if (rootAdvancement != null) {
                     PlayerAdvancementTracker advancementTracker = player.getAdvancementTracker();
                     for (String criteria : advancementTracker.getProgress(rootAdvancement).getUnobtainedCriteria()) {

@@ -20,7 +20,7 @@ public class BossArea extends Area<EntityType<?>> {
     @Override
     protected void interact(ServerPlayerEntity player) {
         if (isBoss(player)) return;
-        player.getServerWorld().spawnEntity(getObject().spawn(player.getServerWorld(), spawn, SpawnReason.MOB_SUMMONED));
+        player.getWorld().spawnEntity(getObject().spawn(player.getWorld(), spawn, SpawnReason.MOB_SUMMONED));
     }
 
     private boolean isBoss(ServerPlayerEntity player) {

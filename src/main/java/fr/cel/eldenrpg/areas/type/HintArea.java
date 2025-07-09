@@ -19,7 +19,7 @@ public class HintArea extends Area<String> {
 
     @Override
     protected void interact(ServerPlayerEntity player) {
-        AdvancementEntry advancement = player.server.getAdvancementLoader().get(identifier);
+        AdvancementEntry advancement = player.getServer().getAdvancementLoader().get(identifier);
         if (advancement == null) return;
 
         PlayerAdvancementTracker advancementTracker = player.getAdvancementTracker();

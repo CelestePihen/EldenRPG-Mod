@@ -13,9 +13,9 @@ public abstract class MinecraftClientMixin {
     @Inject(method = "getWindowTitle", at = @At("HEAD"), cancellable = true)
 	private void changeWindowTitle(CallbackInfoReturnable<String> cir) {
 		if (EldenRPG.isIDE) {
-			cir.setReturnValue("EldenRPG 0.1 - MC Dev 1.21.1 - " + MinecraftClient.getInstance().getSession().getUsername());
+			cir.setReturnValue("EldenRPG 0.1 - MC Dev 1.21.7 - " + MinecraftClient.getInstance().getSession().getUsername());
 		} else {
-			cir.setReturnValue("EldenRPG 0.1 - MC 1.21.1 - " + MinecraftClient.getInstance().getSession().getUsername());
+			cir.setReturnValue("EldenRPG 0.1 - MC 1.21.7 - " + MinecraftClient.getInstance().getSession().getUsername());
 		}
 	}
 

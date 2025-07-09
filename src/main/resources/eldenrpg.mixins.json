@@ -9,8 +9,8 @@
     "client.screen.GameMenuScreenMixin",
     "client.screen.InventoryScreenMixin",
     "client.screen.LogoDrawerMixin",
-    "client.screen.TitleScreenMixin",
-    "client.test.PlayerPoseMixin"
+    "client.screen.RecipeBookScreenMixin",
+    "client.screen.TitleScreenMixin"
   ],
   "mixins": [
     "NameTagMixin",

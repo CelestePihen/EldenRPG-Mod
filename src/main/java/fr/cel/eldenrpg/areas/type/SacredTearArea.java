@@ -20,8 +20,8 @@ public class SacredTearArea extends Area<Integer> {
     protected void interact(ServerPlayerEntity player) {
         IPlayerDataSaver playerData = (IPlayerDataSaver) player;
 
-        if (FlasksData.getTearId(playerData).isEmpty()) {
-            AdvancementEntry rootAdvancement = player.server.getAdvancementLoader().get(Identifier.of(EldenRPG.MOD_ID, "hintst"));
+        if (FlasksData.getTearId(playerData).length == 0) {
+            AdvancementEntry rootAdvancement = player.getServer().getAdvancementLoader().get(Identifier.of(EldenRPG.MOD_ID, "hintst"));
             if (rootAdvancement == null) return;
 
             PlayerAdvancementTracker advancementTracker = player.getAdvancementTracker();

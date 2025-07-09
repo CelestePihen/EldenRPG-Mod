@@ -9,6 +9,8 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
 
+import java.util.Optional;
+
 public class FlasksScreen extends Screen {
 
     private final Screen parent;
@@ -40,11 +42,6 @@ public class FlasksScreen extends Screen {
     }
 
     @Override
-    public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
-
-    }
-
-    @Override
     public boolean shouldPause() {
         return false;
     }
@@ -60,33 +57,33 @@ public class FlasksScreen extends Screen {
 
         IPlayerDataSaver playerData = (IPlayerDataSaver) client.player;
 
-        int goldenSeeds = playerData.eldenrpg$getPersistentData().getInt("goldenSeed");
-        if (goldenSeeds == 0) {
-            client.setScreen(new MessageScreen(Text.translatable("eldenrpg.flasks.screen.noGoldenSeed"), this));
+        Optional<Integer> goldenSeeds = playerData.eldenrpg$getPersistentData().getInt("goldenSeed");
+        if (goldenSeeds.isPresent() && goldenSeeds.get() == 0) {
+            client.setScreen(new PromptScreen(Text.translatable("eldenrpg.flasks.screen.noGoldenSeed"), this));
             return;
         }
 
-        int maxFlasks = playerData.eldenrpg$getPersistentData().getInt("maxFlasks");
+        Optional<Integer> maxFlasks = playerData.eldenrpg$getPersistentData().getInt("maxFlasks");
         int seedsRequired;
-        if (maxFlasks < 6) {
+        if (maxFlasks.isPresent() && maxFlasks.get() < 6) {
             seedsRequired = 1;
-        } else if (maxFlasks < 8) {
+        } else if (maxFlasks.isPresent() && maxFlasks.get() < 8) {
             seedsRequired = 2;
-        } else if (maxFlasks < 10) {
+        } else if (maxFlasks.isPresent() && maxFlasks.get() < 10) {
             seedsRequired = 3;
-        } else if (maxFlasks < 12) {
+        } else if (maxFlasks.isPresent() && maxFlasks.get() < 12) {
             seedsRequired = 4;
         } else {
             seedsRequired = 5;
         }
 
-        if (goldenSeeds >= seedsRequired) {
-            client.setScreen(new MessageScreen(Text.translatable("eldenrpg.flasks.screen.flaskIncreased"), this));
+        if (goldenSeeds.isPresent() && goldenSeeds.get() >= seedsRequired) {
+            client.setScreen(new PromptScreen(Text.translatable("eldenrpg.flasks.screen.flaskIncreased"), this));
             ClientPlayNetworking.send(new IncreaseFlaskC2SPacket());
             return;
         }
 
-        client.setScreen(new MessageScreen(Text.translatable("eldenrpg.flasks.screen.notEnoughGS"), this));
+        client.setScreen(new PromptScreen(Text.translatable("eldenrpg.flasks.screen.notEnoughGS"), this));
     }
 
     private void convertTearToLevel() {
@@ -94,12 +91,13 @@ public class FlasksScreen extends Screen {
         if (client.player == null) return;
 
         IPlayerDataSaver playerData = (IPlayerDataSaver) client.player;
-        if (playerData.eldenrpg$getPersistentData().getInt("sacredTear") == 0) {
-            client.setScreen(new MessageScreen(Text.translatable("eldenrpg.flasks.screen.noTear"), this));
+        Optional<Integer> sacredTear = playerData.eldenrpg$getPersistentData().getInt("sacredTear");
+        if (sacredTear.isPresent() && sacredTear.get() == 0) {
+            client.setScreen(new PromptScreen(Text.translatable("eldenrpg.flasks.screen.noTear"), this));
             return;
         }
 
-        client.setScreen(new MessageScreen(Text.translatable("eldenrpg.flasks.screen.chargeAdded"), this));
+        client.setScreen(new PromptScreen(Text.translatable("eldenrpg.flasks.screen.chargeAdded"), this));
         ClientPlayNetworking.send(new AddChargeC2SPacket());
     }
 

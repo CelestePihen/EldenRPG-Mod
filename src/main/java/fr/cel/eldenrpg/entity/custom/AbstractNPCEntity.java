@@ -10,6 +10,7 @@ import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
@@ -24,7 +25,7 @@ public abstract class AbstractNPCEntity extends MobEntity {
     }
 
     public static DefaultAttributeContainer.Builder createAttributes() {
-        return MobEntity.createLivingAttributes().add(EntityAttributes.GENERIC_FOLLOW_RANGE, 32.0D);
+        return MobEntity.createLivingAttributes().add(EntityAttributes.FOLLOW_RANGE, 32.0D);
     }
 
     @Override
@@ -53,7 +54,7 @@ public abstract class AbstractNPCEntity extends MobEntity {
     }
 
     @Override
-    public boolean isInvulnerableTo(DamageSource damageSource) {
+    public boolean isInvulnerableTo(ServerWorld world, DamageSource damageSource) {
         return this.isRemoved() || this.isInvulnerable() && !damageSource.isOf(DamageTypes.GENERIC_KILL);
     }
 

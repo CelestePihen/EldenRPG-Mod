@@ -15,9 +15,11 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -30,6 +32,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin extends LivingEntity implements IPlayerDataSaver {
@@ -51,24 +54,21 @@ public abstract class PlayerEntityMixin extends LivingEntity implements IPlayerD
 
     /* Méthodes du jeu */
 
-    @Inject(method = "writeCustomDataToNbt", at = @At("HEAD"))
-    private void injectWriteMethod(NbtCompound nbt, CallbackInfo ci) {
-        if (this.persistentData != null) {
-            nbt.put("eldenrpg", this.persistentData);
-            persistentData.put("quests", Quests.writeNbt(quests));
-        }
+    @Inject(method = "writeCustomData", at = @At("HEAD"))
+    private void injectWriteMethod(WriteView view, CallbackInfo ci) {
+        view.put("eldenrpg", NbtCompound.CODEC, this.persistentData);
+        persistentData.put("quests", Quests.writeNbt(quests));
     }
 
-    @Inject(method = "readCustomDataFromNbt", at = @At("HEAD"))
-    private void injectReadMethod(NbtCompound nbt, CallbackInfo ci) {
-        if (nbt.contains("eldenrpg", NbtElement.COMPOUND_TYPE)) {
-            this.persistentData = nbt.getCompound("eldenrpg");
-            this.quests = Quests.loadNbt(this.persistentData);
-        }
+    @Inject(method = "readCustomData", at = @At("HEAD"))
+    private void injectReadMethod(ReadView view, CallbackInfo ci) {
+        Optional<NbtCompound> eldenrpg = view.read("eldenrpg", NbtCompound.CODEC);
+        this.persistentData = eldenrpg.orElseGet(NbtCompound::new);
+        this.quests = Quests.loadNbt(this.persistentData);
     }
 
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
-    private void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+    private void damage(ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if (invulnerableTicks > 0 && isCombatDamage(source)) {
             cir.setReturnValue(false);
         }

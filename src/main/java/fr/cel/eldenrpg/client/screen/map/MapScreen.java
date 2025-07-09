@@ -1,9 +1,9 @@
 package fr.cel.eldenrpg.client.screen.map;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import fr.cel.eldenrpg.EldenRPG;
 import fr.cel.eldenrpg.util.IPlayerDataSaver;
 import fr.cel.eldenrpg.util.data.MapsData;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -65,13 +65,11 @@ public class MapScreen extends Screen {
         this.offsetX = MathHelper.lerp(0.15f, this.offsetX, this.targetOffsetX);
         this.offsetY = MathHelper.lerp(0.15f, this.offsetY, this.targetOffsetY);
 
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-
         // appliquer le zoom et le déplacement
-        context.getMatrices().push();
-        context.getMatrices().translate(this.leftPos + this.imageWidth / 2f, this.topPos + this.imageHeight / 2f, 0);
-        context.getMatrices().scale(this.zoom, this.zoom, 1);
-        context.getMatrices().translate(-this.imageWidth / 2f + this.offsetX, -this.imageHeight / 2f + this.offsetY, 0);
+        context.getMatrices().pushMatrix();
+        context.getMatrices().translate(this.leftPos + this.imageWidth / 2f, this.topPos + this.imageHeight / 2f, context.getMatrices());
+        context.getMatrices().scale(this.zoom, this.zoom, context.getMatrices());
+        context.getMatrices().translate(-this.imageWidth / 2f + this.offsetX, -this.imageHeight / 2f + this.offsetY, context.getMatrices());
 
         // parties de maps
         renderPartMap(1, playerData, context, 84, 113, 93, 63);
@@ -84,7 +82,7 @@ public class MapScreen extends Screen {
         renderPartMap(8, playerData, context, 177, 113, 63, 127);
         renderPartMap(9, playerData, context, 84, 176, 93, 64);
 
-        context.getMatrices().pop();
+        context.getMatrices().popMatrix();
 
         // On met les boutons par dessus la carte
         gracesButton.render(context, mouseX, mouseY, delta);
@@ -93,10 +91,10 @@ public class MapScreen extends Screen {
     }
 
     private void renderPartMap(int part, IPlayerDataSaver playerData, DrawContext context, int x, int y, int width, int height) {
-        if (MapsData.getMapsId(playerData).contains(part)) {
-            context.drawTexture(CARTE, x, y, x, y, width, height, this.imageWidth, this.imageHeight);
+        if (contains(MapsData.getMapsId(playerData), part)) {
+            context.drawTexture(RenderPipelines.GUI_TEXTURED, CARTE, x, y, x, y, width, height, this.imageWidth, this.imageHeight);
         } else {
-            context.drawTexture(GRAY_MAP, x, y, x, y, width, height, this.imageWidth, this.imageHeight);
+            context.drawTexture(RenderPipelines.GUI_TEXTURED, GRAY_MAP, x, y, x, y, width, height, this.imageWidth, this.imageHeight);
         }
     }
 
@@ -179,6 +177,13 @@ public class MapScreen extends Screen {
 
         this.targetOffsetX = MathHelper.clamp(this.targetOffsetX, -maxOffsetX, maxOffsetX);
         this.targetOffsetY = MathHelper.clamp(this.targetOffsetY, -maxOffsetY, maxOffsetY);
+    }
+
+    private boolean contains(int[] array, long value) {
+        for (int v : array) {
+            if (v == value) return true;
+        }
+        return false;
     }
 
 }

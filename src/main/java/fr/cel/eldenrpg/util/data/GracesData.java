@@ -9,19 +9,25 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public final class GracesData {
 
     public static void addGrace(IPlayerDataSaver player, BlockPos pos) {
-        List<Long> blockPosLong = getPlayerGraces(player);
-        if (blockPosLong.contains(pos.asLong())) return;
-        blockPosLong.add(pos.asLong());
+        long[] graces = player.eldenrpg$getPersistentData().getLongArray("graces").get();
+        long posLong = pos.asLong();
 
-        player.eldenrpg$getPersistentData().putLongArray("graces", blockPosLong);
+        for (long grace : graces) {
+            if (grace == posLong) return;
+        }
+
+        long[] newGraces = new long[graces.length + 1];
+        System.arraycopy(graces, 0, newGraces, 0, graces.length);
+        newGraces[graces.length] = posLong;
+
+        player.eldenrpg$getPersistentData().putLongArray("graces", newGraces);
+
         syncAddGrace((PlayerEntity) player, pos);
     }
 
@@ -32,11 +38,28 @@ public final class GracesData {
     }
 
     public static void removeGrace(IPlayerDataSaver player, BlockPos pos) {
-        List<Long> blockPosLong = getPlayerGraces(player);
-        if (!blockPosLong.contains(pos.asLong())) return;
-        blockPosLong.remove(pos.asLong());
+        long[] graces = player.eldenrpg$getPersistentData().getLongArray("graces").get();
+        long posLong = pos.asLong();
 
-        player.eldenrpg$getPersistentData().putLongArray("graces", blockPosLong);
+        boolean found = false;
+        for (long grace : graces) {
+            if (grace == posLong) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) return;
+
+        long[] newGraces = new long[graces.length - 1];
+        int index = 0;
+        for (long grace : graces) {
+            if (grace != posLong) {
+                newGraces[index++] = grace;
+            }
+        }
+
+        player.eldenrpg$getPersistentData().putLongArray("graces", newGraces);
+
         syncRemoveGrace((PlayerEntity) player, pos);
     }
 
@@ -46,10 +69,8 @@ public final class GracesData {
         }
     }
 
-    public static List<Long> getPlayerGraces(IPlayerDataSaver player) {
-        List<Long> graces = new ArrayList<>();
-        for (long l : player.eldenrpg$getPersistentData().getLongArray("graces")) graces.add(l);
-        return graces;
+    public static long[] getPlayerGraces(IPlayerDataSaver player) {
+        return player.eldenrpg$getPersistentData().getLongArray("graces").get();
     }
 
     private static void syncAddGrace(PlayerEntity player, BlockPos pos) {

@@ -1,5 +1,6 @@
 package fr.cel.eldenrpg.block.custom;
 
+import fr.cel.eldenrpg.EldenRPG;
 import fr.cel.eldenrpg.networking.packets.graces.screen.OpenGraceScreenS2CPacket;
 import fr.cel.eldenrpg.sound.ModSounds;
 import fr.cel.eldenrpg.util.IPlayerDataSaver;
@@ -12,11 +13,14 @@ import net.minecraft.block.MapColor;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.s2c.play.TitleFadeS2CPacket;
 import net.minecraft.network.packet.s2c.play.TitleS2CPacket;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Colors;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
@@ -28,7 +32,8 @@ public class GraceBlock extends Block {
      * Le bloc qui fait office de Site de Grace <br>
      */
     public GraceBlock() {
-        super(Settings.create().noCollision().nonOpaque().luminance(value -> 15).mapColor(MapColor.BROWN).dropsNothing());
+        super(Settings.create().registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(EldenRPG.MOD_ID, "grace_block")))
+                .noCollision().nonOpaque().luminance(value -> 15).mapColor(MapColor.BROWN).dropsNothing());
     }
 
     @Override
@@ -42,11 +47,11 @@ public class GraceBlock extends Block {
 
             FlasksData.addFlasks(playerDataSaver, 15);
             serverPlayer.setHealth(serverPlayer.getMaxHealth());
-            serverPlayer.setSpawnPoint(world.getRegistryKey(), pos.north(), serverPlayer.getPitch(), true, true);
+            serverPlayer.setSpawnPoint(new ServerPlayerEntity.Respawn(world.getRegistryKey(), pos.north(), serverPlayer.getPitch(), true), true);
 
             GracesData.getGraces().forEach((gracePos, text) -> {
                 if (checkCampfire(pos, gracePos)) {
-                    if (!GracesData.getPlayerGraces(playerDataSaver).contains(pos.asLong())) {
+                    if (!contains(GracesData.getPlayerGraces(playerDataSaver), pos.asLong())) {
                         GracesData.addGrace(playerDataSaver, gracePos);
                         serverPlayer.networkHandler.sendPacket(new TitleS2CPacket(Text.translatable("eldenrpg.title.lostgracediscovered").withColor(Colors.YELLOW)));
                         serverPlayer.networkHandler.sendPacket(new TitleFadeS2CPacket(20, 50, 20));
@@ -59,7 +64,7 @@ public class GraceBlock extends Block {
             return ActionResult.SUCCESS;
         }
 
-        return ActionResult.PASS;
+        return ActionResult.SUCCESS;
     }
 
     private boolean checkCampfire(BlockPos camp1, BlockPos camp2) {
@@ -69,6 +74,13 @@ public class GraceBlock extends Block {
     @Override
     protected float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {
         return super.getAmbientOcclusionLightLevel(state, world, pos);
+    }
+
+    private boolean contains(long[] array, long value) {
+        for (long v : array) {
+            if (v == value) return true;
+        }
+        return false;
     }
 
 }
