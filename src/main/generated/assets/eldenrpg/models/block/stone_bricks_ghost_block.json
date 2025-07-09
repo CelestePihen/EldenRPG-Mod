@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "eldenrpg:block/stone_bricks_ghost_block"
+  }
+}
