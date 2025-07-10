@@ -3,7 +3,7 @@ package fr.cel.eldenrpg.entity;
 import fr.cel.eldenrpg.EldenRPG;
 import fr.cel.eldenrpg.entity.custom.AbstractNPCEntity;
 import fr.cel.eldenrpg.entity.custom.CatacombCarcassEntity;
-import fr.cel.eldenrpg.entity.npcs.BlacksmithEntity;
+import fr.cel.eldenrpg.entity.custom.npcs.BlacksmithEntity;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;

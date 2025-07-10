@@ -44,6 +44,12 @@ public abstract class TitleScreenMixin extends Screen {
                             ConnectScreen.connect(this, this.client, ServerAddress.parse("localhost"),
                                     new ServerInfo("EldenRPG", "localhost", ServerInfo.ServerType.OTHER), false, null))
                     .dimensions(this.width / 2 - 100, y + spacingY, 200, 20).tooltip(tooltip).build()).active = bl;
+
+            // Sert aux Screens pour le background du Title Screen
+            // TODO faire un truc automatisé
+            this.addDrawableChild(ButtonWidget.builder(Text.literal("Résolution 1024x1024"), (button) ->
+                    client.getWindow().setWindowedSize(1024, 1024)
+            ).dimensions(0, 0, 200, 20).build());
         }
         else {
             this.addDrawableChild(ButtonWidget.builder(Text.literal("EldenRPG"), (button) ->

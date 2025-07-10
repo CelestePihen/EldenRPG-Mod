@@ -2,7 +2,7 @@ package fr.cel.eldenrpg.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import fr.cel.eldenrpg.entity.ModEntities;
-import fr.cel.eldenrpg.entity.npcs.BlacksmithEntity;
+import fr.cel.eldenrpg.entity.custom.npcs.BlacksmithEntity;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.world.ServerWorld;

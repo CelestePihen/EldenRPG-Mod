@@ -17,6 +17,7 @@ public class ServerEvents {
         EndServerTickEvent.init();
         UseBlockEvent.init();
         CommandsRegisterEvent.init();
+        LootTableEvent.init();
 
         EnterAreaEvent.EVENT.register((player, area, quest) -> {
             if (!(area instanceof POIArea) || quest == null) return;
