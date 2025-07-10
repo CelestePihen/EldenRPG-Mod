@@ -32,10 +32,10 @@ public class EntityLoadEvent implements ServerEntityEvents.Load {
         if (entity instanceof ServerPlayerEntity player) {
             IPlayerDataSaver playerDataSaver = (IPlayerDataSaver) player;
 
-            Optional<Boolean> firstTime = playerDataSaver.eldenrpg$getPersistentData().getBoolean("firstTime");
+            Optional<Boolean> firstTime = playerDataSaver.getPersistentData().getBoolean("firstTime");
             if (firstTime.isPresent() && firstTime.get()) {
                 player.getAttributeInstance(EntityAttributes.MAX_HEALTH).setBaseValue(10.0D);
-                playerDataSaver.eldenrpg$getPersistentData().putBoolean("firstTime", false);
+                playerDataSaver.getPersistentData().putBoolean("firstTime", false);
 
                 AdvancementEntry rootAdvancement = player.getServer().getAdvancementLoader().get(Identifier.of(EldenRPG.MOD_ID, "root"));
                 if (rootAdvancement != null) {

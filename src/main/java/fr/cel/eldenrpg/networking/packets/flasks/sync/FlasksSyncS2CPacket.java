@@ -16,7 +16,7 @@ public record FlasksSyncS2CPacket(int flasks) implements CustomPayload {
             PacketCodecs.INTEGER, FlasksSyncS2CPacket::flasks, FlasksSyncS2CPacket::new);
 
     public static void handle(FlasksSyncS2CPacket payload, ClientPlayNetworking.Context context) {
-        context.client().execute(() -> ((IPlayerDataSaver) context.player()).eldenrpg$getPersistentData().putInt("flasks", payload.flasks()));
+        context.client().execute(() -> ((IPlayerDataSaver) context.player()).getPersistentData().putInt("flasks", payload.flasks()));
     }
 
     @Override

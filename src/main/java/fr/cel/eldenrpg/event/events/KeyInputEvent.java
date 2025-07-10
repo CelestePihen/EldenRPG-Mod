@@ -5,11 +5,14 @@ import fr.cel.eldenrpg.networking.packets.animations.WaveC2SPacket;
 import fr.cel.eldenrpg.networking.packets.flasks.DrinkFlaskC2SPacket;
 import fr.cel.eldenrpg.networking.packets.roll.RollC2SPacket;
 import fr.cel.eldenrpg.util.IKeyboard;
+import fr.cel.eldenrpg.util.IPlayerDataSaver;
+import fr.cel.eldenrpg.util.data.FlasksData;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.util.math.Vec2f;
 import org.lwjgl.glfw.GLFW;
 
 public class KeyInputEvent {
@@ -33,14 +36,27 @@ public class KeyInputEvent {
             }
 
             if (DRINK_FLASK.wasPressed()) {
-                ClientPlayNetworking.send(new DrinkFlaskC2SPacket());
+                if (client.player != null) {
+                    IPlayerDataSaver playerData = (IPlayerDataSaver) client.player;
+                    if (FlasksData.getFlasks(playerData) <= 0) return;
+                    // TODO faire en sorte qu'on peut pas ROLL
+                    if (client.player.isCreative() || client.player.isSpectator() || !client.player.isOnGround()) return;
+                    IKeyboard keyboard = (IKeyboard) client.player.input;
+                    keyboard.setBlockJump(true);
+                    keyboard.setBlockSneak(true);
+                    keyboard.setBlockSprint(true);
+                    keyboard.setMovementVec(new Vec2f(0, 0));
+
+                    ClientPlayNetworking.send(new DrinkFlaskC2SPacket());
+                }
             }
 
             if (ROLL.wasPressed()) {
                 if (client.player != null) {
+                    // TODO faire en sorte qu'on peut pas DRINK_FLASK
                     if (client.player.isInFluid() || client.player.isSpectator() || !client.player.isOnGround() || client.player.isClimbing()) return;
                     IKeyboard keyboard = (IKeyboard) client.player.input;
-                    keyboard.eldenrpg$setBlocked(true);
+                    keyboard.setBlockedAll(true);
 
                     float forward = client.player.input.getMovementInput().y;
                     float sideways = client.player.input.getMovementInput().x;

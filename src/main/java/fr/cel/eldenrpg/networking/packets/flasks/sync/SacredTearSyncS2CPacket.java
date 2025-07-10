@@ -16,7 +16,7 @@ public record SacredTearSyncS2CPacket(int tearOfLife) implements CustomPayload {
             PacketCodecs.INTEGER, SacredTearSyncS2CPacket::tearOfLife, SacredTearSyncS2CPacket::new);
 
     public static void handle(SacredTearSyncS2CPacket payload, ClientPlayNetworking.Context context) {
-        context.client().execute(() -> ((IPlayerDataSaver) context.player()).eldenrpg$getPersistentData().putInt("sacredTear", payload.tearOfLife()));
+        context.client().execute(() -> ((IPlayerDataSaver) context.player()).getPersistentData().putInt("sacredTear", payload.tearOfLife()));
     }
 
     @Override

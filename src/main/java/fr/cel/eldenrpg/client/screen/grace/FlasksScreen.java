@@ -57,13 +57,13 @@ public class FlasksScreen extends Screen {
 
         IPlayerDataSaver playerData = (IPlayerDataSaver) client.player;
 
-        Optional<Integer> goldenSeeds = playerData.eldenrpg$getPersistentData().getInt("goldenSeed");
+        Optional<Integer> goldenSeeds = playerData.getPersistentData().getInt("goldenSeed");
         if (goldenSeeds.isPresent() && goldenSeeds.get() == 0) {
             client.setScreen(new PromptScreen(Text.translatable("eldenrpg.flasks.screen.noGoldenSeed"), this));
             return;
         }
 
-        Optional<Integer> maxFlasks = playerData.eldenrpg$getPersistentData().getInt("maxFlasks");
+        Optional<Integer> maxFlasks = playerData.getPersistentData().getInt("maxFlasks");
         int seedsRequired;
         if (maxFlasks.isPresent() && maxFlasks.get() < 6) {
             seedsRequired = 1;
@@ -91,7 +91,7 @@ public class FlasksScreen extends Screen {
         if (client.player == null) return;
 
         IPlayerDataSaver playerData = (IPlayerDataSaver) client.player;
-        Optional<Integer> sacredTear = playerData.eldenrpg$getPersistentData().getInt("sacredTear");
+        Optional<Integer> sacredTear = playerData.getPersistentData().getInt("sacredTear");
         if (sacredTear.isPresent() && sacredTear.get() == 0) {
             client.setScreen(new PromptScreen(Text.translatable("eldenrpg.flasks.screen.noTear"), this));
             return;

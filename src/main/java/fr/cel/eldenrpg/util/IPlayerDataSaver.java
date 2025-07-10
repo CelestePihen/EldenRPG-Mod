@@ -7,22 +7,20 @@ import java.util.List;
 
 public interface IPlayerDataSaver {
 
-    NbtCompound eldenrpg$getPersistentData();
+    NbtCompound getPersistentData();
 
-    List<Quest> eldenrpg$getQuests();
-    List<Quest> eldenrpg$getKillQuests();
-    List<Quest> eldenrpg$getItemQuests();
-    List<Quest> eldenrpg$getZoneQuests();
+    List<Quest> getQuests();
+    List<Quest> getKillQuests();
+    List<Quest> getItemQuests();
+    List<Quest> getZoneQuests();
 
-    long eldenrpg$getLastRollTime();
-    void eldenrpg$setLastRollTime(long time);
-    boolean eldenrpg$isRolling();
-    void eldenrpg$setRolling(boolean rolling);
+    long getLastRollTime();
+    void setLastRollTime(long time);
+    void setRolling(boolean rolling);
+    void setInvulnerableTicks(int ticks);
 
-    long eldenrpg$getLastFlaskDrunk();
-    void eldenrpg$setLastFlaskDrunk(long time);
-
-    void eldenrpg$setInvulnerableTicks(int ticks);
-    void eldenrpg$decrementInvulnerableTicks();
-
+    void setFlaskDrunkTicks(int ticks);
+    void setTakingFlask(boolean takingFlask);
+    long getLastFlaskDrunk();
+    void setLastFlaskDrunk(long time);
 }

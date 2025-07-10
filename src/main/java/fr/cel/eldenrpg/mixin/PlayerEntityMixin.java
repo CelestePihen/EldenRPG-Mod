@@ -1,6 +1,7 @@
 package fr.cel.eldenrpg.mixin;
 
 import com.mojang.authlib.GameProfile;
+import fr.cel.eldenrpg.networking.packets.flasks.EndDrinkFlaskS2CPacket;
 import fr.cel.eldenrpg.networking.packets.roll.EndRollS2CPacket;
 import fr.cel.eldenrpg.quest.Quest;
 import fr.cel.eldenrpg.quest.Quests;
@@ -31,7 +32,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Mixin(PlayerEntity.class)
@@ -42,11 +42,13 @@ public abstract class PlayerEntityMixin extends LivingEntity implements IPlayerD
     @Unique private NbtCompound persistentData;
     @Unique private List<Quest> quests = new ArrayList<>();
 
-    @Unique private long lastFlaskDrunk = 0;
-
     @Unique private boolean rolling = false;
     @Unique private long lastRollTime = 0;
     @Unique private int invulnerableTicks = 0;
+
+    @Unique private boolean takingFlask = false;
+    @Unique private int flaskDrunkTicks = 0;
+    @Unique private long lastFlaskDrunk = 0;
 
     protected PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
@@ -76,7 +78,8 @@ public abstract class PlayerEntityMixin extends LivingEntity implements IPlayerD
 
     @Inject(method = "tick", at = @At("TAIL"))
     private void tick(CallbackInfo ci) {
-        eldenrpg$decrementInvulnerableTicks();
+        decrementInvulnerableTicks();
+        decrementTakenPotion();
     }
 
     /* Méthodes customs */
@@ -90,8 +93,34 @@ public abstract class PlayerEntityMixin extends LivingEntity implements IPlayerD
                 source.isOf(DamageTypes.THROWN);
     }
 
+    @Unique
+    public void decrementInvulnerableTicks() {
+        if (this.rolling) {
+            if (this.invulnerableTicks > 0) {
+                this.invulnerableTicks--;
+            } else {
+                this.rolling = false;
+                if (!this.getWorld().isClient())
+                    ServerPlayNetworking.send((ServerPlayerEntity) this.getWorld().getPlayerByUuid(this.getGameProfile().getId()), new EndRollS2CPacket());
+            }
+        }
+    }
+
+    @Unique
+    public void decrementTakenPotion() {
+        if (this.takingFlask) {
+            if (this.flaskDrunkTicks > 0) {
+                this.flaskDrunkTicks--;
+            } else {
+                this.takingFlask = false;
+                if (!this.getWorld().isClient())
+                    ServerPlayNetworking.send((ServerPlayerEntity) this.getWorld().getPlayerByUuid(this.getGameProfile().getId()), new EndDrinkFlaskS2CPacket());
+            }
+        }
+    }
+
     @Override
-    public NbtCompound eldenrpg$getPersistentData() {
+    public NbtCompound getPersistentData() {
         if (this.persistentData == null) {
             this.persistentData = new NbtCompound();
 
@@ -132,12 +161,12 @@ public abstract class PlayerEntityMixin extends LivingEntity implements IPlayerD
     }
 
     @Override
-    public List<Quest> eldenrpg$getQuests() {
+    public List<Quest> getQuests() {
         return this.quests;
     }
 
     @Override
-    public List<Quest> eldenrpg$getKillQuests() {
+    public List<Quest> getKillQuests() {
         List<Quest> quests = new ArrayList<>();
         for (Quest quest : this.quests) {
             if (quest.getTask() instanceof KillTask) quests.add(quest);
@@ -146,7 +175,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements IPlayerD
     }
 
     @Override
-    public List<Quest> eldenrpg$getItemQuests() {
+    public List<Quest> getItemQuests() {
         List<Quest> quests = new ArrayList<>();
         for (Quest quest : this.quests) {
             if (quest.getTask() instanceof ItemTask) quests.add(quest);
@@ -155,7 +184,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements IPlayerD
     }
 
     @Override
-    public List<Quest> eldenrpg$getZoneQuests() {
+    public List<Quest> getZoneQuests() {
         List<Quest> quests = new ArrayList<>();
         for (Quest quest : this.quests) {
             if (quest.getTask() instanceof ZoneTask) quests.add(quest);
@@ -164,50 +193,42 @@ public abstract class PlayerEntityMixin extends LivingEntity implements IPlayerD
     }
 
     @Override
-    public long eldenrpg$getLastFlaskDrunk() {
-        return this.lastFlaskDrunk;
-    }
-
-    @Override
-    public void eldenrpg$setLastFlaskDrunk(long time) {
-        this.lastFlaskDrunk = time;
-    }
-
-    @Override
-    public long eldenrpg$getLastRollTime() {
+    public long getLastRollTime() {
         return this.lastRollTime;
     }
 
     @Override
-    public void eldenrpg$setLastRollTime(long time) {
+    public void setLastRollTime(long time) {
         this.lastRollTime = time;
     }
 
     @Override
-    public void eldenrpg$setInvulnerableTicks(int ticks) {
+    public void setInvulnerableTicks(int ticks) {
         this.invulnerableTicks = ticks;
     }
-
+    
     @Override
-    public void eldenrpg$decrementInvulnerableTicks() {
-        if (this.rolling) {
-            if (this.invulnerableTicks > 0) {
-                this.invulnerableTicks--;
-            } else {
-                this.rolling = false;
-                if (!this.getWorld().isClient()) ServerPlayNetworking.send((ServerPlayerEntity) (Objects.requireNonNull(this.getWorld().getPlayerByUuid(this.getGameProfile().getId()))), new EndRollS2CPacket());
-            }
-        }
+    public void setTakingFlask(boolean takingFlask) {
+        this.takingFlask = takingFlask;
     }
 
     @Override
-    public boolean eldenrpg$isRolling() {
-        return this.rolling;
-    }
-
-    @Override
-    public void eldenrpg$setRolling(boolean rolling) {
+    public void setRolling(boolean rolling) {
         this.rolling = rolling;
     }
 
+    @Override
+    public void setFlaskDrunkTicks(int time) {
+        this.flaskDrunkTicks = time;
+    }
+
+    @Override
+    public long getLastFlaskDrunk() {
+        return lastFlaskDrunk;
+    }
+
+    @Override
+    public void setLastFlaskDrunk(long time) {
+        this.lastFlaskDrunk = time;
+    }
 }

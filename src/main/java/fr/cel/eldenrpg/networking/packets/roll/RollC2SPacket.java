@@ -26,14 +26,16 @@ public record RollC2SPacket(float forward, float sideways) implements CustomPayl
 
         IPlayerDataSaver playerData = (IPlayerDataSaver) player;
         long currentTime = System.currentTimeMillis();
+        long lastRollTime = playerData.getLastRollTime();
 
         // 0.4 seconde de délai
-        if (currentTime - playerData.eldenrpg$getLastRollTime() < 400) return;
+        if (currentTime - lastRollTime < 400) return;
 
-        playerData.eldenrpg$setLastRollTime(currentTime);
-        playerData.eldenrpg$setRolling(true);
+        playerData.setLastRollTime(currentTime);
+        playerData.setInvulnerableTicks(16); // 16 ticks = 0.4 sec
+        playerData.setRolling(true);
+
         player.setSprinting(false);
-        playerData.eldenrpg$setInvulnerableTicks(16);
 
         // TODO animation
 //        PlayerAnimAPI.playPlayerAnim(player.getServerWorld(), player, Identifier.of(EldenRPG.MOD_ID, "roll"));
@@ -43,7 +45,7 @@ public record RollC2SPacket(float forward, float sideways) implements CustomPayl
 
         Vec3d direction = look.multiply(payload.forward).add(side.multiply(-payload.sideways));
 
-        // le joueur ne bouge pas, on fait une roulade arrière
+        // si le joueur ne bouge pas, on fait une roulade arrière
         if (direction.lengthSquared() == 0) direction = look.multiply(-1);
 
         Vec3d rollVector = direction.normalize().multiply(0.8);

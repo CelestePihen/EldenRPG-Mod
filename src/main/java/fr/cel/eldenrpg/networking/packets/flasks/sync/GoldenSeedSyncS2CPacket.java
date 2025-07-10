@@ -16,7 +16,7 @@ public record GoldenSeedSyncS2CPacket(int goldenSeed) implements CustomPayload {
             PacketCodecs.INTEGER, GoldenSeedSyncS2CPacket::goldenSeed, GoldenSeedSyncS2CPacket::new);
 
     public static void handle(GoldenSeedSyncS2CPacket payload, ClientPlayNetworking.Context context) {
-        context.client().execute(() -> ((IPlayerDataSaver) context.player()).eldenrpg$getPersistentData().putInt("goldenSeed", payload.goldenSeed()));
+        context.client().execute(() -> ((IPlayerDataSaver) context.player()).getPersistentData().putInt("goldenSeed", payload.goldenSeed()));
     }
 
     @Override

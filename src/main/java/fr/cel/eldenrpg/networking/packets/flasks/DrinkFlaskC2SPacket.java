@@ -23,7 +23,7 @@ public record DrinkFlaskC2SPacket() implements CustomPayload {
 
     public static void handle(DrinkFlaskC2SPacket payload, ServerPlayNetworking.Context context) {
         ServerPlayerEntity player = context.player();
-        if (player.isInCreativeMode() || player.isSpectator()) return;
+        if (player.isCreative() || player.isSpectator() || !player.isOnGround()) return;
 
         IPlayerDataSaver playerData = (IPlayerDataSaver) player;
 
@@ -31,12 +31,15 @@ public record DrinkFlaskC2SPacket() implements CustomPayload {
         if (FlasksData.getFlasks(playerData) > 0) {
             // délai entre les fioles
             long currentTime = System.currentTimeMillis();
-            long lastFlaskDrunk = playerData.eldenrpg$getLastFlaskDrunk();
-            int cooldownMillis = 1000; // 1 seconde
+            long lastFlaskDrunk = playerData.getLastFlaskDrunk();
 
-            if (currentTime - lastFlaskDrunk < cooldownMillis) return;
+            // 1 seconde de délai
+            if (currentTime - lastFlaskDrunk < 1000) return;
 
-            playerData.eldenrpg$setLastFlaskDrunk(currentTime);
+            playerData.setLastFlaskDrunk(currentTime);
+            playerData.setFlaskDrunkTicks(20); // 20 ticks = 1
+            playerData.setTakingFlask(true);
+
             player.setSprinting(false);
 
             // TODO animation

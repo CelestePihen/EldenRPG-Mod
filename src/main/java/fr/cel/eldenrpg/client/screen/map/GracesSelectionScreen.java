@@ -13,6 +13,10 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
 import net.minecraft.util.math.BlockPos;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 public class GracesSelectionScreen extends Screen {
     private final ThreePartsLayoutWidget layout = new ThreePartsLayoutWidget(this);
     private final Screen parent;
@@ -45,9 +49,19 @@ public class GracesSelectionScreen extends Screen {
 
             if (minecraftClient.player == null) return;
 
+            // Trié par ordre alphabétique
+            // TODO faire des catégories par zone
+            List<GraceEntry> entries = new ArrayList<>();
+
             for (long pos : GracesData.getPlayerGraces(((IPlayerDataSaver) minecraftClient.player))) {
                 Text text = GracesData.getGraceName(BlockPos.fromLong(pos));
                 GraceEntry entry = new GraceEntry(BlockPos.fromLong(pos), text, minecraftClient);
+                entries.add(entry);
+            }
+
+            entries.sort(Comparator.comparing(e -> e.graceName.getString(), String.CASE_INSENSITIVE_ORDER));
+
+            for (GraceEntry entry : entries) {
                 this.addEntry(entry);
             }
 

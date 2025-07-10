@@ -3,6 +3,7 @@ package fr.cel.eldenrpg.networking;
 import fr.cel.eldenrpg.networking.packets.animations.WaveC2SPacket;
 import fr.cel.eldenrpg.networking.packets.flasks.AddChargeC2SPacket;
 import fr.cel.eldenrpg.networking.packets.flasks.DrinkFlaskC2SPacket;
+import fr.cel.eldenrpg.networking.packets.flasks.EndDrinkFlaskS2CPacket;
 import fr.cel.eldenrpg.networking.packets.flasks.IncreaseFlaskC2SPacket;
 import fr.cel.eldenrpg.networking.packets.flasks.sync.*;
 import fr.cel.eldenrpg.networking.packets.graces.AddGraceS2CPacket;
@@ -43,6 +44,8 @@ public final class ModMessages {
         ClientPlayNetworking.registerGlobalReceiver(AddGraceS2CPacket.ID, AddGraceS2CPacket::handle);
         ClientPlayNetworking.registerGlobalReceiver(RemoveGraceS2CPacket.ID, RemoveGraceS2CPacket::handle);
 
+        ClientPlayNetworking.registerGlobalReceiver(EndDrinkFlaskS2CPacket.ID, EndDrinkFlaskS2CPacket::handle);
+
         ClientPlayNetworking.registerGlobalReceiver(EndRollS2CPacket.ID, EndRollS2CPacket::handle);
 
         ClientPlayNetworking.registerGlobalReceiver(OpenGraceScreenS2CPacket.ID, OpenGraceScreenS2CPacket::handle);
@@ -52,6 +55,7 @@ public final class ModMessages {
         PayloadTypeRegistry.playC2S().register(DrinkFlaskC2SPacket.ID, DrinkFlaskC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(AddChargeC2SPacket.ID, AddChargeC2SPacket.CODEC);
         PayloadTypeRegistry.playC2S().register(IncreaseFlaskC2SPacket.ID, IncreaseFlaskC2SPacket.CODEC);
+        PayloadTypeRegistry.playS2C().register(EndDrinkFlaskS2CPacket.ID, EndDrinkFlaskS2CPacket.CODEC);
 
         PayloadTypeRegistry.playS2C().register(FlasksSyncS2CPacket.ID, FlasksSyncS2CPacket.CODEC);
         PayloadTypeRegistry.playS2C().register(MaxFlasksSyncS2CPacket.ID, MaxFlasksSyncS2CPacket.CODEC);

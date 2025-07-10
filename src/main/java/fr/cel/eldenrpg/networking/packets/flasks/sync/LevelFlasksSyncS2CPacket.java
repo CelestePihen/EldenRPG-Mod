@@ -16,7 +16,7 @@ public record LevelFlasksSyncS2CPacket(int level) implements CustomPayload {
             PacketCodecs.INTEGER, LevelFlasksSyncS2CPacket::level, LevelFlasksSyncS2CPacket::new);
 
     public static void handle(LevelFlasksSyncS2CPacket payload, ClientPlayNetworking.Context context) {
-        context.client().execute(() -> ((IPlayerDataSaver) context.player()).eldenrpg$getPersistentData().putInt("levelFlasks", payload.level()));
+        context.client().execute(() -> ((IPlayerDataSaver) context.player()).getPersistentData().putInt("levelFlasks", payload.level()));
     }
 
     @Override

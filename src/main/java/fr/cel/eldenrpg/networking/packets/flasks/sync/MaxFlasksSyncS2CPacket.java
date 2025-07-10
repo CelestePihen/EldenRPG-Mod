@@ -16,7 +16,7 @@ public record MaxFlasksSyncS2CPacket(int maxFlasks) implements CustomPayload {
             PacketCodecs.INTEGER, MaxFlasksSyncS2CPacket::maxFlasks, MaxFlasksSyncS2CPacket::new);
 
     public static void handle(MaxFlasksSyncS2CPacket payload, ClientPlayNetworking.Context context) {
-        context.client().execute(() -> ((IPlayerDataSaver) context.player()).eldenrpg$getPersistentData().putInt("maxFlasks", payload.maxFlasks()));
+        context.client().execute(() -> ((IPlayerDataSaver) context.player()).getPersistentData().putInt("maxFlasks", payload.maxFlasks()));
     }
 
     @Override

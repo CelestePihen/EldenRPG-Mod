@@ -17,8 +17,8 @@ public class PlayerEventCopyFromEvent implements ServerPlayerEvents.CopyFrom {
         IPlayerDataSaver original = (IPlayerDataSaver) oldPlayer;
         IPlayerDataSaver player = (IPlayerDataSaver) newPlayer;
 
-        NbtCompound originalNbt = original.eldenrpg$getPersistentData();
-        NbtCompound newNbt = player.eldenrpg$getPersistentData();
+        NbtCompound originalNbt = original.getPersistentData();
+        NbtCompound newNbt = player.getPersistentData();
 
         newNbt.putInt("flasks", originalNbt.getInt("maxFlasks").orElse(0));
         newNbt.putInt("maxFlasks", originalNbt.getInt("maxFlasks").orElse(0));

@@ -16,7 +16,7 @@ public record EndRollS2CPacket() implements CustomPayload {
 
     public static void handle(EndRollS2CPacket payload, ClientPlayNetworking.Context context) {
         IKeyboard keyboard = (IKeyboard) context.player().input;
-        keyboard.eldenrpg$setBlocked(false);
+        keyboard.setBlockedAll(false);
     }
 
     @Override

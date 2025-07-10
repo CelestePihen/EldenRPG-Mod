@@ -35,14 +35,14 @@ public class LoadingScreen extends Screen {
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         int alpha = (int) (MathHelper.clamp(fadeProgress, 0.0f, 1.0f) * 255);
-        int color = (alpha << 24); // noir avec transparence
+        int color = (alpha << 24); // noir transparent avec alpha
 
         context.fill(0, 0, width, height, color);
 
         if (fadeProgress > 0.9f) {
             String loadingText = fadeOut ? "" : "Appuyez pour continuer...";
             int textWidth = textRenderer.getWidth(loadingText);
-            context.drawText(textRenderer, loadingText, (width - textWidth) / 2, height / 2, 0xFFFFFF, false);
+            context.drawText(textRenderer, loadingText, (width - textWidth) / 2, height / 2, 0xFFFFFFFF, false);
         }
 
         // TODO ajouter conseils

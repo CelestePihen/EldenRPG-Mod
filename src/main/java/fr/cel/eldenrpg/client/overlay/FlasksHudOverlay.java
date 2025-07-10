@@ -32,8 +32,8 @@ public class FlasksHudOverlay implements HudElement {
         int yPosition = client.getWindow().getScaledHeight() - 34;
 
         IPlayerDataSaver playerData = (IPlayerDataSaver) client.player;
-        Optional<Integer> flasks = playerData.eldenrpg$getPersistentData().getInt("flasks");
-        Optional<Integer> levelFlask = playerData.eldenrpg$getPersistentData().getInt("levelFlasks");
+        Optional<Integer> flasks = playerData.getPersistentData().getInt("flasks");
+        Optional<Integer> levelFlask = playerData.getPersistentData().getInt("levelFlasks");
 
         if (flasks.isEmpty() || levelFlask.isEmpty()) return;
 

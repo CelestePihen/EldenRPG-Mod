@@ -20,18 +20,18 @@ public abstract class InGameHudMixin {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player == null) return;
 
-        float h = client.player.getHealth();
+        float playerHealth = client.player.getHealth();
 
         int barWidth = 180;
         int barHeight = 10;
         int barX = (context.getScaledWindowWidth() - barWidth) / 2;
-        int barY = (context.getScaledWindowHeight() - barHeight) - 62;
+        int barY = (context.getScaledWindowHeight() - barHeight) - 29;
 
-        int currentHealthWidth = (int) ((double) h / maxHealth * barWidth);
+        int currentHealthWidth = (int) ((double) playerHealth / maxHealth * barWidth);
 
         context.fill(barX, barY, barX + currentHealthWidth, barY + barHeight, Colors.RED);
 
-        String healthText = String.format("%.1f", h) + " / " + String.format("%.1f", maxHealth);
+        String healthText = String.format("%.1f", playerHealth) + " / " + String.format("%.1f", maxHealth);
         int textX = barX + (barWidth - client.textRenderer.getWidth(healthText)) / 2;
         context.drawText(client.textRenderer, healthText, textX, barY + 1, Colors.WHITE, true);
     }

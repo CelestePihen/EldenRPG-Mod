@@ -15,7 +15,7 @@ import java.util.Map;
 public final class GracesData {
 
     public static void addGrace(IPlayerDataSaver player, BlockPos pos) {
-        long[] graces = player.eldenrpg$getPersistentData().getLongArray("graces").get();
+        long[] graces = player.getPersistentData().getLongArray("graces").get();
         long posLong = pos.asLong();
 
         for (long grace : graces) {
@@ -26,7 +26,7 @@ public final class GracesData {
         System.arraycopy(graces, 0, newGraces, 0, graces.length);
         newGraces[graces.length] = posLong;
 
-        player.eldenrpg$getPersistentData().putLongArray("graces", newGraces);
+        player.getPersistentData().putLongArray("graces", newGraces);
 
         syncAddGrace((PlayerEntity) player, pos);
     }
@@ -38,7 +38,7 @@ public final class GracesData {
     }
 
     public static void removeGrace(IPlayerDataSaver player, BlockPos pos) {
-        long[] graces = player.eldenrpg$getPersistentData().getLongArray("graces").get();
+        long[] graces = player.getPersistentData().getLongArray("graces").get();
         long posLong = pos.asLong();
 
         boolean found = false;
@@ -58,7 +58,7 @@ public final class GracesData {
             }
         }
 
-        player.eldenrpg$getPersistentData().putLongArray("graces", newGraces);
+        player.getPersistentData().putLongArray("graces", newGraces);
 
         syncRemoveGrace((PlayerEntity) player, pos);
     }
@@ -70,7 +70,7 @@ public final class GracesData {
     }
 
     public static long[] getPlayerGraces(IPlayerDataSaver player) {
-        return player.eldenrpg$getPersistentData().getLongArray("graces").get();
+        return player.getPersistentData().getLongArray("graces").get();
     }
 
     private static void syncAddGrace(PlayerEntity player, BlockPos pos) {

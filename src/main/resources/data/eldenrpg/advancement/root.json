@@ -1,18 +1,18 @@
 {
   "display": {
+    "announce_to_chat": false,
+    "background": "minecraft:block/stone_bricks",
+    "description": {
+    "translate": "advancement.eldenrpg.root.description"
+    },
     "icon": {
       "id": "minecraft:netherite_sword"
     },
     "title": {
       "translate": "advancement.eldenrpg.root.title"
     },
-    "description": {
-      "translate": "advancement.eldenrpg.root.description"
-    },
-    "background": "minecraft:textures/block/stone_bricks.png",
     "frame": "task",
     "show_toast": true,
-    "announce_to_chat": false,
     "hidden": false
   },
   "criteria": {
