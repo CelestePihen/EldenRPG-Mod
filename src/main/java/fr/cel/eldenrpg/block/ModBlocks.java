@@ -18,6 +18,7 @@ import java.util.function.Function;
 
 public final class ModBlocks {
 
+    // Ghost Blocks
     public static final Block STONE_GHOST_BLOCK = registerBlock("stone_ghost_block",
             properties -> new GhostBlock("stone", Blocks.STONE));
 
@@ -33,12 +34,13 @@ public final class ModBlocks {
     public static final Block SANDSTONE_GHOST_BLOCK = registerBlock("sandstone_ghost_block",
             properties -> new GhostBlock("sandstone", Blocks.SANDSTONE));
 
+    // Other
     public static final Block GRACE_BLOCK = registerBlock("grace_block", properties -> new GraceBlock());
 
     /**
-     * Permet d'enregistrer le Bloc
+     * Eenregistre un Bloc
      * @param name Le nom du bloc
-     * @param function La classe du bloc
+     * @param function La classe du bloc avec possiblement ces propriétés
      * @return Retourne le Bloc à enregistrer
      */
     private static Block registerBlock(String name, Function<AbstractBlock.Settings, Block> function) {

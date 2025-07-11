@@ -19,17 +19,15 @@ public record MapTeleportationC2SPacket(BlockPos pos) implements CustomPayload {
         ServerPlayerEntity player = context.player();
         BlockPos pos = payload.pos();
 
-        teleportEntity(player, player.getWorld(), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+        teleportPlayer(player, player.getWorld(), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
     }
 
-    private static void teleportEntity(ServerPlayerEntity player, ServerWorld world, double x, double y, double z) {
+    private static void teleportPlayer(ServerPlayerEntity player, ServerWorld world, double x, double y, double z) {
         if (world == player.getWorld()) {
             player.networkHandler.requestTeleport(x, y, z, player.getYaw(), player.getPitch());
         } else {
             player.refreshPositionAndAngles(x, y, z, player.getYaw(), player.getPitch());
         }
-
-        player.setHeadYaw(player.getYaw());
     }
 
     @Override

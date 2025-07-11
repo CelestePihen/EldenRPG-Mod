@@ -1,4 +1,4 @@
-package fr.cel.eldenrpg.mixin.client.screen;
+package fr.cel.eldenrpg.mixin.client.screen.ingame;
 
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.RecipeBookScreen;

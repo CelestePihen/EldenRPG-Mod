@@ -21,7 +21,6 @@ import net.minecraft.util.Rarity;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 
 import java.util.function.Consumer;
@@ -39,14 +38,15 @@ public class KeyItem extends Item {
         if (world.isClient()) return ActionResult.PASS;
 
         if (!world.isClient() && hand == Hand.MAIN_HAND) {
-            BlockHitResult hitResult = raycast(world, player, RaycastContext.FluidHandling.ANY);
+            HitResult hitResult = player.raycast(5, 0, true);
             if (hitResult.getType() == HitResult.Type.MISS) {
                 return ActionResult.PASS;
-            } else {
-                BlockState state = world.getBlockState(hitResult.getBlockPos());
+            } else if (hitResult.getType() == HitResult.Type.BLOCK) {
+                BlockHitResult blockHit = (BlockHitResult) hitResult;
+                BlockState state = world.getBlockState(blockHit.getBlockPos());
                 if (!state.isOf(Blocks.IRON_DOOR)) return ActionResult.PASS;
 
-                BlockPos targetPos = hitResult.getBlockPos().offset(state.get(Properties.HORIZONTAL_FACING));
+                BlockPos targetPos = blockHit.getBlockPos().offset(state.get(Properties.HORIZONTAL_FACING));
 
                 ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
                 serverPlayer.teleport(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5, false);

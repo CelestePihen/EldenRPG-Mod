@@ -7,14 +7,15 @@
     "client.KeyboardInputMixin",
     "client.MinecraftClientMixin",
     "client.screen.GameMenuScreenMixin",
-    "client.screen.InventoryScreenMixin",
+    "client.screen.ingame.InventoryScreenMixin",
     "client.screen.LogoDrawerMixin",
-    "client.screen.RecipeBookScreenMixin",
+    "client.screen.ingame.RecipeBookScreenMixin",
     "client.screen.TitleScreenMixin"
   ],
   "mixins": [
     "NameTagMixin",
-    "PlayerEntityMixin"
+    "PlayerEntityMixin",
+    "AbstractCraftingScreenHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
