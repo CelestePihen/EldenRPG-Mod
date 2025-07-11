@@ -49,7 +49,7 @@ public class GraceCommand {
     }
 
     private static int giveGraces(ServerPlayerEntity player) {
-        GracesData.addGraces((IPlayerDataSaver) player);
+        GracesData.addAllGraces((IPlayerDataSaver) player);
         player.sendMessage(Text.translatable("eldenrpg.command.graces.giveall", player.getName()));
         return 1;
     }

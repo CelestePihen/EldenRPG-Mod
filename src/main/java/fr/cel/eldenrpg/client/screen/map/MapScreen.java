@@ -2,6 +2,7 @@ package fr.cel.eldenrpg.client.screen.map;
 
 import fr.cel.eldenrpg.EldenRPG;
 import fr.cel.eldenrpg.util.IPlayerDataSaver;
+import fr.cel.eldenrpg.util.data.GracesData;
 import fr.cel.eldenrpg.util.data.MapsData;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
@@ -9,6 +10,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 
 public class MapScreen extends Screen {
@@ -16,14 +18,17 @@ public class MapScreen extends Screen {
     // Textures de la Carte
     private static final Identifier MAP = Identifier.of(EldenRPG.MOD_ID, "textures/gui/map/map.png");
     private static final Identifier GRAY_MAP = Identifier.of(EldenRPG.MOD_ID, "textures/gui/map/gray_map.png");
+
     private static final Identifier PLAYER_DECORATION = Identifier.of("minecraft", "textures/map/decorations/player.png");
+    private static final Identifier GRACE_DECORATION = Identifier.of("minecraft", "textures/map/decorations/yellow_banner.png");
 
     private final int imageWidth = 240, imageHeight = 240;
     private int leftPos, topPos;
 
-    private ButtonWidget gracesButton;
-    private ButtonWidget plusButton;
-    private ButtonWidget minusButton;
+    // Centre réelle de la carte
+    private final double centerX = 163.0;
+    private final double centerZ = -97.0;
+    private final float scale = 2.1f;
 
     // Gérer le zoom / déplacement
     private float zoom = 1.0F, targetZoom = 1.0F;
@@ -42,20 +47,20 @@ public class MapScreen extends Screen {
         this.leftPos = (this.width - imageWidth) / 2;
         this.topPos = (this.height - imageHeight) / 2;
 
-        this.gracesButton = this.addDrawableChild(ButtonWidget.builder(Text.translatable("eldenrpg.map.screen.gracesselection"),
+        this.addDrawableChild(ButtonWidget.builder(Text.translatable("eldenrpg.map.screen.gracesselection"),
                 button -> this.client.setScreen(new GracesSelectionScreen(this)))
                 .dimensions(leftPos - 87, topPos + 5, 80, 20).build());
 
-        this.plusButton = this.addDrawableChild(ButtonWidget.builder(Text.of("+"), button -> zoomIn(false))
+        this.addDrawableChild(ButtonWidget.builder(Text.of("+"), button -> zoomIn(false))
                 .dimensions(leftPos + imageWidth + 5, topPos + 5, 20, 20).build());
-        this.minusButton = this.addDrawableChild(ButtonWidget.builder(Text.of("-"), button -> zoomOut(false))
+        this.addDrawableChild(ButtonWidget.builder(Text.of("-"), button -> zoomOut(false))
                 .dimensions(leftPos + imageWidth + 5, topPos + 30, 20, 20).build());
     }
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 
-        if (this.client == null) return;
+        if (this.client == null || this.client.player == null) return;
         IPlayerDataSaver playerData = (IPlayerDataSaver) this.client.player;
 
         // Interpolation
@@ -63,6 +68,14 @@ public class MapScreen extends Screen {
         this.offsetX = MathHelper.lerp(0.15f, this.offsetX, this.targetOffsetX);
         this.offsetY = MathHelper.lerp(0.15f, this.offsetY, this.targetOffsetY);
 
+        renderMap(playerData, context);
+        renderGraces(playerData, context);
+        renderPlayer(context);
+
+        super.render(context, mouseX, mouseY, delta);
+    }
+
+    private void renderMap(IPlayerDataSaver playerData, DrawContext context) {
         // Appliquer le zoom et le déplacement
         context.getMatrices().pushMatrix();
         context.getMatrices().translate(this.leftPos + this.imageWidth / 2f, this.topPos + this.imageHeight / 2f, context.getMatrices());
@@ -81,24 +94,49 @@ public class MapScreen extends Screen {
         renderPartMap(9, playerData, context, 84, 176, 93, 64);
 
         context.getMatrices().popMatrix();
+    }
 
+    private void renderPlayer(DrawContext context) {
         // Curseur du joueur sur la carte
-        if (this.client != null && this.client.player != null) {
-            double playerX = this.client.player.getX();
-            double playerZ = this.client.player.getZ();
-            float yaw = this.client.player.getYaw();
+        double playerX = this.client.player.getX();
+        double playerZ = this.client.player.getZ();
+        float yaw = this.client.player.getYaw();
 
-            // Coordonnées réelles du centre de la carte
-            double centerX = 163.0;
-            double centerZ = -97.0;
+        // Calcul position relative du joueur par rapport au centre de la carte
+        float relativeX = (float) ((playerX - centerX) / scale);
+        float relativeY = (float) ((playerZ - centerZ) / scale);
 
-            float scale = 2.1f;
+        float mapCenterX = this.leftPos + this.imageWidth / 2f;
+        float mapCenterY = this.topPos + this.imageHeight / 2f;
 
-            // Calcul position relative du joueur par rapport au centre de la carte
-            float relativeX = (float) ((playerX - centerX) / scale);
-            float relativeY = (float) ((playerZ - centerZ) / scale);
+        float drawX = mapCenterX + (relativeX + this.offsetX) * this.zoom;
+        float drawY = mapCenterY + (relativeY + this.offsetY) * this.zoom;
 
-            // Appliquer zoom et offset
+        int iconSize = 8;
+
+        float mapYaw = (yaw + 180f) % 360f;
+        if (mapYaw < 0) mapYaw += 360f;
+
+        float snappedAngle = getVanillaMapRotation(mapYaw);
+
+        context.getMatrices().pushMatrix();
+        context.getMatrices().translate(drawX, drawY);
+        context.getMatrices().rotate((float) Math.toRadians(snappedAngle));
+        context.getMatrices().translate(-iconSize / 2f, -iconSize / 2f);
+        context.drawTexture(RenderPipelines.GUI_TEXTURED, PLAYER_DECORATION, 0, 0, 0f, 0f, iconSize, iconSize, iconSize, iconSize);
+        context.getMatrices().popMatrix();
+    }
+
+    private void renderGraces(IPlayerDataSaver playerData, DrawContext context) {
+        long[] positions = GracesData.getPlayerGraces(playerData);
+        for (long pos : positions) {
+            BlockPos blockPos = BlockPos.fromLong(pos);
+            int x = blockPos.getX();
+            int z = blockPos.getZ();
+
+            float relativeX = (float) ((x - centerX) / scale);
+            float relativeY = (float) ((z - centerZ) / scale);
+
             float mapCenterX = this.leftPos + this.imageWidth / 2f;
             float mapCenterY = this.topPos + this.imageHeight / 2f;
 
@@ -107,20 +145,12 @@ public class MapScreen extends Screen {
 
             int iconSize = 8;
 
-            float mapYaw = (yaw + 180f) % 360f;
-            if (mapYaw < 0) mapYaw += 360f;
-
-            float snappedAngle = getVanillaMapRotation(mapYaw);
-
             context.getMatrices().pushMatrix();
             context.getMatrices().translate(drawX, drawY);
-            context.getMatrices().rotate((float) Math.toRadians(snappedAngle));
             context.getMatrices().translate(-iconSize / 2f, -iconSize / 2f);
-            context.drawTexture(RenderPipelines.GUI_TEXTURED, PLAYER_DECORATION, 0, 0, 0f, 0f, iconSize, iconSize, iconSize, iconSize);
+            context.drawTexture(RenderPipelines.GUI_TEXTURED, GRACE_DECORATION, 0, 0, 0f, 0f, iconSize, iconSize, iconSize, iconSize);
             context.getMatrices().popMatrix();
         }
-
-        super.render(context, mouseX, mouseY, delta);
     }
 
     private void renderPartMap(int part, IPlayerDataSaver playerData, DrawContext context, int x, int y, int width, int height) {

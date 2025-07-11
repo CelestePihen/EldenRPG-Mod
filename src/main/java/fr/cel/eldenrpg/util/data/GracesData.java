@@ -11,11 +11,15 @@ import net.minecraft.util.math.BlockPos;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public final class GracesData {
 
     public static void addGrace(IPlayerDataSaver player, BlockPos pos) {
-        long[] graces = player.getPersistentData().getLongArray("graces").get();
+        Optional<long[]> longArray = player.getPersistentData().getLongArray("graces");
+        if (longArray.isEmpty()) return;
+
+        long[] graces = longArray.get();
         long posLong = pos.asLong();
 
         for (long grace : graces) {
@@ -31,14 +35,17 @@ public final class GracesData {
         syncAddGrace((PlayerEntity) player, pos);
     }
 
-    public static void addGraces(IPlayerDataSaver player) {
+    public static void addAllGraces(IPlayerDataSaver player) {
         for (BlockPos gracePos : GracesData.getGraces().keySet()) {
             GracesData.addGrace(player, gracePos);
         }
     }
 
     public static void removeGrace(IPlayerDataSaver player, BlockPos pos) {
-        long[] graces = player.getPersistentData().getLongArray("graces").get();
+        Optional<long[]> longArray = player.getPersistentData().getLongArray("graces");
+        if (longArray.isEmpty()) return;
+
+        long[] graces = longArray.get();
         long posLong = pos.asLong();
 
         boolean found = false;
@@ -70,7 +77,8 @@ public final class GracesData {
     }
 
     public static long[] getPlayerGraces(IPlayerDataSaver player) {
-        return player.getPersistentData().getLongArray("graces").get();
+        Optional<long[]> longArray = player.getPersistentData().getLongArray("graces");
+        return longArray.orElseGet(() -> new long[]{});
     }
 
     private static void syncAddGrace(PlayerEntity player, BlockPos pos) {
@@ -99,8 +107,8 @@ public final class GracesData {
         GRACES.put(new BlockPos(146, -19, -92), Text.translatable("Tuto 1"));    // le laisser à la fin du tuto ?
         GRACES.put(new BlockPos(150, 0, -87), Text.translatable("Tuto 2"));      // le laisser à la fin du tuto ?
         GRACES.put(new BlockPos(163, 67, -97), Text.translatable("Cimetière"));
-        GRACES.put(new BlockPos(203, 73, -179), Text.translatable("Donjon Squelettes"));
         GRACES.put(new BlockPos(142, 61, -151), Text.translatable("Donjon proche du Chalet"));
+        GRACES.put(new BlockPos(203, 73, -179), Text.translatable("Donjon Squelettes"));
         GRACES.put(new BlockPos(173, 73, -235), Text.translatable("Tour de guet"));
         GRACES.put(new BlockPos(177, 64, -226), Text.translatable("Donjon Tour de guet"));
         GRACES.put(new BlockPos(161, 63, -342), Text.translatable("Donjon proche Bordure"));
